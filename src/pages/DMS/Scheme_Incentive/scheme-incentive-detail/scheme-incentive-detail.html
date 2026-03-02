@@ -1,0 +1,160 @@
+<ion-header class="sc-header-modify">
+    <ion-navbar>
+        <ion-title>Scheme/Incentive Detail</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="sc-content-modify">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    
+    <div class="scheme_detail_container">
+        <div class="silder-container" *ngIf="bannerData.length > 0">
+            <div class="round-slider">
+                <ion-slides pager class="cs-slide" auto-play="true">
+                    <ion-slide *ngFor="let row of bannerData">
+                        <div class="box">
+                            <img src="{{bannerURL+row.banner}}">
+                        </div>
+                    </ion-slide>
+                </ion-slides>
+            </div>
+        </div>
+        
+        <div class="sc_content_box">
+            <div class="contnt-tags">
+                <span>Scheme Title</span>
+                <p>{{schemeDetail.title}}</p>
+            </div>
+            <div class="dflex jcc">
+                <div class="contnt-tags">
+                    <span>Scheme Type</span>
+                    <p>{{schemeDetail.scheme_type}}</p>
+                </div>
+                <div class="contnt-tags text-right">
+                    <span>Period</span>
+                    <p>{{schemeDetail.start_date | date:'d MMM yy'}} - {{schemeDetail.end_date | date:'d MMM yy'}}</p>
+                </div>
+            </div>
+            <div class="dflex jcc">
+                <div class="contnt-tags">
+                    <span>Criteria Type</span>
+                    <p>{{schemeDetail.criteria_type}}</p>
+                </div>
+                <div class="contnt-tags text-right">
+                    <span>Gift Type</span>
+                    <p>{{schemeDetail.gift_type}}</p>
+                </div>
+            </div>
+            
+            <div class="contnt-tags points-earned" *ngIf="schemeDetail.totalPoints">
+                <i class="material-icons">military_tech</i>
+                <span>Total Points Earned</span>
+                <p>{{schemeDetail.totalPoints}}</p>
+            </div>
+            
+            <div class="contnt-tags" *ngIf="schemeDetail.description">
+                <span>Description</span>
+                <p>{{schemeDetail.description}}</p>
+            </div>
+<!-- 
+            <div class="dflex jcc" *ngIf="schemeDetail.subScheme == 'Yes'">
+                <div class="contnt-tags">
+                </div>
+                <div class="contnt-tags text-right">
+                    <span>&nbsp;</span>
+                    <a class="hyper-link"  (click)="goToSubSchemeDetail(schemeDetail.id)">View Sub Scheme</a>
+                </div>
+            </div> -->
+
+        </div>
+        
+        <div class="scheme_tabs">
+            <ul>                
+                <li [ngClass]="{'active' : ActiveTab=='Slabs'}" (click)="ActiveTab='Slabs';">
+                    <p>Slabs</p>
+                </li>
+                <li [ngClass]="{'active' : ActiveTab=='Products'}" (click)="ActiveTab='Products';" *ngIf="schemeDetail.scheme_type != 'Collection'">
+                    <p>Products</p>
+                </li>
+                <li [ngClass]="{'active' : ActiveTab=='Terms'}" (click)="ActiveTab='Terms';">
+                    <p>Terms</p>
+                </li>
+            </ul>
+        </div>
+        
+        <ng-container *ngIf="ActiveTab=='Slabs'">
+            <div class="scheme_slabs" *ngFor="let row of schemeDetail.slabData">
+                <div class="slab-upr">
+                    <div class="sl-tags">
+                        <p>Slab Type - {{schemeDetail.criteria_type}}</p>
+                        <span>{{schemeDetail.gift_type}}</span>
+                    </div>
+                    <div class="sl-tags">
+                        <p *ngIf="schemeDetail.criteria_type == 'Volume'">{{row.slab_start}} - {{row.slab_end}}</p>
+                        <p *ngIf="schemeDetail.criteria_type == 'Value'">₹ {{row.slab_start}} - ₹ {{row.slab_end}}</p>
+                        <span>Range</span>
+                    </div>
+                </div>
+                <div class="slab-mid">
+                    <div class="sl-icon"><i class="material-icons">emoji_events</i></div>
+                    <div class="sl-text">
+                        <p *ngIf="schemeDetail.gift_type == 'Point'">Get enrollment in <strong>{{row.slab_start}} to {{row.slab_end}}</strong> range and get <strong>{{row.point_value ? row.point_value : '-'}} Points.</strong></p>
+                        <p *ngIf="schemeDetail.gift_type == 'Gift'">Get enrollment in <strong>{{row.slab_start}} to {{row.slab_end}}</strong> range and get <strong>{{row.gift_detail ? row.gift_detail : '-'}}.</strong></p>
+                    </div>
+                </div>
+                <div class="sc_progress_bar">
+                    <div [ngStyle]="{'width': row.achieve_percent+'%'}"></div>
+                    <p>{{row.achieve_percent}} %</p>
+                </div>
+                <div class="slab-lwr">
+                    <div class="sl-words">
+                        <p *ngIf="schemeDetail.criteria_type == 'Volume'">Total {{schemeDetail.scheme_type == 'Sales' ? 'Sale' : 'Collection'}}  <strong>{{row.total_sale}} QTY</strong></p>
+                        <p *ngIf="schemeDetail.criteria_type == 'Value'">Total {{schemeDetail.scheme_type == 'Sales' ? 'Sale' : 'Collection'}}  <strong>₹ {{row.total_sale}}</strong></p>
+                    </div>
+                    <div class="sl-words" *ngIf="schemeDetail.gift_type == 'Point' && schemeDetail.point_type == 'Fixed'">
+                        <p>Earned Points <strong>{{row.totalPoints}}</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nothing-here" style="height: 50vh;" *ngIf="!schemeDetail.slabData?.length">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/imgs/no_found.svg" alt="">
+                        <p>No Slab In This Scheme</p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        
+        
+        <div *ngIf="ActiveTab=='Products'">
+            <div class="scheme_products" *ngFor="let row of schemeDetail.product_detail">
+                <p>{{row.product_name}} 
+                    <br>
+                    <span *ngIf="schemeDetail.totalPoints">
+                        ({{row.product_qty}} * {{row.category_points}} = {{row.product_points}} Points)
+                    </span>
+                </p>
+            </div>
+        </div>
+        
+        <div *ngIf="ActiveTab=='Terms'">
+            <div class="scheme_terms" *ngIf="schemeDetail.terms">
+                <h1>Scheme Terms</h1>
+                <p [innerHTML]="schemeDetail.terms ? schemeDetail.terms : 'N/A'">{{schemeDetail.terms ? schemeDetail.terms : 'N/A'}}</p>
+            </div>
+            <div class="nothing-here" style="height: 50vh;" *ngIf="!schemeDetail.terms">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/imgs/no_found.svg" alt="">
+                        <p>No Data Found</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

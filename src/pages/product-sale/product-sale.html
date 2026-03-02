@@ -1,0 +1,261 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Cart & Checkout</ion-title>
+
+    <ion-buttons end class="nav-action-group">
+      <button ion-button clear class="nav-add-btn" (click)="addMoreItems()">
+        <ion-icon name="add-circle"></ion-icon>
+        <span>Add More</span>
+      </button>
+
+      <button ion-button clear class="nav-trash-btn" (click)="clearCart()" *ngIf="cartItems.length > 0">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="product-sale-content">
+  <div class="cart-items-container">
+    <ion-card class="cart-header-card" *ngIf="cartItems.length > 0">
+      <ion-card-content>
+        <div class="cart-stats">
+          <div class="stat-item">
+            <ion-icon name="apps"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Items</span>
+              <strong class="stat-value">{{ totalItems }}</strong>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <ion-icon name="cube"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Quantity</span>
+              <strong class="stat-value">{{ totalQuantity }}</strong>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <ion-icon name="cash"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Total</span>
+              <strong class="stat-value">₹{{ grandTotal | number:'1.2-2' }}</strong>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="party-selection-card">
+      <ion-card-header>
+        <div class="card-header-content">
+          <ion-icon name="people"></ion-icon>
+          <span>Party Selection</span>
+        </div>
+      </ion-card-header>
+      <ion-card-content style="padding: 0px;">
+        <div *ngIf="isLocked && data.type_name" class="locked-party-container">
+          <div class="locked-party-badge">
+            <div class="badge-icon" (click)="showPartyName()">
+              <ion-icon name="checkmark-circle"></ion-icon>
+            </div>
+            <div class="badge-content" (click)="showPartyName()">
+              <div class="badge-type">{{ (data.networkType === 1 || data.networkType === '1') ? 'Distributor' :
+                (data.networkType === 3 || data.networkType === '3') ? 'Retailer' : 'Direct Dealer' }}</div>
+              <div class="badge-name">{{ data.type_name.display_name || data.type_name.company_name }}</div>
+            </div>
+            <button ion-button small color="primary" (click)="clearParty()" class="change-party-btn" *ngIf="checkin_id">
+              <ion-icon name="close-circle" style="column-gap: 4px;"></ion-icon>
+              Clear party
+            </button>
+            <button ion-button small color="primary" (click)="changeParty()" *ngIf="!checkin_id">
+              Change
+            </button>
+
+          </div>
+        </div>
+
+        <ng-container *ngIf="!isLocked || !data.type_name">
+          <div class="select-type">
+            <div class="section-label">
+              <ion-icon name="git-network"></ion-icon>
+              Select Party Type
+            </div>
+            <ion-list radio-group name="networkType" [(ngModel)]="data.networkType" #networkType="ngModel" required
+              (ngModelChange)="onPartyTypeChange()">
+              <ion-item class="radio-item">
+                <ion-label>Distributor</ion-label>
+                <ion-radio value="1" [disabled]="disableSelectFromCheckin == true"></ion-radio>
+              </ion-item>
+              <ion-item class="radio-item">
+                <ion-label>Direct Dealer</ion-label>
+                <ion-radio value="7" [disabled]="disableSelectFromCheckin == true"></ion-radio>
+              </ion-item>
+              <ion-item class="radio-item">
+                <ion-label>Retailer</ion-label>
+                <ion-radio value="3" [disabled]="disableSelectFromCheckin == true"></ion-radio>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="edit party-dropdown" *ngIf="data.networkType">
+            <ion-list>
+              <div class="section-label">
+                <ion-icon name="person"></ion-icon>
+                Select Party
+              </div>
+              <ion-item class="cs-normal-select mt16 retailerSelectionBox">
+                <ion-label *ngIf="data.networkType == '1'"><span>Distributor<span>*</span></span></ion-label>
+                <ion-label *ngIf="data.networkType == '7'"><span>Direct Dealer <span>*</span></span></ion-label>
+                <ionic-selectable item-content [(ngModel)]="data.type_name" [items]="drList" itemValueField="id"
+                  itemTextField="display_name" [canSearch]="true" #distributorSelectable
+                  (onSearch)="searchParty(data.networkType,$event);" (onChange)="onPartySelected($event)"
+                  (onClose)="closeDealer()">
+                </ionic-selectable>
+              </ion-item>
+            </ion-list>
+
+            <div class="selected-party" *ngIf="data.type_name">
+              <div class="party-info">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                <div class="party-details">
+                  <span class="party-name">{{ data.type_name.display_name || data.type_name.company_name }}</span>
+                  <span class="party-id">ID: {{ data.type_name.id }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="warning-box" *ngIf="!data.networkType || !data.type_name">
+              <ion-icon name="alert"></ion-icon>
+              <span>Please select party type and party before placing order</span>
+            </div>
+          </div>
+        </ng-container>
+      </ion-card-content>
+
+    </ion-card>
+
+
+    <div class="cart-items-list" *ngIf="cartItems.length > 0">
+      <ion-card class="cart-item-card" *ngFor="let item of cartItems; let i = index">
+        <ion-card-content>
+          <div class="cart-item">
+            <div class="item-number-badge">{{ i + 1 }}</div>
+            <div class="item-image" (click)="imageModal(this.url+item.product_image)">
+              <img [src]="item.product_image ? (url + item.product_image) : null" class="product-shoe-image"
+                [alt]="item.product_name" (error)="item.imageError = true" *ngIf="!item.imageError" />
+              <div class="no-image" *ngIf="!item.product_image || item.imageError">
+                <span>NO IMAGE</span>
+              </div>
+            </div>
+
+            <div class="item-details">
+              <h3 class="item-name">{{ item.product_name }}</h3>
+
+              <div class="item-meta">
+                <span class="meta-text">Size: {{ item.size }}</span>
+                <span class="meta-text">Color: {{ item.color }}</span>
+              </div>
+
+              <div class="item-pricing">
+                <div class="price-row">
+                  <span class="price-label">Unit Price:</span>
+                  <strong class="price-value">₹{{ item.price }}</strong>
+                </div>
+                <div class="price-row total">
+                  <span class="price-label">Total:</span>
+                  <strong class="price-value">₹{{ item.total_amount | number:'1.2-2' }}</strong>
+                </div>
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="quantity-section">
+
+                <span class="quantity-label">Carton Qty:</span>
+
+                <div class="quantity-controls">
+                  <button class="qty-btn minus" (click)="updateQuantity(item,-1)">
+                    <ion-icon name="remove"></ion-icon>
+                  </button>
+
+                  <input type="number" class="qty-input" [value]="item.carton_qty"
+                    (change)="onQuantityInput(item,$event)" />
+
+                  <button class="qty-btn plus" (click)="updateQuantity(item,1)">
+                    <ion-icon name="add"></ion-icon>
+                  </button>
+                </div>
+
+                <div style="font-size:12px;margin-top:6px;">
+                  Box: {{item.box_in_pieces}} |
+                  Pieces: <b>{{item.quantity}}</b>
+                </div>
+
+              </div>
+
+            </div>
+
+            <button class="delete-item-btn" (click)="deleteItem(item)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+
+
+    <div class="empty-cart-state" *ngIf="cartItems.length === 0">
+      <div class="empty-cart-icon">
+        <ion-icon name="cart"></ion-icon>
+      </div>
+      <h2>Your Cart is Empty</h2>
+      <p>Add items to your cart to see them here</p>
+      <button ion-button outline large (click)="addMoreItems()">
+        <ion-icon name="add-circle"></ion-icon>
+        Browse Products
+      </button>
+    </div>
+
+    <button ion-button block outline class="add-more-btn bottom" (click)="addMoreItems()">
+      <ion-icon name="add-circle"></ion-icon>
+      Add {{cartItems?.length>0?'More':'Items'}}
+    </button>
+    <div style="height: 100px;"></div>
+  </div>
+</ion-content>
+
+<ion-footer class="cart-footer" *ngIf="cartItems.length > 0">
+  <ion-toolbar class="footer-toolbar">
+    <div class="footer-content">
+      <div class="footer-summary">
+        <div class="summary-row">
+          <span>
+            Cartons: {{totalCartonQty}} |
+            Pieces: {{totalQuantity}}
+          </span>
+          <strong>₹{{ grandTotal | number:'1.2-2' }}</strong>
+        </div>
+        <div class="gst-row">
+          <div class="gst-input-group">
+            <span class="gst-label">GST</span>
+            <input type="number" class="gst-input" [(ngModel)]="gstPercent" (ngModelChange)="onGstChange()" min="0"
+              max="100" />
+            <span class="gst-percent">%</span>
+          </div>
+          <span class="gst-amount">+ ₹{{ gstAmount | number:'1.2-2' }}</span>
+        </div>
+        <div class="grand-total-row">
+          <span>Grand Total</span>
+          <strong>₹{{ grandTotalWithGst | number:'1.2-2' }}</strong>
+        </div>
+      </div>
+      <button ion-button class="place-order-btn" (click)="placeOrder()" [disabled]="isOrdering">
+        <ion-icon [name]="isOrdering ? 'sync' : 'checkmark-circle'"></ion-icon>
+        {{ isOrdering ? 'Placing Order...' : 'Place Order' }}
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

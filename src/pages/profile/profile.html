@@ -1,0 +1,109 @@
+<ion-header>
+    <ion-navbar class="toolbar-background-md toolbar-background-ios">
+        <ion-buttons start>
+            <button ion-button icon-only clear class="back-button">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>Profile</ion-title>
+        <ion-buttons end>
+
+            <button ion-button icon-only clear (click)="toggleTheme()" class="logout-button" *ngIf="!isDark">
+                <ion-icon name="sunny"></ion-icon>
+            </button>
+            <button ion-button icon-only clear (click)="toggleTheme()" class="logout-button" *ngIf="isDark">
+                <ion-icon name="moon"></ion-icon>
+            </button>
+            <button ion-button icon-only clear (click)="logout()" class="logout-button">
+                <ion-icon name="power"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="profile-bg">
+    <div class="profile-main-container">
+
+        <!-- Company Logo Section -->
+        <div class="logo-section" *ngIf="karigar_detail.user_type != 'sales_user'">
+            <div class="logo-container">
+                <div class="company-logo">
+                    <span class="logo-text">{{(karigar_detail.company_name | slice:0:2) | uppercase}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Info Card -->
+        <div class="profile-info-card" *ngIf="karigar_detail.user_type != 'sales_user'">
+            <h2 class="company-name">{{karigar_detail.company_name | titlecase}}</h2>
+            <p class="mobile-number">{{karigar_detail.mobile}}</p>
+            <div class="status-indicator"
+                [ngClass]="karigar_detail.status == '1' ? 'status-active' : 'status-inactive'">
+                {{karigar_detail.status == '1' ? 'Active' : 'Inactive'}}
+            </div>
+        </div>
+
+        <!-- Personal Details Section -->
+        <div class="section-header">
+            <h3 class="section-title">Personal Details</h3>
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="detail-icon name-icon">
+                    <ion-icon name="person"></ion-icon>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Full Name</span>
+                    <span class="detail-value">{{karigar_detail.name | titlecase}}</span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon phone-icon">
+                    <ion-icon name="call"></ion-icon>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Mobile</span>
+                    <span class="detail-value">{{karigar_detail.mobile}}</span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon email-icon">
+                    <ion-icon name="mail"></ion-icon>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value">{{karigar_detail.email || 'Not provided'}}</span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon manager-icon">
+                    <ion-icon name="people"></ion-icon>
+                </div>
+                <div class="detail-content">
+                    <span class="detail-label">{{karigar_detail.user_type != 'sales_user' ? 'Sales Rep' :
+                        'Manager'}}</span>
+                    <span class="detail-value">{{karigar_detail.assigned_sales_user || 'Not assigned'}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version Badge -->
+        <div *ngIf="Device.platform === 'Android'" class="version-badge">{{app_version.app_version}}</div>
+
+        <div *ngIf="Device.platform !== 'Android'" class="version-badge">{{app_version.ios_version}}</div>
+
+
+
+        <ng-container *ngIf="Device.platform !== 'Android'">
+            <div class="pl16 pr16 mb24">
+                <button class="capitalize btn_dlt" (click)="deleteAccount()" ion-button block round>
+                    Permanent Delete Account
+                </button>
+            </div>
+        </ng-container>
+    </div>
+</ion-content>

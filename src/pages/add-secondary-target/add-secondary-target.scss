@@ -1,0 +1,87 @@
+page-add-secondary-target {
+    .inputBox{
+    max-width: 100px !important;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: auto;
+    padding: 3px 4px;
+    
+
+    .item-inner{
+        padding: 0 !important;
+    }
+    input{
+        width: 100%;
+    }
+    }    
+.d-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workimg_summary{
+    .label{
+        margin: 0;
+    }
+}
+
+.content-wrapper{
+    position: relative;
+    height: calc(100vh - 56px);
+    overflow-y: scroll;
+}
+
+.button-wrapper{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-bg{
+    background-color: #f2f2f2;
+    color: #fff;
+    margin-bottom: 5px !important;
+    h6{
+        font-weight: 400;
+
+        background-color: #151515;
+        width: 65%;
+        padding: 3px 5px;
+        border-radius: 5px;
+    }
+    p{
+        background-color: #151515;
+        width: 30%;
+        padding: 3px 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+}
+
+ion-item{
+    background-color: #fafafa;
+}
+
+// .addTargetBtn {
+//     bottom: 5px;
+//     position: fixed;
+//     width: 95%;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     border-radius: 22px;
+// }
+
+.company_name{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.contact_person{
+    font-size: 11px;
+}
+}

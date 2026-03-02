@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-navbar class="notification-header">
+    <ion-title>Notifications</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="notification-page">
+  <ion-refresher (ionRefresh)="doRefresh($event)" class="notification-refresher">
+    <ion-refresher-content 
+      pullingIcon="arrow-dropdown" 
+      pullingText="Pull to refresh" 
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Empty State -->
+  <div class="notification-empty-state" *ngIf="!announcementList.length">
+    <div class="notification-empty-wrapper">
+      <img src="assets/imgs/no_found.svg" alt="No notifications" class="notification-empty-icon">
+      <p class="notification-empty-text">No notifications yet</p>
+    </div>
+  </div>
+
+  <!-- Notification List -->
+  <div class="notification-container" *ngIf="announcementList.length">
+    <ng-container *ngFor="let data of announcementList; trackBy: trackByNotification">
+      <div class="notification-item" 
+           [ngClass]="{
+             'notification-unread': data.read_status == 0,
+             'priority-high': data.priority === 'high',
+             'priority-medium': data.priority === 'medium',
+             'priority-low': data.priority === 'low'
+           }"
+           (click)="markAsRead(data)">
+        
+        <!-- Category Badge (optional) -->
+        <div class="notification-category-badge" *ngIf="data.category">
+          {{data.category}}
+        </div>
+        
+        <div class="notification-content">
+          <p class="notification-message">
+            <span class="notification-type-icon" *ngIf="data.type">
+              {{getNotificationIcon(data.type)}}
+            </span>
+            <span class="notification-status-indicator"></span>
+            {{data.msg | titlecase}}
+          </p>
+          
+          <!-- Notification Meta Info -->
+          <div class="notification-meta">
+            <span class="notification-date">
+              {{data.date_created | date:'d MMM, y · h:mm a'}}
+            </span>
+            <span class="notification-priority" 
+                  *ngIf="data.priority"
+                  [ngClass]="data.priority">
+              {{data.priority}}
+            </span>
+          </div>
+        </div>
+        
+        <!-- Swipe Actions (optional) -->
+        <div class="notification-actions" *ngIf="showActions">
+          <button class="notification-delete-btn" (click)="deleteNotification(data, $event)">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll 
+    threshold="100px" 
+    (ionInfinite)="loadData($event)" 
+    *ngIf="flag!=1"
+    class="notification-infinite-scroll">
+    <ion-infinite-scroll-content 
+      loadingSpinner="bubbles" 
+      loadingText="Loading more notifications..."
+      class="notification-infinite-content">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

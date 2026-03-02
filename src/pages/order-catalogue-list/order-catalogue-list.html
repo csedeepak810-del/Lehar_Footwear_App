@@ -1,0 +1,524 @@
+<ion-header class="premium-header">
+  <ion-navbar>
+    <ion-title>Product Catalogue</ion-title>
+
+    <ion-buttons end *ngIf="constant.UserLoggedInData.loggedInUserType == 'Employee'">
+      <button class="wishlist-header-btn" (click)="Wishlist()">
+        <div class="wishlist-icon-wrapper">
+          <ion-icon [name]="isWishlisted ? 'heart' : 'heart-outline'"></ion-icon>
+        </div>
+        <span class="wishlist-text">Wishlist</span>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons end *ngIf="this.constant.UserLoggedInData.loggedInUserType != 'Employee'">
+      <button ion-button icon-only class="cart-btn" (click)="goToCart()">
+        <ion-icon name="cart" class="cart-icon" style="color: white;"></ion-icon>
+      </button>
+
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <div class="search add-search">
+      <div class="filter">
+        <ion-searchbar type='text' name="master" [(ngModel)]="filter.search" (keyup)="onSearchInput()">
+        </ion-searchbar>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="banner-section" *ngIf="appbanner.length > 0">
+    <ion-slides #bannerSlides [autoplay]="4000" [speed]="400" [pager]="true" *ngIf="appbanner.length "
+      [initialSlide]="0" pager autoplay="1000" speed="1000">
+      <ion-slide class="banner-slide" *ngFor="let row of appbanner">
+        <img src="{{bannerURL+row.banner}}" (click)="goToProductDetailsBanner(row)" class="banner-img">
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div class="stock-section">
+    <div class="stock-header">
+      <span class="flash-icon">⚡</span>
+      <h2>STOCK INWARD TODAY</h2>
+      <span class="flash-icon">⚡</span>
+    </div>
+
+    <div class="products-scroll" *ngIf="InwordTodayList.length; else noDataBlockInword">
+      <div class="product-card" *ngFor="let product of InwordTodayList" (click)="goToProductDetails(product)">
+        <div class="product-image-container">
+          <img *ngIf="product.image && !product.imageError" [src]="url + product.image" class="product-image"
+            (error)="product.imageError = true" />
+          <div *ngIf="!product.image || product.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">{{ product.product_name }}</h3>
+          <p class="product-color">{{product.color_name }}</p>
+          <p class="product-price">₹{{ product.mrp }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noDataBlockInword>
+      <div class="no-data-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h4>No Products Available</h4>
+        <p>STOCK INWARD TODAY products will appear here once available.</p>
+      </div>
+    </ng-template>
+
+    <button class="view-all-btn" [disabled]="!InwordTodayList.length" [class.disabled]="!InwordTodayList.length"
+      (click)="viewProduct('stock_inword_today')">
+      View All Stock
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </div>
+
+  <div class="new-arrivals-section">
+    <div class="section-header">
+      <div class="sparkle-icon">✨</div>
+      <h2 class="section-title">NEW ARRIVALS</h2>
+      <div class="sparkle-icon">✨</div>
+    </div>
+
+    <div class="products-scroll" *ngIf="newArrivals.length; else noDataBlocknewArrivals">
+      <div class="product-card large-card" *ngFor="let arrival of newArrivals" (click)="goToProductDetails(arrival)">
+        <div class="product-image-container">
+          <img *ngIf="arrival.image && !arrival.imageError" [src]="url + arrival.image" class="product-image"
+            (error)="arrival.imageError = true" />
+          <div *ngIf="!arrival.image || arrival.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">{{ arrival.product_name }}</h3>
+          <p class="product-color">{{ arrival.color_name }}</p>
+          <p class="product-price">₹{{ arrival.mrp }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noDataBlocknewArrivals>
+      <div class="no-data-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h4>No Products Available</h4>
+        <p>NEW ARRIVALS products will appear here once available.</p>
+      </div>
+    </ng-template>
+
+    <button class="view-all-btn" [disabled]="!newArrivals.length" [class.disabled]="!newArrivals.length"
+      (click)="viewProduct('new_arrivals')">
+      Explore All
+    </button>
+  </div>
+
+
+
+
+  <!-- Handpicked For You Section -->
+  <div class="handpicked-section">
+    <div class="section-title-container">
+      <div class="title-line"></div>
+      <div class="title-dot"></div>
+      <h2 class="section-title-main">HANDPICKED FOR YOU!</h2>
+      <div class="title-dot"></div>
+      <div class="title-line"></div>
+    </div>
+    <p class="section-subtitle">🔥 Bestsellers Trusted by Other Distributors!</p>
+
+    <div class="products-scroll" *ngIf="HandpickedForYouList.length; else noDataBlockHANDPICKED">
+      <div class="product-card" *ngFor="let product of HandpickedForYouList" (click)="goToProductDetails(product)">
+        <div class="product-image-container">
+          <img *ngIf="product.image && !product.imageError" [src]="url + product.image" class="product-image"
+            (error)="product.imageError = true" />
+          <div *ngIf="!product.image || product.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">{{ product.product_name }}</h3>
+          <p class="product-color">{{ product.color_name }}</p>
+          <p class="product-price">₹{{ product.mrp }}</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="view-all-pill" [disabled]="!HandpickedForYouList.length" (click)="viewProduct('handpicked_for_you')">
+      View All
+    </button>
+
+    <ng-template #noDataBlockHANDPICKED>
+      <div class="no-data-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h4>No Products Available</h4>
+        <p>Handpicked products will appear here once available.</p>
+      </div>
+    </ng-template>
+  </div>
+
+
+  <!-- Thala Favourites Section -->
+  <div class="thala-section">
+    <div class="thala-header">
+      <div class="header-design-elements">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+      </div>
+      <div class="celebrity-image-wrapper">
+        <img *ngIf="thalaFavourites.celebrityImage" [src]=thalaFavourites.celebrityImage class="celebrity-image" />
+        <div class="overlay-gradient"></div>
+      </div>
+
+      <div class="thala-title-overlay">
+        <h2 class="thala-title">{{ thalaFavourites.celebrityName }}</h2>
+        <p class="thala-subtitle">{{ thalaFavourites.title }}</p>
+      </div>
+    </div>
+
+    <div class="products-container" *ngIf="ThalaFavouritesList.length; else noDataBlockFavourites">
+      <div class="products-scroll">
+        <div class="product-card thala-card" *ngFor="let product of ThalaFavouritesList"
+          (click)="goToProductDetails(product)">
+          <div class="product-image-container">
+            <img *ngIf="product.image && !product.imageError" [src]="url + product.image" class="product-image"
+              (error)="product.imageError = true" />
+            <div *ngIf="!product.image || product.imageError" class="no-image-box">
+              <span>NO IMAGE</span>
+            </div>
+          </div>
+          <div class="product-info1">
+            <h3 class="product-name1">{{ product.product_name }}</h3>
+            <p class="product-color1">{{ product.color_name }}</p>
+            <p class="product-price1">₹{{ product.mrp }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noDataBlockFavourites>
+      <div class="no-data-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h4>No Products Available</h4>
+        <p>Thala Favourites products will appear here once available.</p>
+      </div>
+    </ng-template>
+
+    <button class="view-all-pill dark" [disabled]="!ThalaFavouritesList.length"
+      (click)="viewProduct('thala_favourites')">
+      View All
+    </button>
+  </div>
+
+  <!-- Explore by Gender Section -->
+  <div class="gender-section">
+    <div class="section-header-wave">
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>EXPLORE BY GENDER</h2>
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="gender-scroll">
+      <div class="gender-card" *ngFor="let gender of exploreByGender" (click)="goToGenderCategory(gender.category)">
+        <div class="gender-image-wrapper">
+          <img *ngIf="gender.image && !gender.imageError" [src]="gender.image" [alt]="gender.name" class="gender-image"
+            (error)="gender.imageError = true" />
+          <div *ngIf="!gender.image || gender.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <h3 class="gender-name">{{ gender.name }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explore by Categories Section -->
+  <div class="categories-section">
+    <div class="section-header-wave">
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>EXPLORE BY CATEGORIES</h2>
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="categories-scroll">
+      <div class="category-card" *ngFor="let category of exploreByCategories" (click)="goToCategory(category)">
+        <div class="category-image-wrapper">
+          <img *ngIf="category.image && !category.imageError" [src]="category.image" [alt]="category.name"
+            class="category-image" (error)="category.imageError = true" />
+          <div *ngIf="!category.image || category.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <h3 class="category-name">{{ category.name }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="collections-section">
+    <div class="section-header-wave">
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>SPECIAL COLLECTIONS</h2>
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="collections-scroll" *ngIf="SpecialCollectionList.length; else noDataBlockCOLLECTIONS">
+      <div class="collection-card" *ngFor="let collection of SpecialCollectionList"
+        (click)="goToProductDetails(collection)">
+        <div class="collection-image-wrapper">
+          <img *ngIf="collection.image && !collection.imageError" [src]="url + collection.image"
+            class="collection-image" (error)="collection.imageError = true" />
+          <div *ngIf="!collection.image || collection.imageError" class="no-image-box">
+            <span>NO IMAGE</span>
+          </div>
+        </div>
+        <h3 class="collection-name">{{ collection.product_name }}</h3>
+      </div>
+    </div>
+
+    <button class="view-all-pill" [disabled]="!SpecialCollectionList.length"
+      (click)="viewProduct('special_collections')">
+      View All
+    </button>
+
+    <ng-template #noDataBlockCOLLECTIONS>
+      <div class="no-data-box">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h4>No Products Available</h4>
+        <p>SPECIAL COLLECTIONS products will appear here once available.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Explore by Collections Section -->
+  <div class="collections-type-section">
+    <div class="section-header-wave">
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>EXPLORE BY COLLECTIONS</h2>
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+    <div class="collections-type-scroll">
+      <div class="collection-type-card" *ngFor="let collection of exploreByCollections" (click)="viewProduct('')">
+        <div class="collection-type-image-wrapper">
+          <img [src]="collection.image" [alt]="collection.name" class="collection-type-image" />
+        </div>
+        <div class="collection-type-name-wrapper">
+          <h3 class="collection-type-name">{{ collection.name }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Sole Type Section -->
+  <div class="sole-type-section">
+    <div class="section-header-wave">
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <h2>SOLE TYPE</h2>
+      <div class="wave-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M3 7C5.07143 7 6.10714 8.5 8.17857 8.5C10.25 8.5 11.2857 7 13.3571 7C15.4286 7 16.4643 8.5 18.5357 8.5C20.6071 8.5 21.6429 7 23.7143 7"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 11C5.07143 11 6.10714 12.5 8.17857 12.5C10.25 12.5 11.2857 11 13.3571 11C15.4286 11 16.4643 12.5 18.5357 12.5C20.6071 12.5 21.6429 11 23.7143 11"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M3 15C5.07143 15 6.10714 16.5 8.17857 16.5C10.25 16.5 11.2857 15 13.3571 15C15.4286 15 16.4643 16.5 18.5357 16.5C20.6071 16.5 21.6429 15 23.7143 15"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="sole-type-scroll">
+      <div class="sole-type-card" *ngFor="let sole of soleTypes" (click)="goToSoleType(sole)">
+        <div class="sole-type-image-wrapper">
+          <img [src]="sole.image" [alt]="sole.name" class="sole-type-image" />
+        </div>
+        <div class="sole-type-name-wrapper">
+          <h3 class="sole-type-name">{{ sole.name }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearance-mega-banner" *ngIf="clearanceSale?.enabled" (click)="viewProduct('sale_shoes_dis')">
+    <div class="clearance-wrapper">
+      <!-- Premium Decorative Shapes -->
+      <div class="premium-decor">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+
+      <div class="banner-glass-content">
+        <div class="sale-badge">LIMITED OFFER</div>
+        <h1 class="clearance-title">CLEARANCE SALE</h1>
+        <p class="clearance-subtitle">UP TO {{ clearanceSale?.discount }}% OFF!</p>
+        <button class="premium-btn">
+          <span>SHOP NOW</span>
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </div>
+
+      <div class="banner-shine-overlay"></div>
+    </div>
+  </div>
+</ion-content>
+
+<div class="bottom-nav">
+
+  <div class="nav-item" (click)="goToOrderCatalogue()">
+    <i class="material-icons">category</i>
+    <span>Catalogue</span>
+  </div>
+
+  <div class="nav-item" (click)="goToAttendence()" *ngIf="UserType == 'sales_user'">
+    <i class="material-icons">event_available</i>
+    <span>Attendance</span>
+  </div>
+
+  <div class="nav-item" (click)="goToLead()" *ngIf="UserType == 'sales_user'">
+    <ion-icon name="people"></ion-icon>
+    <span>Enquiry</span>
+  </div>
+
+  <div class="nav-item" (click)="goToExpense('My')" *ngIf="UserType == 'sales_user'">
+    <i class="material-icons">account_balance_wallet</i>
+    <span>Expense</span>
+  </div>
+
+  <div class="nav-item" (click)="openMoreMenu()">
+    <i class="material-icons">apps</i>
+    <span>More</span>
+  </div>
+
+  <div class="nav-item center-nav" (click)="goToCheckin()" *ngIf="UserType == 'sales_user'">
+    <i class="material-icons center-icon" style="font-size: 35px;">location_on</i>
+  </div>
+
+</div>
+
+<!-- Scroll Indicator Arrow -->
+<!-- <div class="scroll-arrow-indicator" *ngIf="showScrollArrow" (click)="scrollToNext()">
+  <ion-icon name="chevron-forward"></ion-icon>
+</div>
+</div> -->

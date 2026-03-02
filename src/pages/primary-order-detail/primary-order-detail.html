@@ -1,0 +1,213 @@
+<ion-header class="catalogue-header">
+    <ion-navbar>
+        <ion-title>Primary Order Detail</ion-title>
+
+        <ion-buttons end>
+            <button ion-button icon-only (click)="exportPdf()" class="exportPdfBtn">
+                <ng-container *ngIf="pdfLoader">
+                    <ion-spinner class="black-spinner"></ion-spinner>
+                    Exporting
+                </ng-container>
+                <ng-container *ngIf="!pdfLoader">
+                    <img src="assets/imgs/pdf.png" alt="#">
+                    Export PDF
+                </ng-container>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <!-- Party Info Card -->
+    <div class="pod-party-card">
+        <div class="pod-party-left">
+            <div class="pod-party-avatar">{{userDetail.company_name?.trim().substring(0,1).toUpperCase()}}</div>
+            <div class="pod-party-info">
+                <h2 class="pod-party-name">{{userDetail.company_name}}</h2>
+                <p class="pod-party-contact">{{userDetail.name}} • {{userDetail.mobile}}</p>
+                <div class="pod-party-badges">
+                    <span class="pod-order-badge">{{userDetail.order_no}}</span>
+                    <span class="pod-status-badge {{userDetail.order_status}}">{{userDetail.order_status}}</span>
+                    <span class="pod-date-badge" *ngIf="userDetail.date_created">{{userDetail.date_created}}</span>
+                </div>
+            </div>
+        </div>
+        <a class="pod-call-btn" href="tel:{{userDetail?.mobile}}">
+            <i class="material-icons">phone</i>
+        </a>
+    </div>
+
+    <!-- Segment Tabs -->
+    <div class="pod-segment-wrap">
+        <ion-segment [(ngModel)]="summary">
+            <ion-segment-button value="active">
+                Order Summary
+            </ion-segment-button>
+            <ion-segment-button value="inactive">
+                Item Summary
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div [ngSwitch]="summary" class="pod-content-area">
+
+        <!-- ORDER SUMMARY TAB -->
+        <ng-container *ngSwitchCase="'active'">
+            <div class="pod-summary-card">
+                <div class="pod-summary-title">Order Details</div>
+                <div class="pod-summary-row">
+                    <span>Order Id</span>
+                    <strong>{{userDetail.order_no}}</strong>
+                </div>
+                <div class="pod-summary-row">
+                    <span>Status</span>
+                    <strong>
+                        <span class="pod-status-badge {{userDetail.order_status}}">{{userDetail.order_status}}</span>
+                    </strong>
+                </div>
+                <div class="pod-summary-row" *ngIf="userDetail.order_status=='Partially_Dispatch'">
+                    <span>Partial Amount</span>
+                    <strong>
+                        <span class="pod-status-badge {{userDetail.order_status}}">{{userDetail.order_status}}</span>
+                    </strong>
+                </div>
+                <div class="pod-summary-row">
+                    <span>Total Item</span>
+                    <strong>{{userDetail?.order_item}}</strong>
+                </div>
+                <div class="pod-summary-row">
+                    <span>Total Carton Qty.</span>
+                    <strong>{{userDetail.total_carton_qty || 'N/A'}}</strong>
+                </div>
+                <div class="pod-summary-row">
+                    <span>Total Pieces</span>
+                    <strong>{{userDetail.total_order_qty||'N/A'}}</strong>
+                </div>
+                <div class="pod-divider"></div>
+                <div class="pod-summary-row">
+                    <span>Sub Total</span>
+                    <strong>₹ {{userDetail.order_total | number:'1.2-2'}}</strong>
+                </div>
+                <div class="pod-summary-row pod-gst-row">
+                    <span>GST Amount ({{userDetail.gst_percent}}%)</span>
+                    <strong>₹ {{userDetail.gst_amount | number:'1.2-2'}}</strong>
+                </div>
+                <div class="pod-divider thick"></div>
+                <div class="pod-summary-row pod-grand-total">
+                    <span>Grand Total</span>
+                    <strong>₹ {{userDetail.grand_total_with_gst | number:'1.2-2'}}</strong>
+                </div>
+            </div>
+
+            <!-- Remarks -->
+            <ng-container
+                *ngIf="userDetail.reason_reject && userDetail.reason_reject != '' || userDetail.order_create_remark && userDetail.order_create_remark != '' || userDetail.pre_close_remark && userDetail.pre_close_remark != ''">
+                <div class="pod-remarks-card">
+                    <div class="pod-remarks-title">Remarks</div>
+                    <p *ngIf="userDetail.reason_reject && userDetail.reason_reject != ''">
+                        <span class="pod-remark-label">Reason of Referred Back</span>
+                        {{userDetail.reason_reject}}
+                    </p>
+                    <p *ngIf="userDetail.order_create_remark && userDetail.order_create_remark != ''">
+                        <span class="pod-remark-label">Order Remark</span>
+                        {{userDetail.order_create_remark}}
+                    </p>
+                    <p *ngIf="userDetail.pre_close_remark && userDetail.pre_close_remark != ''">
+                        <span class="pod-remark-label">Pre Close Remark</span>
+                        {{userDetail.pre_close_remark}}
+                    </p>
+                </div>
+            </ng-container>
+
+            <!-- Change Status -->
+            <ng-container *ngIf="(userDetail.senior_status == '')">
+                <ng-container *ngIf="target_Type=='Team'">
+                    <button class="pod-change-status-btn" (click)="changeOrderStatus()"
+                        *ngIf="userDetail.senior_status == ''">
+                        <ion-icon name="create"></ion-icon>
+                        Change Status
+                    </button>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <!-- ITEM SUMMARY TAB -->
+        <ng-container *ngSwitchCase="'inactive'">
+            <div class="pod-items-list">
+                <div class="pod-item-card" *ngFor="let order of orderitem; let i = index">
+                    <!-- Top: Image + Product Info -->
+                    <div class="pod-item-top">
+                        <div class="pod-item-number">{{ i + 1 }}</div>
+                        <div class="pod-item-image"
+                            (click)="imageModal(constant.upload_url1 + 'product_image/' + order.product_image)">
+                            <img *ngIf="order.product_image && !order.imageError"
+                                [src]="constant.upload_url1 + 'product_image/' + order.product_image"
+                                (error)="order.imageError = true" />
+                            <div class="pod-no-image" *ngIf="!order.product_image || order.imageError">
+                                <i class="material-icons">image</i>
+                                <small>NO IMAGE</small>
+                            </div>
+                        </div>
+                        <div class="pod-item-info">
+                            <h3 class="pod-item-name">{{order.product_name}}</h3>
+                            <div class="pod-item-meta" *ngIf="order.color || order.size">
+                                <span *ngIf="order.size">Size: <b>{{order.size}}</b></span>
+                                <span *ngIf="order.color">Color: <b>{{order.color}}</b></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Details -->
+                    <div class="pod-item-pricing">
+                        <div class="pod-price-row">
+                            <span>Unit Price:</span>
+                            <strong>₹{{order.price | number:'1.2-2'}}</strong>
+                        </div>
+                        <div class="pod-price-row pod-net-amount">
+                            <span>Total:</span>
+                            <strong>₹{{order.total_amount | number:'1.2-2'}}</strong>
+                        </div>
+                    </div>
+
+                    <!-- Carton & Pieces Info -->
+                    <div class="pod-carton-section">
+                        <div class="pod-carton-label">Carton Qty:</div>
+                        <div class="pod-carton-value">{{order.carton_qty || 0}}</div>
+                        <div class="pod-pieces-info">
+                            Box: <b>{{order.box_in_pieces || 0}}</b> | Pieces: <b>{{order.qty || 0}}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- GALLERY TAB -->
+        <ng-container *ngSwitchCase="'gallery'">
+            <div class="pod-gallery">
+                <div class="pod-gallery-title">Order Images</div>
+                <div class="pod-gallery-grid" *ngIf="userDetail.images?.length > 0">
+                    <div class="pod-gallery-item" *ngFor="let image of userDetail.images; index as i">
+                        <ng-container *ngIf="image.image!=''">
+                            <img (click)="imageModal(constant.upload_url1+'Order_image/'+image.image)"
+                                [src]="constant.upload_url1+'Order_image/'+image.image">
+                        </ng-container>
+                        <ng-container *ngIf="image.image==''">
+                            <div class="pod-no-image">
+                                <i class="material-icons">perm_media</i>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="pod-empty-state" *ngIf="!userDetail.images?.length">
+                    <img src="assets/imgs/No data-pana.png" alt="">
+                    <p>Image not Available</p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div style="height: 70px;"></div>
+</ion-content>
+
+<div class="endcheck" *ngIf="(userDetail.order_status == 'Draft')">
+    <a (click)="changeStatus()">Submit Order</a>
+</div>

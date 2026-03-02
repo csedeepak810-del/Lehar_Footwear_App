@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title> Product Stock Detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="other-block" *ngFor="let val of StocKListData">
+
+    <p><strong>WareHouse :-</strong>
+      {{val?.display_name}}
+    </p>
+  </div>
+
+  <div class="edit">
+    <ion-list>
+      <ion-item class="cs-normal-select retailerSelectionBox">
+        <ion-label>Product<strong class="red-text">*</strong></ion-label>
+        <ionic-selectable item-content name="product" #product="ngModel" [(ngModel)]="data.product"
+          [items]="ProductList" itemValueField="product_name" itemTextField="product_name" [canSearch]="true"
+          #itemselectable (ngModelChange)="getBrands()" modalCssClass="f1"></ionic-selectable>
+      </ion-item>
+
+
+      <ion-item class="cs-normal-select retailerSelectionBox mt16">
+        <ion-label>Brand <strong class="red-text">*</strong></ion-label>
+        <ionic-selectable item-content name="brand" #brand="ngModel" [(ngModel)]="data.brand" [items]="brandList"
+          itemValueField="brand_code" itemTextField="brand_code" [canSearch]="true" #itemselectable modalCssClass="f1"
+          (ngModelChange)="GetCateogryList()"></ionic-selectable>
+
+      </ion-item>
+
+      <ion-item class="cs-normal-select retailerSelectionBox mt16" *ngIf="data.brand">
+        <ion-label>Category<strong class="red-text">*</strong></ion-label>
+        <ionic-selectable item-content name="Cateogry" #Cateogry="ngModel" [(ngModel)]="data.Cateogry"
+          [items]="CateogryList" itemValueField="id" itemTextField="category" [canSearch]="true" #itemselectable
+          modalCssClass="f1" (ngModelChange)="getThickness(data.Cateogry);"></ionic-selectable>
+      </ion-item>
+
+
+      <ion-item class="cs-normal-select retailerSelectionBox mt16" *ngIf="data.Cateogry">
+        <ion-label>Thickness <strong class="red-text">*</strong></ion-label>
+        <ion-select interface="action-sheet" name="thickness" [(ngModel)]="data.thickness" #thickness="ngModel"
+          (ngModelChange)="getSize(data.thickness);">
+          <ion-option *ngFor="let row of thicknessList" value="{{row.thickness}}">{{row.thickness}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="cs-normal-select retailerSelectionBox mt16">
+        <ion-label>Size <strong class="red-text">*</strong></ion-label>
+        <ion-select interface="action-sheet" name="size" [(ngModel)]="data.size" #size="ngModel"
+          (ngModelChange)="SegmentItemDetails();">
+          <ion-option *ngFor="let row of sizeList" value="{{row.size}}">{{row.size}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      
+      <ion-item class="cs-normal-select retailerSelectionBox mt16" >
+        <ion-label>Item <strong class="red-text">*</strong></ion-label>
+        <ionic-selectable item-content name="items" #items="ngModel" [(ngModel)]="data.items"
+          (ngModelChange)="get_task_detail()"  [items]="ProductItemDetail" itemValueField="id" itemTextField="description" [canSearch]="true"
+            #itemselectable modalCssClass="f1" ></ionic-selectable>
+    </ion-item>
+
+
+    </ion-list>
+
+
+
+    <ng-container *ngFor="let row of Stock_detail">
+      <div class="attendance-list flat-list mt10" >
+        <div class="slab slab-bg">
+       
+          <div class="slab-day">
+            <p>Category</p>
+            <span>{{row.category?row.category:'-'}}</span>
+          </div>
+          <div class="slab-day">
+            <p>Sub category</p>
+            <span>{{row.sub_category?row.sub_category:'-'}}</span>
+          </div>
+    
+          <div class="slab-day">
+            <p>Stock</p>
+            <span>{{row.stock}}</span>
+          </div>
+          
+        </div>
+        <div class="other-block">
+          <p><strong>product :</strong>
+            {{row.display_name}}
+          </p>
+        </div>
+    
+    
+        
+      
+      </div>
+    </ng-container> 
+  
+        
+
+
+  </div>
+
+
+
+
+
+      <!-- <div class="nothing-here" *ngIf="!Stock_detail.length && sendRequest == true">
+    <div class="outer">
+      <div class="innear">
+        <img src="assets/imgs/no_found.svg" alt="">
+        <p>Data Not Available</p>
+      </div>
+    </div>
+  </div> -->
+
+  
+
+
+
+
+
+</ion-content>

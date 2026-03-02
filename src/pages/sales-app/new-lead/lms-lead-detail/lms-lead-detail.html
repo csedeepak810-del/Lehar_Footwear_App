@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Enquiry Detail</ion-title>
+        <ion-buttons end *ngIf="(lead_detail.stage_level == 'Qualified' || lead_detail.stage_level == 'Future_deal') && actionType == 'My'">
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="more"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="goOnTravelAdd()">
+                <ion-icon name="create"></ion-icon>
+            </button>
+        </ion-buttons>
+
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <div class="attendance-list flat-list" style="padding: 12px;">
+        <div class="slab slab-bg">
+            <div class="slab-day">
+                <p>{{lead_detail.date_created | date:'d MMM y'}}</p>
+                <span>Date Created</span>
+            </div>
+            <div class="slab-day">
+                <p>{{lead_detail.created_by_name}}</p>
+                <span>Created by</span>
+            </div>
+
+            <div class="slab-day" *ngIf="lead_detail.country!=''">
+                <p>{{lead_detail.country}}</p>
+                <span>Country</span>
+            </div>
+
+            <div class="date-section">
+                <p>{{lead_detail.stage_level}}</p>
+                <p>Status</p>
+            </div>
+        </div>
+     
+       
+        <div class="center-block">
+            <div class="circle">{{(lead_detail.name | titlecase) | slice:0:1}} </div>
+            <h1 class="f12">{{lead_detail.name | titlecase}}</h1>
+            <!-- <p></p> -->
+            <button class="cell-phone" style="background-color: transparent;position: absolute;top: 20%;left: 85%;" (click)="openDialer(lead_detail.mobile,$event)"><i class="material-icons green-clr" style="font-size: 22px; margin-left: 10px;">call</i></button>
+
+
+            <p>Address- {{lead_detail.address}} {{lead_detail.district}} {{lead_detail.city}} {{lead_detail.pincode}}
+                {{lead_detail.state}} {{lead_detail.country}}</p>
+        </div>
+        <div class="other-block pb0" *ngIf="data.status_remark  ">
+            <p><strong>Status :</strong>
+                {{data.status_remark}} 
+            </p>
+        </div>
+    </div>
+    <ion-toolbar color="white" >
+        <div class="mb10">
+            <ion-segment [(ngModel)]="activeTab">
+                <!-- <ion-segment-button  value="Remark">
+                    Remark
+                </ion-segment-button> -->
+                <ion-segment-button  value="Followup">
+                    FollowUp Remark
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+    </ion-toolbar>
+
+    <div class="pb100" *ngIf="activeTab=='Remark'">
+        <div class="remarkSent" *ngFor="let row of activity_list">
+            <p class="remarkMsg">{{row.msg ? row.msg : row.remark}}</p>
+            <div class="dateCreated"><span>({{row.changes_by_name}})</span> <span>{{row.date_created | date:'d MMM y'}}</span></div>
+        </div>
+
+        <div class="nothing-here" *ngIf="activity_list == 0">
+            <div class="outer">
+                <div class="innear">
+                    <img src="assets/imgs/no_found.svg" alt="">
+                    <p>Data Not Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb100" *ngIf="activeTab=='Followup'">
+        <div class="remarkSent" *ngFor="let row of follwupRemark">
+            <p class="remarkMsg">{{row.description}}</p>
+            <div class="dateCreated"><span>({{row.status}})</span> <span>{{row.updated_at | date:'d MMM y'}}</span></div>
+        </div>
+
+        <div class="nothing-here" *ngIf="follwupRemark == 0">
+            <div class="outer">
+                <div class="innear">
+                    <img src="assets/imgs/no_found.svg" alt="">
+                    <p>Data Not Available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</ion-content>
+
+
+<ion-footer *ngIf="lead_detail.stage_level == 'Qualified' && actionType == 'My'" color="light">
+    <div class="footer-input-block">
+        <textarea type="text" placeholder="Add Remark" name="remark" #remark="ngModel"
+            [(ngModel)]="form.remark"></textarea>
+        <button ion-button icon-start color="success" (click)="addRemark()"><ion-icon name="send"></ion-icon></button>
+    </div>
+</ion-footer>

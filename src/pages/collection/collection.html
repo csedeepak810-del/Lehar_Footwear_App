@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="Type=='My'">Collection List</ion-title>
+    <ion-title *ngIf="Type!='My'">Team Collection List</ion-title>
+
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-searchbar class="distributorSearchbar p10" (keydown.enter)="collection_data(status)" [(ngModel)]="search"
+      name="search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="two-col-main mb10">
+    <ion-item>
+      <ion-label floating><span>Year</span></ion-label>
+      <ion-select name="year" #year="ngModel" [(ngModel)]="order.year" required>
+        <ion-option *ngFor="let row of yearData" [value]="row">{{row}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label floating><span>Month</span></ion-label>
+      <ion-select name="month" [(ngModel)]="order.month" [disabled]="!order.year" required #month="ngModel" (ngModelChange)="collection_data(status)">
+        <ng-container *ngIf="order.year == currentYear">  
+          <ion-option *ngFor="let row of availableMonths" [value]="getMonthValue(row)">{{row}}</ion-option>
+        </ng-container>
+        <ng-container *ngIf="order.year != currentYear">
+          <ion-option *ngFor="let row of monthList" [value]="getMonthValue(row)">{{row}}</ion-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <ion-refresher (ionRefresh)="doRefresh($event,status)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="Type != 'My'">
+    <div class="fix-toolbar mt10 row" style="display: flex; align-items: center;">
+      <div class="edit flat" style="flex: 1;">
+        <ion-list style="border: 2px dashed #ac9e9e; margin-right: 10px;">
+          <ng-container>
+            <ion-item class="cs-normal-select retailerSelectionBox mt0 mb0">
+              <ion-label>Select Team Member</ion-label>
+              <ionic-selectable item-content name="data" [(ngModel)]="data" [items]="user_list" itemValueField="id"
+                itemTextField="name" [canSearch]="true" #selectComponent (ngModelChange)="collection_data(status)">
+              </ionic-selectable>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </div>
+      <ion-icon name="refresh" slot="end" style="font-size: 24px; cursor: pointer;margin-right: 15px;"
+        (click)="refreshUserList()"></ion-icon>
+    </div>
+  </ng-container>
+
+
+  <div class="bg-white">
+    <div class="capsule-tabs">
+      <ul>
+        <li [ngClass]="{'active':status == 'Pending'}" (click)="status = 'Pending';start=0;collection_data(status);">
+          <p><i class="material-icons" style="color: #eb2222">pending_actions</i>Pending
+            ({{count.Pending?count.Pending:'0'}})</p>
+        </li>
+        <li [ngClass]="{'active':status == 'Approved'}" (click)="status = 'Approved';start=0;collection_data(status)">
+          <p><i class="material-icons" style="color: #21a421;">task_alt</i>Approved
+            ({{count.Approved?count.Approved:'0'}})</p>
+        </li>
+        <li [ngClass]="{'active':status == 'Reject'}" (click)="status = 'Reject';start=0;collection_data(status)">
+          <p><i class="material-icons" style="color: #ca8d2c;">close</i>Reject
+            ({{count.Reject?count.Reject:'0'}})</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="pl16 pr16 mt15 mb50">
+    <div class="attendance-list" *ngFor="let data of collection_list">
+      <div class="slab slab-bg">
+
+        <div class="slab-day">
+          <p>{{data.dateCreated | date:'d MMM y'}}</p>
+          <span>Date Created</span>
+        </div>
+        <div class="slab-day">
+          <p>{{data.collectionDate| date:'d MMM y'}}</p>
+          <span>Collection Date</span>
+        </div>
+        <div class="slab-day">
+          <p>{{data.collectionType}}</p>
+          <span>Collection Type</span>
+        </div>
+      </div>
+      <div class="center-block">
+        <div class="circle">{{data.companyName.trim().substring(0,1).toUpperCase()}}</div>
+        <h1>{{data.companyName.toUpperCase()}}</h1>
+        <!-- <p *ngIf="data.collectedByName != null">Created By : {{data.collectedByName ? data.collectedByName : 'N/A'}}</p> -->
+        <p *ngIf="data.remark != null">Remark : {{data.remark ? data.remark : 'N/A'}}</p>
+      </div>
+
+      <div class="slab slab-bg mt5" style="background-color: beige;">
+
+        <div class="slab-day">
+          <p>{{data.typeName}}</p>
+          <span>Party Type</span>
+        </div>
+        <div class="slab-day">
+          <p>{{data.collectionAmt}}</p>
+          <span>Collection Amount</span>
+        </div>
+        <div class="slab-day">
+          <div class="list-content">
+            <ul class="no-padding">
+              <li class="image-upload">
+                <a *ngIf="data.image" class="openImageButton" (click)="imageModal(constant.upload_url1+'collectionImage/'+data.image)">View {{data.expName}} Image</a>
+                <a *ngIf="!data.image" class="openImageButton"  disabled>Not Uploaded</a>
+              </li>
+            </ul>
+            <span>Image</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div class="slab mt5">
+        <div class="slab-day">
+          <p>{{row.order_item ? row.order_item : '0'}}</p>
+          <span>Total Item</span>
+        </div>
+        <div class="slab-day">
+          <p class="bold">{{row.total_order_qty ? row.total_order_qty : '0'}}</p>
+          <span>Total Item Qty</span>
+        </div>
+        <div class="slab-day">
+          <p class="bold">{{row.weight ? (row.weight | number:'1.2-2') : '0'}} Ton</p>
+          <span>Weight</span>
+        </div>
+
+      </div> -->
+
+    </div>
+  </div>
+  <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event,status)" *ngIf="flag!=1">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+  <div class="nothing-here" style="height: 60%;" *ngIf="!collection_list.length">
+    <div class="outer">
+      <div class="innear">
+        <img src="assets/imgs/no_found.svg" alt="">
+        <p>No Data Available</p>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="primary" (click)="addCollection()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

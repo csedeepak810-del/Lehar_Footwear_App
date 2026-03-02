@@ -1,0 +1,722 @@
+page-sfa-shortcut {
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+// OneCard Color Variables (Light Theme)
+$primary-blue: #3b82f6;
+$secondary-blue: #60a5fa;
+$success-green: #10b981;
+$warning-orange: #f59e0b;
+$danger-red: #ef4444;
+$background-primary: #ffffff;
+$background-secondary: #f8fafc;
+$background-card: #ffffff;
+$text-primary: #1f2937;
+$text-secondary: #6b7280;
+$text-light: #9ca3af;
+$border-light: #e5e7eb;
+$border-lighter: #f3f4f6;
+$shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+$shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+$shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+// Base Styles
+.content {
+    background-color: $background-secondary !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 0;
+}
+
+// Main Container
+.dashboard-wrapper {
+    background-color: $background-secondary;
+    min-height: 100vh;
+    padding: 0;
+    
+    // Header Section (like OneCard top section)
+    .header-section {
+        background: $background-primary;
+        padding: 20px 16px 30px 16px;
+        border-bottom: 1px solid $border-lighter;
+        
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: $text-primary;
+            margin: 0 0 8px 0;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            color: $text-secondary;
+            margin: 0;
+        }
+    }
+    
+    // Dashboard Card (OneCard Style)
+    .dashboard-card {
+        background: $background-card;
+        margin: 0;
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        overflow: visible;
+        
+        .card-header {
+            padding: 24px 16px 0 16px;
+            background: transparent;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            .card-title {
+                font-size: 22px;
+                font-weight: 700;
+                color: $text-primary;
+                margin: 0;
+            }
+            
+            .view-all-btn {
+                color: $primary-blue;
+                font-size: 16px;
+                font-weight: 600;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+        
+        .card-content {
+            padding: 20px 16px 32px 16px;
+        }
+    }
+    
+   
+    
+  
+    
+    // Shortcuts Card (updated to match OneCard)
+    .shortcuts-card {
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 12px;
+            background: $background-card;
+            border-radius: 16px;
+            box-shadow: $shadow-card;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid $border-lighter;
+            
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-color: $border-light;
+            }
+            
+            .shortcut-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 12px;
+                position: relative;
+                
+                i {
+                    font-size: 24px;
+                    color: white;
+                }
+                
+                .notification-badge {
+                    position: absolute;
+                    top: -6px;
+                    right: -6px;
+                    background: $danger-red;
+                    color: white;
+                    border-radius: 50%;
+                    width: 18px;
+                    height: 18px;
+                    font-size: 10px;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid white;
+                }
+                
+                // OneCard inspired light gradient backgrounds
+                &.dashboard-icon { 
+                    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+                    i { color: $primary-blue; }
+                }
+                &.primary-order-icon { 
+                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                    i { color: #d97706; }
+                }
+                &.secondary-order-icon { 
+                    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+                    i { color: #0891b2; }
+                }
+                &.attendance-icon { 
+                    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                    i { color: $success-green; }
+                }
+                &.followup-icon { 
+                    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+                    i { color: #be185d; }
+                }
+                &.checkin-icon { 
+                    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                    i { color: #047857; }
+                }
+                &.enquiry-icon { 
+                    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+                    i { color: #7c3aed; }
+                }
+                &.event-icon { 
+                    background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+                    i { color: #ea580c; }
+                }
+                &.target-icon { 
+                    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+                    i { color: #0284c7; }
+                }
+                &.gift-icon { 
+                    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+                    i { color: #db2777; }
+                }
+                &.travel-icon { 
+                    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+                    i { color: #4f46e5; }
+                }
+                &.expense-icon { 
+                    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                    i { color: #059669; }
+                }
+                &.leave-icon { 
+                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                    i { color: #d97706; }
+                }
+                &.task-icon { 
+                    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+                    i { color: #7c3aed; }
+                }
+                &.survey-icon { 
+                    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+                    i { color: #0891b2; }
+                }
+                &.product-icon { 
+                    background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+                    i { color: #ea580c; }
+                }
+                &.catalog-icon { 
+                    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+                    i { color: #dc2626; }
+                }
+                &.announcement-icon { 
+                    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+                    i { color: #7c3aed; }
+                }
+                &.holiday-icon { 
+                    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                    i { color: #059669; }
+                }
+                &.team-icon { 
+                    background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+                    i { color: #be185d; }
+                }
+            }
+            
+            span {
+                font-size: 13px;
+                font-weight: 500;
+                color: $text-primary;
+                line-height: 1.3;
+            }
+        }
+    }
+    
+    
+    
+    // Network Card (updated style)
+    .network-card {
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            min-height: auto;
+        }
+        
+        .network-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px;
+            background: $background-card;
+            border-radius: 16px;
+            box-shadow: $shadow-card;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid $border-lighter;
+            
+          
+            .network-icon {
+                margin-bottom: 12px;
+                border-radius: 16%;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+                
+                i {
+                    font-size: 24px;
+                    color: $primary-blue;
+                }
+            }
+            
+            .network-label {
+                font-size: 14px;
+                font-weight: 600;
+                color: $text-primary;
+                line-height: 1.3;
+            }
+        }
+    }
+    
+    // Approval Card (light theme)
+    .approval-card {
+        .approval-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid $border-lighter;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            margin: 0 -8px 4px -8px;
+            
+            &:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            
+            &:hover {
+                background: $background-secondary;
+                transform: translateX(4px);
+            }
+            
+            .approval-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 16px;
+                
+                i {
+                    font-size: 20px;
+                }
+                
+                &.leave-icon { 
+                    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                    i { color: #d97706; }
+                }
+                &.travel-icon { 
+                    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+                    i { color: #0891b2; }
+                }
+                &.expense-icon { 
+                    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                    i { color: #059669; }
+                }
+                &.event-icon { 
+                    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+                    i { color: #7c3aed; }
+                }
+                &.primary-order-icon { 
+                    background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+                    i { color: #ea580c; }
+                }
+                &.secondary-order-icon { 
+                    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+                    i { color: #4f46e5; }
+                }
+            }
+            
+            .approval-info {
+                flex: 1;
+                
+                h4 {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: $text-primary;
+                    margin: 0 0 4px 0;
+                }
+                
+                p {
+                    font-size: 14px;
+                    color: $text-secondary;
+                    margin: 0;
+                }
+            }
+            
+            .nav-arrow {
+                color: $text-light;
+                font-size: 20px;
+                transition: all 0.3s ease;
+            }
+            
+            &:hover .nav-arrow {
+                color: $primary-blue;
+                transform: translateX(4px);
+            }
+        }
+    }
+    
+   
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .dashboard-wrapper {
+        .shortcuts-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            
+            .shortcut-item {
+                padding: 16px 8px;
+                
+                .shortcut-icon {
+                    width: 40px;
+                    height: 40px;
+                    
+                    i {
+                        font-size: 20px;
+                    }
+                }
+                
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+        
+        .pay-options {
+            .pay-option {
+                min-width: 80px;
+                
+                .option-content {
+                    padding: 16px 12px;
+                    
+                    .option-icon {
+                        width: 40px;
+                        height: 40px;
+                        
+                        i {
+                            font-size: 20px;
+                        }
+                    }
+                    
+                    .option-text {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        
+        .explore-options {
+            .explore-option .explore-content {
+                padding: 20px 12px;
+                
+                .explore-icon {
+                    width: 48px;
+                    height: 48px;
+                    
+                    i {
+                        font-size: 24px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-wrapper {
+        .shortcuts-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+        
+        .header-section {
+            padding: 16px;
+            
+            .header-title {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+}   
+
+body.dark-theme {
+    page-sfa-shortcut {
+        
+        // OneCard Dark Theme Color Variables
+        $primary-blue-dark: #60a5fa;
+        $secondary-blue-dark: #93c5fd;
+        $success-green-dark: #34d399;
+        $warning-orange-dark: #fbbf24;
+        $danger-red-dark: #f87171;
+        $background-primary-dark: #0f172a;
+        $background-secondary-dark: #1e293b;
+        $background-card-dark: #334155;
+        $text-primary-dark: #f1f5f9;
+        $text-secondary-dark: #cbd5e1;
+        $text-light-dark: #94a3b8;
+        $border-light-dark: #475569;
+        $border-lighter-dark: #374151;
+        $shadow-light-dark: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+        $shadow-medium-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+        $shadow-card-dark: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+        // Base Styles
+        .content {
+            background-color: $background-secondary-dark !important;
+        }
+
+        // Main Container
+        .dashboard-wrapper {
+            background-color: $background-secondary-dark;
+            
+            // Header Section
+            .header-section {
+                background: $background-primary-dark;
+                border-bottom: 1px solid $border-lighter-dark;
+                
+                .header-title {
+                    color: $text-primary-dark;
+                }
+                
+                .header-subtitle {
+                    color: $text-secondary-dark;
+                }
+            }
+            
+            // Dashboard Card
+            .dashboard-card {
+                background: $background-card-dark;
+                
+                .card-header {
+                    .card-title {
+                        color: $text-primary-dark;
+                    }
+                    
+                    .view-all-btn {
+                        color: $primary-blue-dark;
+                    }
+                }
+            }
+            
+            // Shortcuts Card
+            .shortcuts-card {
+                .shortcut-item {
+                    background: $background-primary-dark;
+                    box-shadow: $shadow-card-dark;
+                    border: 1px solid $border-lighter-dark;
+                    
+                    &:hover {
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+                        border-color: $border-light-dark;
+                    }
+                    
+                    .shortcut-icon {
+                        // Dark theme gradient backgrounds for icons
+                        &.dashboard-icon { 
+                            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+                            i { color: $primary-blue-dark; }
+                        }
+                        &.primary-order-icon { 
+                            background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+                            i { color: $warning-orange-dark; }
+                        }
+                        &.secondary-order-icon { 
+                            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+                            i { color: #67e8f9; }
+                        }
+                        &.attendance-icon { 
+                            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+                            i { color: $success-green-dark; }
+                        }
+                        &.followup-icon { 
+                            background: linear-gradient(135deg, #9d174d 0%, #be185d 100%);
+                            i { color: #f9a8d4; }
+                        }
+                        &.checkin-icon { 
+                            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+                            i { color: #6ee7b7; }
+                        }
+                        &.enquiry-icon { 
+                            background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%);
+                            i { color: #c4b5fd; }
+                        }
+                        &.event-icon { 
+                            background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+                            i { color: #fed7aa; }
+                        }
+                        &.target-icon { 
+                            background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+                            i { color: #7dd3fc; }
+                        }
+                        &.gift-icon { 
+                            background: linear-gradient(135deg, #be185d 0%, #db2777 100%);
+                            i { color: #f9a8d4; }
+                        }
+                        &.travel-icon { 
+                            background: linear-gradient(135deg, #3730a3 0%, #4f46e5 100%);
+                            i { color: #c7d2fe; }
+                        }
+                        &.expense-icon { 
+                            background: linear-gradient(135deg, #047857 0%, #059669 100%);
+                            i { color: #6ee7b7; }
+                        }
+                        &.leave-icon { 
+                            background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+                            i { color: $warning-orange-dark; }
+                        }
+                        &.task-icon { 
+                            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+                            i { color: #c4b5fd; }
+                        }
+                        &.survey-icon { 
+                            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+                            i { color: #67e8f9; }
+                        }
+                        &.product-icon { 
+                            background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+                            i { color: #fed7aa; }
+                        }
+                        &.catalog-icon { 
+                            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+                            i { color: #fca5a5; }
+                        }
+                        &.announcement-icon { 
+                            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+                            i { color: #c4b5fd; }
+                        }
+                        &.holiday-icon { 
+                            background: linear-gradient(135deg, #047857 0%, #059669 100%);
+                            i { color: #6ee7b7; }
+                        }
+                        &.team-icon { 
+                            background: linear-gradient(135deg, #9d174d 0%, #be185d 100%);
+                            i { color: #f9a8d4; }
+                        }
+                    }
+                    
+                    span {
+                        color: $text-primary-dark;
+                    }
+                }
+            }
+            
+            // Network Card
+            .network-card {
+                .network-item {
+                    background: $background-primary-dark;
+                    box-shadow: $shadow-card-dark;
+                    border: 1px solid $border-lighter-dark;
+                    
+                    .network-icon {
+                        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+                        
+                        i {
+                            color: $primary-blue-dark;
+                        }
+                    }
+                    
+                    .network-label {
+                        color: $text-primary-dark;
+                    }
+                }
+            }
+            
+            // Approval Card
+            .approval-card {
+                .approval-item {
+                    border-bottom: 1px solid $border-lighter-dark;
+                    
+                    &:hover {
+                        background: $background-primary-dark;
+                    }
+                    
+                    .approval-icon {
+                        &.leave-icon { 
+                            background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+                            i { color: $warning-orange-dark; }
+                        }
+                        &.travel-icon { 
+                            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+                            i { color: #67e8f9; }
+                        }
+                        &.expense-icon { 
+                            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+                            i { color: $success-green-dark; }
+                        }
+                        &.event-icon { 
+                            background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%);
+                            i { color: #c4b5fd; }
+                        }
+                        &.primary-order-icon { 
+                            background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+                            i { color: #fed7aa; }
+                        }
+                        &.secondary-order-icon { 
+                            background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 100%);
+                            i { color: #c7d2fe; }
+                        }
+                    }
+                    
+                    .approval-info {
+                        h4 {
+                            color: $text-primary-dark;
+                        }
+                        
+                        p {
+                            color: $text-secondary-dark;
+                        }
+                    }
+                    
+                    .nav-arrow {
+                        color: $text-light-dark;
+                    }
+                    
+                    &:hover .nav-arrow {
+                        color: $primary-blue-dark;
+                    }
+                }
+            }
+        }
+    }
+} 

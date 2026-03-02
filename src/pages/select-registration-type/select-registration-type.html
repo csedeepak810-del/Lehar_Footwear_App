@@ -1,0 +1,58 @@
+<ion-header class="header-border">
+	<ion-toolbar color="white">
+		<div class="logo">
+			<img src="/assets/imgs/logo.png" alt="">
+		</div>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<div class="user-types">
+		<ion-list radio-group [(ngModel)]="data.registerType">
+			<div class="list-header">
+				Select Login Type
+			</div>
+			<ion-item >
+				<ion-label>Distributor/Direct Dealer</ion-label>
+				<ion-radio color="secondary" value="DrLogin"></ion-radio>
+			</ion-item>
+			<ion-item>
+				<ion-label>Employee</ion-label>
+				<ion-radio color="secondary" value="Employee"></ion-radio>
+			</ion-item>
+			<!-- <ion-item>
+				<ion-label>Plumber/Electrician/Retailer(Counter boy)</ion-label>
+				<ion-radio color="secondary" value="Other"></ion-radio>
+			</ion-item> -->
+		</ion-list>
+	</div>
+	<div class="text-right mr16">
+		<button ion-button round outline color="secondary" class="Buttons" [disabled]="!data?.registerType"
+			(click)="goToRegisterPage()">Continue</button>
+	</div>
+
+
+	<ion-fab left bottom>
+		<a (click)="goOnContactPage()">
+			<img src="assets/imgs/call.png" class="h45">
+		</a>
+	</ion-fab>
+	<!-- <ion-fab left bottom>
+		<a (click)="goOnContactPage()">
+			<img src="assets/imgs/whatsapp.png" class="h45">
+		</a>
+	</ion-fab> -->
+
+</ion-content>
+
+<ion-footer class="before-btn">
+	<!-- <button class="links-btn" round clear ion-button color="primary"
+		style="color: #1743d7; padding: 0px; font-weight: bold;" (click)="goOnContactPage()">Contact Us <i
+			class="material-icons">keyboard_arrow_right</i></button> -->
+	<!-- <button class="foot-btn" (click)="goOnContactPage()" style="display: flex; align-items: center; justify-content: center; letter-spacing: 2px;
+    padding: 4px;background: #00478e;"> <i class="material-icons mr10">phone</i>
+		<span>
+			Contact Us
+		</span>
+	</button> -->
+
+</ion-footer>

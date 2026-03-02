@@ -1,0 +1,151 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "call-number": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-android-support-gradle-release": {
+      "ANDROID_SUPPORT_VERSION": "27.+",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-androidx-build": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-background-geolocation-lt": {
+      "GOOGLE_API_VERSION": "20.+",
+      "HMS_LOCATION_VERSION": "6.9.0.300",
+      "OKHTTP_VERSION": "3.12.+",
+      "EVENTBUS_VERSION": "3.3.1",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-open-native-settings": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-cache-clear": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-calllog": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-camera-preview": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-document-viewer": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-doze-optimize": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-foreground-service": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-gpsmockchecker": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-market": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-media-capture": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-mobile-ocr": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-nativegeocoder": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-request-location-accuracy": {
+      "PLAY_SERVICES_LOCATION_VERSION": "16.+",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-speechrecognition": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-zip": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova.plugins.diagnostic": {
+      "ANDROID_SUPPORT_VERSION": "28.+",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "onesignal-cordova-plugin": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "polarcape-cordova-plugin-document-handler": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "uk.co.workingedge.cordova.plugin.sqliteporter": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+      "GOOGLE_API_KEY_FOR_ANDROID": "{AIzaSyAWYina0GeZkSQR2LzTraysm9QfXAjho3M}",
+      "OKHTTP_VERSION": "3.12.0",
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-background-fetch": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.basiq360.leharfootwear"
+    }
+  }
+}

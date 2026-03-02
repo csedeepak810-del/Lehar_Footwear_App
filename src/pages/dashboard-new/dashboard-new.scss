@@ -1,0 +1,1565 @@
+// Financial Dashboard Styles for Ionic 3
+page-dashboard {
+/* Primary Target Dashboard Container */
+.primary-target-dashboard {
+  background-color: #f8f9fa !important;
+}
+
+.target-cards-wrapper {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  padding-top: 0px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Primary Target Card Base Styles */
+.primary-target-card {
+  background: white !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+ 
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+ 
+}
+
+/* Monthly Target Card Colors */
+.monthly-target-card {
+//   border-left-color: #4CAF50;
+}
+
+.monthly-target-icon {
+  color: #4CAF50;
+}
+
+.monthly-target-progress {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A);
+}
+
+.monthly-target-status {
+  background-color: #E8F5E8;
+  color: #2E7D32;
+}
+
+/* Yearly Target Card Colors */
+.yearly-target-card {
+  border-left-color: #2196F3;
+}
+
+.yearly-target-icon {
+  color: #2196F3;
+}
+
+.yearly-target-progress {
+  background: linear-gradient(90deg, #2196F3, #42A5F5);
+}
+
+.yearly-target-status {
+  background-color: #E3F2FD;
+  color: #1565C0;
+}
+
+/* Primary Card Header */
+.primary-card-header {
+  padding: 16px 20px 8px 20px !important;
+  background: transparent !important;
+}
+
+.primary-header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.primary-card-icon {
+  font-size: 24px;
+  min-width: 24px;
+  height: 80px;
+  width: 80px;
+}
+
+.primary-header-text {
+  flex: 1;
+}
+
+.primary-card-title {
+  color: #2c3e50 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.primary-card-subtitle {
+  color: #7f8c8d !important;
+  font-size: 13px !important;
+  margin: 2px 0 0 0 !important;
+}
+
+/* Primary Card Content */
+.primary-card-content {
+  padding: 0px 20px 20px 20px !important;
+}
+
+/* Primary Target Section */
+.primary-target-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.primary-target-item {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #fafbfc;
+}
+
+.primary-target-label {
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.primary-target-value {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.primary-target-amount {
+  color: #6c757d;
+}
+
+.primary-achievement-amount {
+  color: #28a745;
+}
+
+/* Primary Progress Section */
+.primary-progress-section {
+  margin-top: 16px;
+}
+
+.primary-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.primary-progress-label {
+  color: #6c757d;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.primary-progress-percentage {
+  color: #2c3e50;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Primary Progress Bar */
+.primary-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.primary-progress-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+}
+
+/* Primary Status Badge */
+.primary-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.primary-status-icon {
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .target-cards-wrapper {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+      padding-top: 0px;
+  }
+  
+  .primary-target-card {
+    min-width: unset;
+    max-width: unset;
+  }
+  
+  .primary-target-section {
+    gap: 12px;
+  }
+  
+  .primary-target-value {
+    font-size: 16px;
+  }
+  
+  .primary-card-title {
+    font-size: 16px !important;
+  }
+}
+.tabCenterAlign{
+    justify-content: space-around;
+    background: transparent !important;
+}
+
+/* Top 3 Performers Card Colors */
+.top-performers-card {
+  border-left-color: #FF9800;
+}
+
+.top-performers-icon {
+  color: #FF9800;
+}
+
+.top-performers-status {
+  background-color: #FFF3E0;
+  color: #E65100;
+}
+
+/* Performers List Styles */
+.performers-list {
+  margin-bottom: 20px;
+}
+
+.performer-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  border-left: 3px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.performer-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.performer-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Rank specific styles */
+.performer-item.rank-1 {
+  border-left-color: #FFD700;
+  background: linear-gradient(135deg, #FFF9C4 0%, #fafbfc 100%);
+}
+
+.performer-item.rank-2 {
+  border-left-color: #C0C0C0;
+  background: linear-gradient(135deg, #F5F5F5 0%, #fafbfc 100%);
+}
+
+.performer-item.rank-3 {
+  border-left-color: #CD7F32;
+  background: linear-gradient(135deg, #EFEBE9 0%, #fafbfc 100%);
+}
+
+/* Performer Rank */
+.performer-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 12px;
+  min-width: 40px;
+}
+
+.rank-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 2px;
+}
+
+.rank-number {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6c757d;
+}
+
+/* Performer Info */
+.performer-info {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.performer-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 2px;
+}
+
+.performer-department {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Performer Achievement */
+.performer-achievement {
+  text-align: right;
+}
+
+.achievement-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #28a745;
+  margin-bottom: 2px;
+}
+
+.achievement-percentage {
+  font-size: 12px;
+  font-weight: 600;
+  color: #17a2b8;
+  background-color: #E6F7FF;
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* Responsive Design for Top Performers */
+@media (max-width: 768px) {
+  .performer-item {
+    padding: 10px;
+  }
+  
+  .performer-rank {
+    margin-right: 10px;
+    min-width: 35px;
+  }
+  
+//   .rank-icon {
+//     width: 20px;
+//     height: 20px;
+//   }
+  
+  .performer-name {
+    font-size: 14px;
+  }
+  
+  .achievement-amount {
+    font-size: 14px;
+  }
+  
+  .achievement-percentage {
+    font-size: 11px;
+  }
+}
+
+/* Results Overview Card Colors */
+.results-overview-card {
+  border-left-color: #9C27B0;
+}
+
+.results-overview-icon {
+  color: #9C27B0;
+}
+
+.results-overview-status {
+  background-color: #F3E5F5;
+  color: #6A1B9A;
+}
+
+/* Results Total Section */
+.results-total-section {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, #F3E5F5 0%, #fafbfc 100%);
+  border-radius: 8px;
+}
+
+.results-total-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results-total-label {
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.results-total-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #9C27B0;
+  margin: 0;
+}
+
+/* Results Breakdown */
+.results-breakdown {
+  margin-bottom: 20px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #fafbfc;
+  border-left: 3px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Status specific styles */
+.qualified-item {
+  border-left-color: #4CAF50;
+  background: linear-gradient(135deg, #E8F5E8 0%, #fafbfc 100%);
+}
+
+.pending-item {
+  border-left-color: #FF9800;
+  background: linear-gradient(135deg, #FFF3E0 0%, #fafbfc 100%);
+}
+
+.disqualified-item {
+  border-left-color: #F44336;
+  background: linear-gradient(135deg, #FFEBEE 0%, #fafbfc 100%);
+}
+
+/* Result Icon */
+.result-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.qualified-icon {
+  background-color: #E8F5E8;
+}
+
+.pending-icon {
+  background-color: #FFF3E0;
+}
+
+.disqualified-icon {
+  background-color: #FFEBEE;
+}
+
+.result-status-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Result Info */
+.result-info {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.result-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 2px;
+}
+
+.result-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Result Percentage */
+.result-percentage {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 12px;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Progress Visualization */
+.results-progress-section {
+  margin-top: 16px;
+}
+
+.results-progress-bar {
+  display: flex;
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.qualified-segment {
+  background: linear-gradient(90deg, #4CAF50, #66BB6A);
+}
+
+.pending-segment {
+  background: linear-gradient(90deg, #FF9800, #FFB74D);
+}
+
+.disqualified-segment {
+  background: linear-gradient(90deg, #F44336, #EF5350);
+}
+
+/* Progress Legend */
+.progress-legend {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.qualified-color {
+  background-color: #4CAF50;
+}
+
+.pending-color {
+  background-color: #FF9800;
+}
+
+.disqualified-color {
+  background-color: #F44336;
+}
+
+.legend-text {
+  font-size: 11px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Responsive Design for Results */
+@media (max-width: 768px) {
+  .results-total-section {
+    padding: 12px;
+  }
+  
+  .results-total-value {
+    font-size: 28px;
+  }
+  
+  .result-item {
+    padding: 10px;
+  }
+  
+  .result-icon-wrapper {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+  }
+  
+  .result-status-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .result-count {
+    font-size: 18px;
+  }
+  
+  .progress-legend {
+    gap: 6px;
+  }
+  
+  .legend-text {
+    font-size: 10px;
+  }
+}
+
+.qualified-enquiry-card {
+  margin: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  
+  .enquiry-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    
+    .enquiry-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .enquiry-count {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 16px;
+      font-weight: bold;
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+  
+  .enquiry-content {
+    padding: 20px;
+    
+    .enquiry-stats-grid {
+     
+      
+      .stat-item {
+        text-align: center;
+        padding: 10px;
+        
+        .stat-label {
+          font-size: 14px;
+          color: #666;
+          margin-bottom: 8px;
+          font-weight: 500;
+        }
+        
+        .stat-value {
+          font-size: 24px;
+          font-weight: bold;
+          
+          &.stat-success {
+            color: #28a745;
+          }
+          
+          &.stat-danger {
+            color: #dc3545;
+          }
+          
+          &.stat-info {
+            color: #17a2b8;
+          }
+        }
+      }
+    }
+    
+    .circular-progress-section {
+     
+      
+      .circular-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        
+        .circular-progress {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 12px;
+          position: relative;
+          
+          .circular-inner {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
+            .circular-text {
+              font-size: 14px;
+              font-weight: bold;
+              color: #333;
+            }
+          }
+        }
+        
+        .circular-label {
+          font-size: 12px;
+          color: #666;
+          text-align: center;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .qualified-enquiry-card {
+    margin: 12px;
+    margin-top: 0px;
+    
+    .enquiry-content {
+      padding: 16px;
+      padding-top: 0px;
+      
+      .enquiry-stats-grid .stat-item {
+        padding: 8px;
+        
+        .stat-value {
+          font-size: 20px;
+        }
+      }
+      
+      .circular-progress-section .circular-item {
+        .circular-progress {
+          width: 70px;
+          height: 70px;
+          
+          .circular-inner {
+            width: 52px;
+            height: 52px;
+            
+            .circular-text {
+              font-size: 12px;
+            }
+          }
+        }
+        
+        .circular-label {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+}
+
+body.dark-theme {
+  // Financial Dashboard Dark Theme Styles for Ionic 3
+  page-dashboard {
+    /* Primary Target Dashboard Container */
+    .primary-target-dashboard {
+      background-color: #0F172A !important;
+    }
+
+    .target-cards-wrapper {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      padding-top: 0px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Primary Target Card Base Styles */
+    .primary-target-card {
+      background: #1E293B !important;
+      border-radius: 12px !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+      flex: 1;
+      min-width: 280px;
+      max-width: 350px;
+    }
+
+    /* Monthly Target Card Colors */
+    .monthly-target-card {
+      // border-left-color: #10B981;
+    }
+
+    .monthly-target-icon {
+      color: #10B981;
+    }
+
+    .monthly-target-progress {
+      background: linear-gradient(90deg, #10B981, #34D399);
+    }
+
+    .monthly-target-status {
+      background-color: #064E3B;
+      color: #6EE7B7;
+    }
+
+    /* Yearly Target Card Colors */
+    .yearly-target-card {
+      border-left-color: #3B82F6;
+    }
+
+    .yearly-target-icon {
+      color: #3B82F6;
+    }
+
+    .yearly-target-progress {
+      background: linear-gradient(90deg, #3B82F6, #60A5FA);
+    }
+
+    .yearly-target-status {
+      background-color: #1E3A8A;
+      color: #93C5FD;
+    }
+
+    /* Primary Card Header */
+    .primary-card-header {
+      padding: 16px 20px 8px 20px !important;
+      background: transparent !important;
+    }
+
+    .primary-header-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .primary-card-icon {
+      font-size: 24px;
+      min-width: 24px;
+      height: 80px;
+      width: 80px;
+    }
+
+    .primary-header-text {
+      flex: 1;
+    }
+
+    .primary-card-title {
+      color: #F8FAFC !important;
+      font-size: 18px !important;
+      font-weight: 600 !important;
+      margin: 0 !important;
+    }
+
+    .primary-card-subtitle {
+      color: #CBD5E1 !important;
+      font-size: 13px !important;
+      margin: 2px 0 0 0 !important;
+    }
+
+    /* Primary Card Content */
+    .primary-card-content {
+      padding: 0px 20px 20px 20px !important;
+    }
+
+    /* Primary Target Section */
+    .primary-target-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    .primary-target-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #334155;
+    }
+
+    .primary-target-label {
+      color: #64748B;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .primary-target-value {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .primary-target-amount {
+      color: #CBD5E1;
+    }
+
+    .primary-achievement-amount {
+      color: #10B981;
+    }
+
+    /* Primary Progress Section */
+    .primary-progress-section {
+      margin-top: 16px;
+    }
+
+    .primary-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .primary-progress-label {
+      color: #64748B;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .primary-progress-percentage {
+      color: #F8FAFC;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Primary Progress Bar */
+    .primary-progress-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #475569;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .primary-progress-fill {
+      height: 100%;
+      width: 100%;
+      border-radius: 3px;
+    }
+
+    /* Primary Status Badge */
+    .primary-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .primary-status-icon {
+      font-size: 14px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .target-cards-wrapper {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+        padding-top: 0px;
+      }
+      
+      .primary-target-card {
+        min-width: unset;
+        max-width: unset;
+      }
+      
+      .primary-target-section {
+        gap: 12px;
+      }
+      
+      .primary-target-value {
+        font-size: 16px;
+      }
+      
+      .primary-card-title {
+        font-size: 16px !important;
+      }
+    }
+
+    .tabCenterAlign {
+      justify-content: space-around;
+      background: transparent !important;
+    }
+
+    /* Top 3 Performers Card Colors */
+    .top-performers-card {
+      border-left-color: #F59E0B;
+    }
+
+    .top-performers-icon {
+      color: #F59E0B;
+    }
+
+    .top-performers-status {
+      background-color: #92400E;
+      color: #FCD34D;
+    }
+
+    /* Performers List Styles */
+    .performers-list {
+      margin-bottom: 20px;
+    }
+
+    .performer-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      background-color: #334155;
+      border-left: 3px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .performer-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    }
+
+    .performer-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Rank specific styles */
+    .performer-item.rank-1 {
+      border-left-color: #FCD34D;
+      background: linear-gradient(135deg, #92400E 0%, #334155 100%);
+    }
+
+    .performer-item.rank-2 {
+      border-left-color: #D1D5DB;
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    }
+
+    .performer-item.rank-3 {
+      border-left-color: #F59E0B;
+      background: linear-gradient(135deg, #92400E 0%, #334155 100%);
+    }
+
+    /* Performer Rank */
+    .performer-rank {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 12px;
+      min-width: 40px;
+    }
+
+    .rank-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 2px;
+    }
+
+    .rank-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748B;
+    }
+
+    /* Performer Info */
+    .performer-info {
+      flex: 1;
+      margin-right: 12px;
+    }
+
+    .performer-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #F8FAFC;
+      margin-bottom: 2px;
+    }
+
+    .performer-department {
+      font-size: 12px;
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    /* Performer Achievement */
+    .performer-achievement {
+      text-align: right;
+    }
+
+    .achievement-amount {
+      font-size: 16px;
+      font-weight: 700;
+      color: #10B981;
+      margin-bottom: 2px;
+    }
+
+    .achievement-percentage {
+      font-size: 12px;
+      font-weight: 600;
+      color: #93C5FD;
+      background-color: #1E3A8A;
+      padding: 2px 6px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    /* Responsive Design for Top Performers */
+    @media (max-width: 768px) {
+      .performer-item {
+        padding: 10px;
+      }
+      
+      .performer-rank {
+        margin-right: 10px;
+        min-width: 35px;
+      }
+      
+      .performer-name {
+        font-size: 14px;
+      }
+      
+      .achievement-amount {
+        font-size: 14px;
+      }
+      
+      .achievement-percentage {
+        font-size: 11px;
+      }
+    }
+
+    /* Results Overview Card Colors */
+    .results-overview-card {
+      border-left-color: #A5B4FC;
+    }
+
+    .results-overview-icon {
+      color: #A5B4FC;
+    }
+
+    .results-overview-status {
+      background-color: #4338CA;
+      color: #C7D2FE;
+    }
+
+    /* Results Total Section */
+    .results-total-section {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: linear-gradient(135deg, #4338CA 0%, #334155 100%);
+      border-radius: 8px;
+    }
+
+    .results-total-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .results-total-label {
+      color: #64748B;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .results-total-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #A5B4FC;
+      margin: 0;
+    }
+
+    /* Results Breakdown */
+    .results-breakdown {
+      margin-bottom: 20px;
+    }
+
+    .result-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background-color: #334155;
+      border-left: 3px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .result-item:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    }
+
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Status specific styles */
+    .qualified-item {
+      border-left-color: #10B981;
+      background: linear-gradient(135deg, #064E3B 0%, #334155 100%);
+    }
+
+    .pending-item {
+      border-left-color: #F59E0B;
+      background: linear-gradient(135deg, #92400E 0%, #334155 100%);
+    }
+
+    .disqualified-item {
+      border-left-color: #EF4444;
+      background: linear-gradient(135deg, #991B1B 0%, #334155 100%);
+    }
+
+    /* Result Icon */
+    .result-icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+
+    .qualified-icon {
+      background-color: #064E3B;
+    }
+
+    .pending-icon {
+      background-color: #92400E;
+    }
+
+    .disqualified-icon {
+      background-color: #991B1B;
+    }
+
+    .result-status-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Result Info */
+    .result-info {
+      flex: 1;
+      margin-right: 12px;
+    }
+
+    .result-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #F8FAFC;
+      margin-bottom: 2px;
+    }
+
+    .result-count {
+      font-size: 20px;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+
+    /* Result Percentage */
+    .result-percentage {
+      font-size: 14px;
+      font-weight: 600;
+      color: #CBD5E1;
+      background-color: #475569;
+      padding: 4px 8px;
+      border-radius: 12px;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* Progress Visualization */
+    .results-progress-section {
+      margin-top: 16px;
+    }
+
+    .results-progress-bar {
+      display: flex;
+      width: 100%;
+      height: 8px;
+      background-color: #475569;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-segment {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .qualified-segment {
+      background: linear-gradient(90deg, #10B981, #34D399);
+    }
+
+    .pending-segment {
+      background: linear-gradient(90deg, #F59E0B, #FBBF24);
+    }
+
+    .disqualified-segment {
+      background: linear-gradient(90deg, #EF4444, #F87171);
+    }
+
+    /* Progress Legend */
+    .progress-legend {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .qualified-color {
+      background-color: #10B981;
+    }
+
+    .pending-color {
+      background-color: #F59E0B;
+    }
+
+    .disqualified-color {
+      background-color: #EF4444;
+    }
+
+    .legend-text {
+      font-size: 11px;
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    /* Responsive Design for Results */
+    @media (max-width: 768px) {
+      .results-total-section {
+        padding: 12px;
+      }
+      
+      .results-total-value {
+        font-size: 28px;
+      }
+      
+      .result-item {
+        padding: 10px;
+      }
+      
+      .result-icon-wrapper {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+      }
+      
+      .result-status-icon {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .result-count {
+        font-size: 18px;
+      }
+      
+      .progress-legend {
+        gap: 6px;
+      }
+      
+      .legend-text {
+        font-size: 10px;
+      }
+    }
+
+    .qualified-enquiry-card {
+      margin: 16px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      background-color: #1E293B;
+      
+      .enquiry-header {
+        background: linear-gradient(135deg, #6366F1 0%, #A5B4FC 100%);
+        color: #FFFFFF;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        
+        .enquiry-title {
+          font-size: 18px;
+          font-weight: 600;
+          margin: 0;
+        }
+        
+        .enquiry-count {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          padding: 6px 14px;
+          font-size: 16px;
+          font-weight: bold;
+          min-width: 40px;
+          text-align: center;
+        }
+      }
+      
+      .enquiry-content {
+        padding: 20px;
+        
+        .enquiry-stats-grid {
+          
+          .stat-item {
+            text-align: center;
+            padding: 10px;
+            
+            .stat-label {
+              font-size: 14px;
+              color: #64748B;
+              margin-bottom: 8px;
+              font-weight: 500;
+            }
+            
+            .stat-value {
+              font-size: 24px;
+              font-weight: bold;
+              
+              &.stat-success {
+                color: #10B981;
+              }
+              
+              &.stat-danger {
+                color: #EF4444;
+              }
+              
+              &.stat-info {
+                color: #3B82F6;
+              }
+            }
+          }
+        }
+        
+        .circular-progress-section {
+          
+          .circular-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            
+            .circular-progress {
+              width: 80px;
+              height: 80px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 12px;
+              position: relative;
+              
+              .circular-inner {
+                width: 60px;
+                height: 60px;
+                background: #475569;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+                
+                .circular-text {
+                  font-size: 14px;
+                  font-weight: bold;
+                  color: #F8FAFC;
+                }
+              }
+            }
+            
+            .circular-label {
+              font-size: 12px;
+              color: #64748B;
+              text-align: center;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+      .qualified-enquiry-card {
+        margin: 12px;
+        margin-top: 0px;
+        
+        .enquiry-content {
+          padding: 16px;
+          padding-top: 0px;
+          
+          .enquiry-stats-grid .stat-item {
+            padding: 8px;
+            
+            .stat-value {
+              font-size: 20px;
+            }
+          }
+          
+          .circular-progress-section .circular-item {
+            .circular-progress {
+              width: 70px;
+              height: 70px;
+              
+              .circular-inner {
+                width: 52px;
+                height: 52px;
+                
+                .circular-text {
+                  font-size: 12px;
+                }
+              }
+            }
+            
+            .circular-label {
+              font-size: 11px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-navbar class="custom-navbar">
+    <ion-title class="navbar-title">
+      <ion-icon name="shield" class="title-icon"></ion-icon>
+      Privacy Policy
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="privacy-content">
+  <div class="privacy-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-image-container">
+        <img src="assets/imgs/privacy_policy.jpg" class="privacy-policy-image" alt="Privacy Policy">
+        <div class="image-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-title">Privacy & Terms Agreement</h1>
+        <p class="hero-subtitle">Your trust and privacy are our top priorities</p>
+      </div>
+    </div>
+
+    <!-- Main Content Card -->
+    <div class="content-card">
+      <div class="brand-section">
+        <div class="brand-header">
+          <!-- <div class="brand-icon">
+            <ion-icon name="business" class="app-icon"></ion-icon>
+          </div> -->
+          <h2 class="brand-title">Lehar Footwear SFA</h2>
+        </div>
+        <p class="brand-subtitle">Sales Force Automation Platform</p>
+      </div>
+
+      <!-- Agreement Section -->
+      <div class="agreement-section">
+        <div class="agreement-header">
+          <ion-icon name="document-text" class="agreement-icon"></ion-icon>
+          <h3 class="agreement-title">Legal Agreement</h3>
+        </div>
+        
+        <div class="agreement-content">
+          <p class="agreement-text">
+            By proceeding with "I Agree" below, you acknowledge that you have carefully reviewed and agree to be bound by our comprehensive legal framework:
+          </p>
+          
+          <div class="legal-links">
+            <div class="legal-link-item">
+              <ion-icon name="document" class="link-icon"></ion-icon>
+              <div class="link-content">
+                <a (click)="openPrivacyPolicy()" class="legal-link">
+                  <span class="link-title">Terms of Use</span>
+                  <span class="link-description">Service terms, conditions & user responsibilities</span>
+                </a>
+              </div>
+              <ion-icon name="chevron-forward" class="arrow-icon"></ion-icon>
+            </div>
+            
+            <div class="legal-link-item">
+              <ion-icon name="lock-closed" class="link-icon"></ion-icon>
+              <div class="link-content">
+                <a (click)="openPrivacyPolicy()" class="legal-link">
+                  <span class="link-title">Privacy Policy</span>
+                  <span class="link-description">Data collection, usage & protection practices</span>
+                </a>
+              </div>
+              <ion-icon name="chevron-forward" class="arrow-icon"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Age Verification -->
+      <div class="age-verification">
+        <div class="verification-content">
+          <ion-icon name="person" class="verification-icon1"></ion-icon>
+          <div class="verification-text">
+            <p class="verification-title">Age Verification Required</p>
+            <p class="verification-subtitle">You must be at least 18 years of age to use this service</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Points Section -->
+      <div class="key-points-section">
+        <h4 class="key-points-title">What You're Agreeing To:</h4>
+        <div class="key-points-grid">
+          <div class="key-point">
+            <ion-icon name="checkmark-circle" class="point-icon"></ion-icon>
+            <span class="point-text">Service terms and usage guidelines</span>
+          </div>
+          <div class="key-point">
+            <ion-icon name="checkmark-circle" class="point-icon"></ion-icon>
+            <span class="point-text">Data privacy and protection measures</span>
+          </div>
+          <div class="key-point">
+            <ion-icon name="checkmark-circle" class="point-icon"></ion-icon>
+            <span class="point-text">User responsibilities and conduct</span>
+          </div>
+          <div class="key-point">
+            <ion-icon name="checkmark-circle" class="point-icon"></ion-icon>
+            <span class="point-text">Age verification (18+ years)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer class="custom-footer">
+  <div class="footer-content">
+    <!-- Agreement Checkbox Section -->
+    <div class="agreement-checkbox-section">
+      <div class="checkbox-container">
+        <ion-checkbox 
+          color="secondary" 
+          checked="true" 
+          name="check" 
+          #check="ngModel" 
+          [(ngModel)]="data.check"
+          required
+          class="custom-checkbox">
+        </ion-checkbox>
+        <div class="checkbox-label">
+          <span class="checkbox-title">I Agree to All Terms</span>
+          <span class="checkbox-subtitle">I have read and accept the privacy policy and terms of use</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Continue Button -->
+    <div class="continue-button-section">
+      <button 
+        (click)="goTo()" 
+        [disabled]="!data.check" 
+        ion-button 
+        class="continue-button"
+        [class.disabled]="!data.check">
+        <span *ngIf="!spinner" class="button-content">
+          <span class="button-text">Continue to App</span>
+          <ion-icon name="arrow-forward" class="button-icon"></ion-icon>
+        </span>
+        <ion-spinner *ngIf="spinner" class="button-spinner"></ion-spinner>
+      </button>
+    </div>
+  </div>
+</ion-footer>

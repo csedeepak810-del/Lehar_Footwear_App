@@ -1,0 +1,125 @@
+page-loyalty-faq {
+    .clcsd {
+        ul {
+            &.collapsible {
+                list-style: none;
+                li {
+                    transition: 0.5s;
+                    .collapsible-header {
+                        padding: 10px 16px;
+                        background: #fff;
+                        position: relative;
+                        border-bottom: solid 1px #d6d6d6;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        .counter {
+                            text-align: left;
+                            font-size: 13px;
+                            color: #222222;
+                            font-weight: 500;
+                            line-height: 13px;
+                            min-width: 20px;
+                        }
+                        div {
+                            span {
+                                text-align: left;
+                                font-size: 13px;
+                                color: #222222;
+                                font-weight: 500;
+                                line-height: 20px;
+                            }
+                        }
+                        p {
+                            text-align: left;
+                            font-size: 13px;
+                            color: #222222;
+                            font-weight: 500;
+                            line-height: 20px;
+                        }
+                        &:after {
+                            position: absolute;
+                            content: "";
+                            background: url(../assets/icon/plus-ic.svg) no-repeat center;
+                            background-size: 10px;
+                            width: 20px;
+                            height: 20px;
+                            right: 16px;
+                            transition: 0.3s linear;
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+                    }
+                    .clear-btn {
+                        line-height: 35px;
+                        text-align: center;
+                        // background: #ccc;
+                        color: #fff;
+                        font-size: 14px;
+                        letter-spacing: 2px;
+                        // @extend.semibold;   
+                    }
+                    .collapsible-body {
+                        display: none;
+                        padding: 10px 16px;
+                        height: auto;
+                        min-height: auto;
+                        // max-height: 180px;
+                        overflow: auto;
+                        background: #fff;
+                        div {
+                            span {
+                                font-size: 12px;
+                                line-height: 20px;
+                            }
+                        }
+                       p{
+                            font-size: 12px;
+                            line-height: 22px;
+                        }
+                    }
+                    &.active {
+                        position: relative;
+                        transition: 0.5s;
+                        .collapsible-header {
+                            position: sticky;
+                            top: 0px;
+                            z-index: 9;
+                            border-bottom: 0px;
+                            background: #222222;
+                            color: #fff;
+                            // padding-bottom: 0px;
+    
+    
+                            div {
+                                span{
+                                    color: #fff;
+                                }
+                            }
+    
+                            p, .counter{
+                                color: #ffff;
+                            }
+    
+    
+    
+                            &:after {
+                                content: "";
+                                background: url(../assets/icon/minus-ic.svg) no-repeat center;
+                                background-size: 10px;
+                                top: 50%;
+                                color: #fff;
+                                transform: translateY(-50%);
+                                filter: invert(1);
+                            }
+                        }
+                        .collapsible-body {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}

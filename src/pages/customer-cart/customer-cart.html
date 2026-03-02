@@ -1,0 +1,237 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Cart & Checkout</ion-title>
+
+    <ion-buttons end class="nav-action-group">
+      <!-- Add More Button -->
+      <button ion-button clear class="nav-add-btn" (click)="addMoreItems()">
+        <ion-icon name="add-circle"></ion-icon>
+        <span>Add More</span>
+      </button>
+
+      <!-- Clear Cart -->
+      <button ion-button clear class="nav-trash-btn" (click)="clearCart()" *ngIf="cartItems.length > 0">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="product-sale-content">
+
+  <!-- Empty Cart State -->
+  <div class="empty-cart-state" *ngIf="cartItems.length === 0">
+    <div class="empty-cart-icon">
+      <ion-icon name="cart"></ion-icon>
+    </div>
+    <h2>Your Cart is Empty</h2>
+    <p>Add items to your cart to see them here</p>
+    <button ion-button outline large (click)="addMoreItems()">
+      <ion-icon name="add-circle"></ion-icon>
+      Browse Products
+    </button>
+  </div>
+
+  <!-- Cart Items List -->
+  <div class="cart-items-container" *ngIf="cartItems.length > 0">
+
+
+
+    <!-- Header Info Card -->
+    <ion-card class="cart-header-card">
+      <ion-card-content>
+        <div class="cart-stats">
+          <div class="stat-item">
+            <ion-icon name="apps"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Items</span>
+              <strong class="stat-value">{{ totalItems }}</strong>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <ion-icon name="cube"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Quantity</span>
+              <strong class="stat-value">{{ totalQuantity }}</strong>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <ion-icon name="cash"></ion-icon>
+            <div class="stat-info">
+              <span class="stat-label">Total</span>
+              <strong class="stat-value">₹{{ grandTotal | number:'1.2-2' }}</strong>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Party Selection Card -->
+    <ion-card class="party-selection-card">
+      <ion-card-header>
+        <div class="card-header-content">
+          <ion-icon name="people"></ion-icon>
+          <span>Order For</span>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!-- Party Type Selection -->
+        <!-- <div class="select-type" *ngIf="userType!='OFFICE' && disableSelect==false && !order_data && !order_item">
+          <div class="section-label">
+            <ion-icon name="git-network"></ion-icon>
+            Selected Party Type
+          </div>
+          <ion-list radio-group name="networkType" [(ngModel)]="data.networkType" #networkType="ngModel" required
+            (ngModelChange)="distributors(data.networkType, '')">
+            <ion-item class="radio-item">
+              <ion-label>Distributor</ion-label>
+              <ion-radio value="1" [disabled]="disableSelectFromCheckin == true || disableDistributor"></ion-radio>
+            </ion-item>
+            <ion-item class="radio-item">
+              <ion-label>Direct Dealer</ion-label>
+              <ion-radio value="7" [disabled]="disableSelectFromCheckin == true || disableDirectDealer"></ion-radio>
+            </ion-item>
+          </ion-list>
+        </div> -->
+
+        <div class="edit party-dropdown" *ngIf="data.networkType">
+          <ion-list>
+            <div class="section-label">
+              <ion-icon name="person"></ion-icon>
+              Selected Party
+            </div>
+            <!-- <ion-item class="cs-normal-select mt16 retailerSelectionBox">
+              <ion-label *ngIf="data.networkType == '1'"><span>Distributor<span>*</span></span></ion-label>
+              <ion-label *ngIf="data.networkType == '7'"><span>Direct Dealer <span>*</span></span></ion-label>
+              <ionic-selectable item-content [(ngModel)]="data.type_name" [items]="drList" itemValueField="id"
+                itemTextField="display_name" [canSearch]="true" #distributorSelectable
+                (onSearch)="searchParty(data.networkType,$event);" (onClose)="closeDealer()">
+              </ionic-selectable>
+            </ion-item> -->
+          </ion-list>
+
+          <!-- Selected Party Display -->
+          <div class="selected-party" >
+            <div class="party-info">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              <div class="party-details">
+                <span class="party-name"> {{userData.displayName ? userData.displayName : '---' }} | {{userData.name ? userData.name : '---'}}</span>
+                <span class="party-id">{{ userData.all_data.mobile ? userData.all_data.mobile : '---' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warning Message -->
+          <!-- <div class="warning-box" *ngIf="!data.networkType || !data.type_name">
+            <ion-icon name="alert"></ion-icon>
+            <span>Please select party type and party before placing order</span>
+          </div> -->
+        </div>
+      </ion-card-content>
+
+    </ion-card>
+
+    <!-- Cart Items -->
+    <div class="cart-items-list">
+      <ion-card class="cart-item-card" *ngFor="let item of cartItems; let i = index">
+        <ion-card-content>
+          <div class="cart-item">
+
+            <!-- Item Number Badge -->
+            <div class="item-number-badge">{{ i + 1 }}</div>
+
+            <!-- Product Image -->
+            <div class="item-image">
+              <img [src]="url + item.product_image" [alt]="item.product_name" />
+            </div>
+
+            <!-- Item Details -->
+            <div class="item-details">
+              <h3 class="item-name">{{ item.product_name }}</h3>
+
+              <div class="item-meta">
+                <span class="meta-badge code">
+                  <ion-icon name="pricetag"></ion-icon>
+                  {{ item.product_code || 'N/A' }}
+                </span>
+                <span class="meta-badge size">
+                  <ion-icon name="resize"></ion-icon>
+                  Size {{ item.size }}
+                </span>
+                <span class="meta-badge color">
+                  <ion-icon name="color-palette"></ion-icon>
+                  {{ item.color }}
+                </span>
+              </div>
+
+              <div class="item-pricing">
+                <div class="price-row">
+                  <span class="price-label">Unit Price:</span>
+                  <strong class="price-value">₹{{ item.price }}</strong>
+                </div>
+                <div class="price-row total">
+                  <span class="price-label">Total:</span>
+                  <strong class="price-value">₹{{ item.total_amount | number:'1.2-2' }}</strong>
+                </div>
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="quantity-section">
+                <span class="quantity-label">Quantity:</span>
+                <div class="quantity-controls">
+                  <button class="qty-btn minus" (click)="updateQuantity(item, -1)">
+                    <ion-icon name="remove"></ion-icon>
+                  </button>
+                  <input type="number" class="qty-input" [value]="item.quantity"
+                    (change)="onQuantityInput(item, $event)" min="1" [max]="item.stock" />
+                  <button class="qty-btn plus" (click)="updateQuantity(item, 1)">
+                    <ion-icon name="add"></ion-icon>
+                  </button>
+                </div>
+                <span class="stock-info">Stock: {{ item.stock }}</span>
+              </div>
+            </div>
+
+            <!-- Delete Button -->
+            <button class="delete-item-btn" (click)="deleteItem(item)">
+              <ion-icon name="trash"></ion-icon>
+            </button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Add More Button - Bottom -->
+    <button ion-button block outline class="add-more-btn bottom" (click)="addMoreItems()">
+      <ion-icon name="add-circle"></ion-icon>
+      Add More Items
+    </button>
+
+    <!-- Spacer for footer -->
+    <div style="height: 100px;"></div>
+  </div>
+
+</ion-content>
+
+<!-- Footer with Order Summary -->
+<ion-footer class="cart-footer" *ngIf="cartItems.length > 0">
+  <ion-toolbar class="footer-toolbar">
+    <div class="footer-content">
+      <div class="footer-summary">
+        <div class="summary-row">
+          <span>{{ totalQuantity }} Items</span>
+          <strong>₹{{ grandTotal | number:'1.2-2' }}</strong>
+        </div>
+      </div>
+      <button ion-button class="place-order-btn" (click)="placeOrder()">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        Place Order
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

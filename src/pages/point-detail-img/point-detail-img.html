@@ -1,0 +1,35 @@
+<!--
+  Generated template for the PointDetailImgPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Point Detail'| translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding style="background-color:#e0f5f8;">
+
+  <div class="slide-image" style="height:100%;">
+    <ion-slides *ngIf="pointDetailImg.length " [initialSlide]="0" pager autoplay="3000" speed="1000">
+        <ion-slide *ngFor="let row of pointDetailImg;let i=index">
+            <img src="{{row}}">
+        </ion-slide>
+    </ion-slides>
+</div>
+  <!-- <div class="main-modal2">
+      <div class="modal-box2">
+
+        <div style="text-align: center;">
+          <div class="about-logo">
+            <img src="{{upload_url4}}" alt="">
+          </div>
+        </div>
+         
+      </div>
+  </div>	 -->
+</ion-content>
+

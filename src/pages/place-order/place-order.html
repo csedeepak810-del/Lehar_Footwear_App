@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-navbar class="order-navbar">
+    <ion-title>Place Order</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only style="position: relative;" (click)="viewCart()">
+        <ion-icon name="cart"></ion-icon>
+        <span class="cart-badge" *ngIf="totalCartQuantity > 0">{{ totalCartQuantity }}</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="place-order-content">
+
+  <div class="color-variant-section" *ngFor="let variant of colorVariants; let colorIndex = index">
+    <div class="product-header-row">
+      <div class="product-thumb-box" (click)="imageModal(url + variant.image)">
+        <img [src]="variant.image ? (url + variant.image) : null" class="product-thumb" *ngIf="!variant.imageError"
+          (error)="variant.imageError = true" />
+        <div class="no-thumb" *ngIf="!variant.image || variant.imageError">
+          <span class="no-img-text">NO IMAGE</span>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h3 class="p-name">{{ variant.product_name || product?.product_name }}</h3>
+        <p class="p-color">{{ variant.color }}</p>
+        <p class="p-price">₹{{ variant.mrp }}</p>
+      </div>
+    </div>
+
+    <!-- Size Table -->
+    <div class="size-table">
+
+      <div class="table-head">
+        <div class="th th-sno">S.No</div>
+        <div class="th th-size">Size</div>
+        <div class="th th-stock">Stock</div>
+        <div class="th th-pendency">Pendency</div>
+        <!-- <div class="th th-box">Box in Pieces</div> -->
+        <div class="th th-qty">Quantity</div>
+      </div>
+
+      <div class="table-row" *ngFor="let sizeItem of variant.master_product_size; let i = index">
+
+        <div class="td td-sno">{{ i + 1 }}</div>
+
+        <div class="td td-size">{{ sizeItem?.size }}</div>
+
+        <div class="td td-stock">
+          {{ (sizeItem?.stock > 0) ? (sizeItem.stock + ' ctns') : '0' }}
+        </div>
+
+        <div class="td td-pendency">
+          {{ sizeItem?.pendency || '0' }}
+        </div>
+
+        <!-- <div class="td td-box">
+          {{ sizeItem?.alternate_uom_quantitywise || '0' }}
+        </div> -->
+
+        <div class="td td-qty">
+          <div class="qty-control">
+            <button class="qty-btn minus" (click)="decreaseQuantity(sizeItem)">-</button>
+            <input type="number" class="qty-input" [(ngModel)]="sizeItem.quantity"
+              (change)="onQuantityChange(sizeItem, $event, variant)" [min]="0" placeholder="0" />
+            <button class="qty-btn plus" (click)="increaseQuantity(sizeItem, variant)">+</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="empty-sizes" *ngIf="variant?.master_product_size?.length === 0">
+        <p>No sizes available</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== Order Summary (when items selected) ===== -->
+  <div class="summary-card" *ngIf="totalQuantity > 0">
+    <div class="summary-row">
+      <span>📦 Carton Qty</span>
+      <strong>{{ totalQuantity }}</strong>
+    </div>
+    <div class="summary-row">
+      <span>🔢 Actual Pieces Qty</span>
+      <strong>{{ totalPairs }}</strong>
+    </div>
+    <div class="summary-row total-row">
+      <span>💰 Total Amount</span>
+      <strong class="total-amount">₹{{ totalAmount | number:'1.2-2' }}</strong>
+    </div>
+  </div>
+
+  <!-- ===== Empty Instruction ===== -->
+  <div class="instruction-card" *ngIf="totalQuantity === 0 && totalCartQuantity === 0">
+    <ion-icon name="information-circle-outline"></ion-icon>
+    <p>Select sizes and quantities to add items to cart</p>
+  </div>
+
+  <div style="height: 80px;"></div>
+
+</ion-content>
+
+<ion-footer class="order-footer">
+  <ion-toolbar class="footer-toolbar">
+    <div class="footer-btns">
+
+      <ng-container *ngIf="totalQuantity > 0">
+        <button class="footer-btn outline" (click)="buyMore()">
+          Buy More
+        </button>
+        <button class="footer-btn filled" (click)="viewCart()">
+          View Cart ({{ totalQuantity }})
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="totalQuantity === 0 && totalCartQuantity > 0">
+        <button class="footer-btn outline" (click)="goBack(totalCartQuantity)">
+          Back
+        </button>
+        <button class="footer-btn filled" (click)="viewCart()">
+          View Cart ({{ totalCartQuantity }})
+        </button>
+      </ng-container>
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

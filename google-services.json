@@ -1,0 +1,314 @@
+{
+  "project_info": {
+    "project_number": "721603448001",
+    "project_id": "basiq360-product-5",
+    "storage_bucket": "basiq360-product-5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:32470c037c33f303d4d840",
+        "android_client_info": {
+          "package_name": "com.AshirwadcablesBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:6cda1867f938e5e3d4d840",
+        "android_client_info": {
+          "package_name": "com.HindPipesBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:cba7963979fdb5cad4d840",
+        "android_client_info": {
+          "package_name": "com.JoximBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:75ae50cb82b84902d4d840",
+        "android_client_info": {
+          "package_name": "com.KaushalTestBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:d887813011d56c90d4d840",
+        "android_client_info": {
+          "package_name": "com.KrishukBasiq360.App"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:1d52539f29283b58d4d840",
+        "android_client_info": {
+          "package_name": "com.NivaHardwareBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:d910802771c1a86bd4d840",
+        "android_client_info": {
+          "package_name": "com.OpgMobilityBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:2cc22baba28a14f8d4d840",
+        "android_client_info": {
+          "package_name": "com.RioPipesBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:8f210b16eb48eb7cd4d840",
+        "android_client_info": {
+          "package_name": "com.SafeliConnectBasiq360.App"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:296c1485a0be5bbcd4d840",
+        "android_client_info": {
+          "package_name": "com.basiq360.leharfootwear"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:3de89ab4cc3feb97d4d840",
+        "android_client_info": {
+          "package_name": "com.SuperHylamBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:e612f3debca3321ad4d840",
+        "android_client_info": {
+          "package_name": "com.TurnipBathBasiq360.App"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:899cdf16d6c3e09ad4d840",
+        "android_client_info": {
+          "package_name": "com.everbondPaintBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:86c4064ff7906defd4d840",
+        "android_client_info": {
+          "package_name": "com.jindalfoambasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:499ac6b6c6335af6d4d840",
+        "android_client_info": {
+          "package_name": "com.kangaroplywoodBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721603448001:android:246668d5e045232ad4d840",
+        "android_client_info": {
+          "package_name": "com.naamiBasiq360.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQo0l5VXYheNyrk4MzZqQzNZDoqIloT6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

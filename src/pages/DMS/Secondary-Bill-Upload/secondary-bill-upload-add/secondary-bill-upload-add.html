@@ -1,0 +1,133 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Secondary Bill Upload Add</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="edit">
+        <form name="f" #f="ngForm" (ngSubmit)="f.submitted && f.form.valid && submitSecBillUpload()">
+            <ion-list>
+                
+                <ion-item class="cs-normal-select retailerSelectionBox mt16" [ngClass]="{'cs-error':f.submitted && drData?.invalid}">
+                    <ion-label><span>Select Distributor <span>*</span></span></ion-label>
+                    <ionic-selectable name="drData" item-content [(ngModel)]="data.drData" #drData="ngModel" [items]="networkList" itemValueField="id" itemTextField="display_name" [canSearch]="true"(onSearch)="getNetworkList($event)"  #distributorSelectable required></ionic-selectable>
+                </ion-item>
+                <p  *ngIf="f.submitted && drData?.invalid && !form.drData" class="error-line">Field Is Required</p>
+                
+                <ion-item [ngClass]="{'cs-error':f.submitted && bill_number?.invalid}">
+                    <ion-label floating><span>Bill Number <strong>*</strong></span></ion-label>
+                    <ion-input type="text" name="bill_number" #bill_number="ngModel" [(ngModel)]="data.bill_number" required></ion-input>
+                </ion-item>
+                <p  *ngIf="f.submitted && bill_number?.invalid && !form.bill_number" class="error-line">Field Is Required</p>
+                
+                <ion-item [ngClass]="{'cs-error':f.submitted && bill_date?.invalid}">
+                    <ion-label floating><span>Bill Date <strong>*</strong></span></ion-label>
+                    <ion-input type="date" class="calander" name="bill_date" #bill_date="ngModel" [(ngModel)]="data.bill_date" required>
+                        <i class="material-icons">date_range</i> 
+                    </ion-input>
+                </ion-item>
+                <p  *ngIf="f.submitted && bill_date?.invalid && !form.bill_date" class="error-line">Field Is Required</p>
+                
+                <ion-item [ngClass]="{'cs-error':f.submitted && bill_amount?.invalid}">
+                    <ion-label floating><span>Bill Amount (Without GST)<strong>*</strong></span></ion-label>
+                    <!-- pattern="^[1-9][0-9]{0,9}$" -->
+                    <ion-input type="number"  name="bill_amount" #bill_amount="ngModel" [(ngModel)]="data.bill_amount"  required></ion-input>
+                </ion-item>
+                <ng-container *ngIf="f.submitted && bill_amount.touched">
+                    <p  *ngIf="bill_amount.errors?.required" class="error-line">Field Is Required</p>
+                    <!-- <p *ngIf="bill_amount.errors?.pattern" class="error-line">Invalid Amount</p> -->
+                </ng-container>
+                
+                
+                <div class="upload-doc">
+                    <div class="">
+                        Bill Image
+                    </div>
+                    <ul class="padding0">
+                        <li class="add-image" (click)="onUploadChange()">
+                            <i class="material-icons">add_a_photo</i>
+                        </li>
+                        <li class="image-upload" *ngFor="let image of selectImage;index as i">
+                            <img src="{{image}}">
+                            <button type="text" class="del" (click)="delete_img(i)"><i class="material-icons">delete_sweep</i></button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="cs-heading1 pl0">
+                    <p>PRODUCT INFORMATION</p>
+                </div>
+                
+                <!-- <div class="qr-btns mt16" >
+                    <a (click)="scan('scanning')">
+                        <i class="material-icons">qr_code_scanner</i>
+                        <p>Scan Product</p>
+                    </a>
+                </div> -->
+                
+                <div class="list-box mt10" *ngIf="data.product && data.scanType == 'scanning'">
+                    <div class="mid mt0">
+                        <div class="content-info">
+                            <div class="left-info">
+                                <div class="circle">{{data.product.product_detail ? (data.product.product_detail.substring(0,1).toUpperCase()) : ''}}</div>
+                            </div>
+                            <div class="right-info" >
+                                <p>{{data.product.product_detail ? data.product.product_detail : '---'}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="or-sepration" *ngIf="data.scanType != 'scanning'">
+                    <p>OR</p>
+                </div> -->
+                
+                <ion-item class="cs-normal-select retailerSelectionBox mt16" *ngIf="data.scanType != 'scanning'">
+                    <ion-label><span>Select Product<span>*</span></span></ion-label>
+                    <ionic-selectable item-content name="product" [(ngModel)]="data.product " #product="ngModel" [items]="productList" itemValueField="id" itemTextField="display_name" [hasVirtualScroll]="true" [canSearch]="true" #distributorSelectable (onSearch)="searchProduct($event)" (ngModelChange)="getfieldsClear()"></ionic-selectable>
+                </ion-item>
+                
+                <ion-item>
+                    <ion-label floating><span>Qty <strong>*</strong></span></ion-label>
+                    <ion-input type="number" name="qty" #qty="ngModel" [(ngModel)]="data.qty" [disabled]= "!data.product" pattern="^[1-9][0-9]{0,9}$" ></ion-input>
+                </ion-item>
+                
+                <div class="mt16">
+                    <button type="text" ion-button class="cs-btn" [disabled]="!data.product || !data.qty" (click)="addToList()">Add To List</button>
+                </div>
+                
+                <div class="list-box mt10"  *ngFor="let row of add_list;let i=index">
+                    <div class="mid mt0" style="display: flex;justify-content: space-between;">
+                        <div class="content-info">
+                            <div class="right-info">
+                                <div class="mt2 mb2" style="display:flex; flex-direction:row">
+                                    <p class="pr2" style="color:rgb(255, 153, 0)">#{{i+1}} </p>
+                                    <p *ngIf="row.product.product_detail"> {{row.product.product_detail}}</p>
+                                    <p *ngIf="!row.product.product_detail"> {{row.product.product_name}} ({{row.product.product_code}})</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tag-info">
+                            <a><i class="material-icons red-clr" (click)="DeleteItem(i)">delete_sweep</i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="three_boxes">
+                        <div class="lower ">
+                            <p class="font10">Qty</p>
+                            <p class="font10">{{row.qty}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ion-list>
+            
+            <div class="text-right mt16">
+                <button ion-button block color="primary" [disabled]="Submit_button" type="submit">
+                    <ion-spinner *ngIf="spinnerLoader"></ion-spinner>
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</ion-content>

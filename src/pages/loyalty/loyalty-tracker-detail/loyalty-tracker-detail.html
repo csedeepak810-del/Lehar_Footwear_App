@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Redeem Request Detail'|translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="image-card">
+    <img src="{{uploadUrl+redeemDetail.gift_img}}" *ngIf="redeemDetail.redeem_type == 'Gift'">
+    <img src="assets/imgs/cash.png" alt="" *ngIf="redeemDetail.redeem_type == 'Cash'">
+  </div>
+  <div>
+    <table>
+      <tr>
+        <td>{{'Date'|translate}}</td>
+        <td>{{redeemDetail.date_created | date:'d MMM y'}}</td>
+      </tr>
+      <tr>
+        <td>{{'Req. ID'|translate}}</td>
+        <td>{{redeemDetail.req_id}}</td>
+      </tr>
+      <tr>
+        <td>{{'Title'|translate}}</td>
+        <td>{{redeemDetail.gift_name}}</td>
+      </tr>
+      <tr>
+        <td>{{'Redeem Type'|translate}}</td>
+        <td>{{redeemDetail.redeem_type}}</td>
+      </tr>
+      <tr>
+        <td>{{'Redeem Points'|translate}}</td>
+        <td>{{redeemDetail.redeem_type == 'Gift' ? redeemDetail.gift_point_value : redeemDetail.point}}</td>
+      </tr>
+      <ng-container *ngIf="redeemDetail.redeem_type == 'Cash'">
+        <tr>
+          <td>{{'Per Point Value'|translate}}</td>
+          <td>{{redeemDetail.point_range_value}}</td>
+        </tr>
+        <tr>
+          <td>{{'Redeem Amount'|translate}}</td>
+          <td>{{redeemDetail.cash_point}}</td>
+        </tr>
+        <tr>
+          <td>{{'Point Range'|translate}}</td>
+          <td>{{redeemDetail.range_start}} to {{redeemDetail.range_end}}</td>
+        </tr>
+        <tr>
+          <td>{{'1 Point Value'|translate}}</td>
+          <td>{{redeemDetail.point_range_value}} Point</td>
+        </tr>
+      </ng-container>
+
+      <tr *ngIf="redeemDetail.account_holder_name">
+        <td>{{'Account Holder Name'|translate}}</td>
+        <td>{{redeemDetail.account_holder_name}}</td>
+      </tr>
+      <tr *ngIf="redeemDetail.bank_name">
+        <td>{{'Bank Name'|translate}}</td>
+        <td>{{redeemDetail.bank_name}}</td>
+      </tr>
+      <tr *ngIf="redeemDetail.account_no">
+        <td>{{'Account Number'|translate}}</td>
+        <td>{{redeemDetail.account_no}}</td>
+      </tr>
+      <tr *ngIf="redeemDetail.ifsc_code">
+        <td>{{'IFSC Code'|translate}}</td>
+        <td>{{redeemDetail.ifsc_code}}</td>
+      </tr>
+      <tr *ngIf="redeemDetail.status">
+        <td>{{'Redeem Status'|translate}}</td>
+        <td class="{{redeemDetail.status}}"><strong>{{redeemDetail.status}}</strong></td>
+      </tr>
+      <tr *ngIf="redeemDetail.reject_reason">
+        <td>{{'Reject Reason'|translate}}</td>
+        <td>{{redeemDetail.reject_reason}}</td>
+      </tr>
+      <!-- <tr  *ngIf="redeemDetail.gift_status && redeemDetail.status != 'Reject'">
+        <td>{{'Status'}}</td>
+        <td class="{{redeemDetail.gift_status}}"><strong>{{redeemDetail.gift_status}}</strong></td>
+      </tr> -->
+      <ng-container *ngIf="redeemDetail.redeem_type == 'Cash'">
+        <tr *ngIf="redeemDetail.payout_transaction_date != '0000-00-00' ">
+          <td>{{'Transfer Date'|translate}}</td>
+          <td><strong>{{redeemDetail.payout_transaction_date | date:'d MMM y'}}</strong></td>
+        </tr>
+        <tr *ngIf="redeemDetail.payout_processed_id">
+          <td>{{'Transaction Id'|translate}}</td>
+          <td><strong>{{redeemDetail.payout_processed_id }}</strong></td>
+        </tr>
+        <tr *ngIf="redeemDetail.payout_transaction_status_msg">
+          <td>{{'Transaction Status'|translate}}</td>
+          <td class="{{redeemDetail.payout_transaction_status_msg}}"><strong>{{redeemDetail.payout_transaction_status_msg }}</strong></td>
+        </tr>
+        <tr *ngIf="redeemDetail.payout_transaction_status_remark">
+          <td>{{'Remark'|translate}}</td>
+          <td><strong>{{redeemDetail.payout_transaction_status_remark.replaceAll('_',' ') | titlecase }}</strong></td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="editAddress == false &&  redeemDetail.redeem_type == 'Gift'">
+        <td>{{'Shipping Address'|translate}}</td>
+        <td>{{redeemDetail.shipping_address ? redeemDetail.shipping_address : '---'}}</td>
+      </tr>
+      <tr *ngIf="redeemDetail.shipped_date != '0000-00-00 00:00:00'">
+        <td>{{'Shipped Date'|translate}}</td>
+        <td><strong>{{redeemDetail.shipped_date | date :'dd MMM yyyy'}}</strong></td>
+      </tr>
+      <tr *ngIf="redeemDetail.shipping_type != ''">
+        <td>{{'Shipping Type'|translate}}</td>
+        <td><strong>{{redeemDetail.shipping_type}}</strong></td>
+      </tr>
+      <tr *ngIf="redeemDetail.shipping_remark != ''">
+        <td>{{'Shipping Remark'|translate}} </td>
+        <td><strong>{{redeemDetail.shipping_remark}}</strong></td>
+      </tr>
+      <tr *ngIf="redeemDetail.recieved_date != '0000-00-00 00:00:00'">
+        <td>{{'Recieved Date'|translate}}</td>
+        <td><strong>{{redeemDetail.recieved_date | date :'dd MMM yyyy'}}</strong></td>
+      </tr>
+    </table>
+    <div class="pt16 pl16 pr16" *ngIf="editAddress == true">
+      <textarea placeholder="{{'Shipping address'|translate}}" name="shipping_address " #shipping_address="ngModel"
+        [(ngModel)]="redeemDetail.shipping_address"></textarea>
+    </div>
+    <div class="padding16" *ngIf="redeemDetail.redeem_type == 'Gift' && redeemDetail.status == 'Pending'">
+      <button ion-button round block color="secondary"
+        (click)="editAddress == false ? changeAddress() : updateAddress()">
+        {{editAddress == false ? ('Change Shipping Address' |translate) : ('Update' |translate)}}
+      </button>
+    </div>
+  </div>
+</ion-content>

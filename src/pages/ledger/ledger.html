@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Ledger</ion-title>
+        <ion-buttons end *ngIf="LoginType == 'Employee'">
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="more"></ion-icon>
+            </button>
+        </ion-buttons>
+        <!-- <ion-buttons end>
+            <button ion-button icon-only (click)="open_filter_modal()">
+                <ion-icon name="funnel"></ion-icon>
+            </button>
+        </ion-buttons> -->
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    
+    <div class="fix-container" *ngIf="LoginType== 'Employee'">
+        <div class="attendance-list flat-list">
+            <div class="center-block">
+                <div class="circle">{{dr_detail.company_name?.substring(0,1).toUpperCase()}}</div>
+                <h1>{{dr_detail.company_name}}</h1>
+                <p>{{dr_detail.name}} - {{dr_detail.mobile}}</p>
+                <a class="cell-phone" href="tel:{{dr_detail?.mobile}}"><i class="material-icons">phone</i></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="transation-tabel mb70">
+        <table>
+            <tr *ngFor="let row of account_list; let i=index">
+                <td>
+                    <div class="slab mb10">
+                        <!-- <div class="slab-day">
+                            <p>{{row.Date|date : 'dd MMM yyyy'}}</p>
+                            <span>Date Created</span>
+                        </div> -->
+                        <div class="slab-day">
+                            <p>{{(row.date_created | date:'d MMM yyy')||'N/A'}}</p>
+                            <span>Ledger Date</span>
+                        </div>
+                        <div class="slab-day">
+                            <p>{{row.transaction_id}}</p>
+                            <span>Transaction Id</span>
+                        </div>
+                    </div>
+                    <div class="point-date">
+                        <div class="led-date">
+                            <p><strong>Type : </strong>{{row.ledger_type ||''}}</p>
+                        </div>
+                        <div class="led-amount" [ngClass]="{'credit' : row.ledger_type == 'Credit', 'debit' : row.ledger_type == 'Debit'} ">
+                            <span>&#x20B9; {{row.transaction_amount}}</span>
+                            <i class="material-icons">{{row.ledger_type == 'Credit' ? 'call_received' : 'call_made'}}</i>
+                        </div>
+                    </div>
+                    
+                    <div class="point-remark mb0">
+                        <p class="font11" > <strong>Remark : </strong>{{row.remark? row.remark : '---'}}</p>
+                        <div class="avl-bal">Balance: &#x20B9; {{row.balance_amount}}</div>
+                    </div>
+                
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+   
+    
+    <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="flag!=1">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+    <div class="nothing-here" style="height: 60%;" *ngIf="!account_list.length">
+        <div class="outer">
+            <div class="innear">
+                <img src="assets/imgs/no_found.svg" alt="">
+                <p>No Data Available</p>
+            </div>
+        </div>
+    </div>
+    <!-- </ion-scroll> -->
+</ion-content>

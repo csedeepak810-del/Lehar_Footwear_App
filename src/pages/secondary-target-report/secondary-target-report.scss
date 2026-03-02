@@ -1,0 +1,140 @@
+page-secondary-target-report {
+    .filter-search{
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .workimg_summary ion-list ion-avatar span{
+        font-size: 12px;
+    }
+
+    .month-calander {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        border: 2px solid #d3d3d3;
+        border-radius: 8px;
+        box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.1);
+        min-height: 45px;
+        padding: 0 7px;
+        
+        button, a{
+            &.dates, &.months{
+                width: 20px;
+                height: 20px;
+                
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                i{
+                    font-size: 20px;
+                    line-height: 20px;
+                }
+            }
+            
+            &.months{
+                background: transparent;
+                i{
+                    color:#790000;
+                }
+            }
+            
+            
+            &.dates{
+                background: #fff;
+                
+                i{
+                    color:#46a5b8 ;
+                }
+            }
+        }
+        
+        
+        p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+    }
+
+    a {
+        &.date-pick {
+            width: 45px;
+            min-width: 45px;
+            height: 45px;
+            // border-radius: 6px;
+            background: #ffffff;
+            margin-right: 16px;
+            border: 2px solid #d3d3d3;
+
+
+            label {
+                position: relative;
+                overflow: hidden;
+                color: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                input {
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    margin: 0px;
+                    padding: 0px;
+                    height: 24px;
+                    font-size: 999999px;
+                    opacity: 0;
+                    z-index: 1;
+                    width: 200px;
+                }
+                i {
+                    font-size: 28px;
+                    color: #242424;
+                }
+            }
+        }
+    }
+
+    
+
+    .workimg_summary{
+        h6{
+            font-size: 16px;
+            font-weight: 500;
+        }
+        p{
+            font-size: 12px;
+        }
+
+        a.cell-phone{
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            background: #eee;
+            padding: 5px;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            display: flex;
+            text-decoration: none;
+            justify-content: center;
+            align-items: center;
+            i{
+                font-size: 15px;
+            }
+        }
+    }
+
+    .targetTypeBtn{
+        p{
+            line-height: normal;
+        }
+    }
+    
+}

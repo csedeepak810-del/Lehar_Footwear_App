@@ -1,0 +1,538 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Your Personal Dashboard</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content class="primary-target-dashboard">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="searchBarBox mb15">
+    <div class="edit m4">
+      <ion-list>
+        <ion-item class="cs-normal-select retailerSelectionBox mt0 mb0">
+          <ion-label>Select Month</ion-label>
+          <ion-select [(ngModel)]="activeMonth" (ionChange)="getTargetAch()">
+            <ion-option value="01">January</ion-option>
+            <ion-option value="02">February</ion-option>
+            <ion-option value="03">March</ion-option>
+            <ion-option value="04">April</ion-option>
+            <ion-option value="05">May</ion-option>
+            <ion-option value="06">June</ion-option>
+            <ion-option value="07">July</ion-option>
+            <ion-option value="08">August</ion-option>
+            <ion-option value="09">September</ion-option>
+            <ion-option value="10">October</ion-option>
+            <ion-option value="11">November</ion-option>
+            <ion-option value="12">December</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="cs-normal-select retailerSelectionBox">
+          <ion-label>Select Year</ion-label>
+          <ion-select [(ngModel)]="activeYear" (ionChange)="getTargetAch()">
+            <ion-option value="2024">2024</ion-option>
+            <ion-option value="2025">2025</ion-option>
+            <ion-option value="2026">2026</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+  <div class="capsule-tabs" style="border-bottom: 0px;">
+    <ul class="tabCenterAlign">
+
+      <li [ngClass]="{'active':dashboardType == 'Primary'}" (click)="dashboardType='Primary';getTargetAch();getTopThreePer()">
+        <p>Primary</p>
+      </li>
+      <li [ngClass]="{'active':dashboardType == 'Secondary'}"
+        (click)="dashboardType='Secondary';getTargetAch();getTopThreePer()">
+        <p>Secondary</p>
+      </li>
+      <li [ngClass]="{'active':dashboardType == 'Enquiry'}" (click)="dashboardType='Enquiry';getEnquiryData()">
+        <p>Enquiry</p>
+      </li>
+
+
+
+    </ul>
+  </div>
+  <div class="target-cards-wrapper">
+
+    <ng-container *ngIf="dashboardType == 'Primary'">
+      <!-- Monthly Target Card -->
+      <ion-card class="primary-target-card monthly-target-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+
+            <img class="primary-card-icon monthly-target-icon" src="assets/imgs/yeartarget.webp" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Monthly Target</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Current Month Progress</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="primary-target-section">
+            <div class="primary-target-item">
+              <div class="primary-target-label">Target</div>
+              <div class="primary-target-value primary-target-amount">₹{{AllData.monthlyTarget}}</div>
+            </div>
+            <div class="primary-target-item">
+              <div class="primary-target-label">Achievement</div>
+              <div class="primary-target-value primary-achievement-amount">₹{{AllData.monthlyAchievment}}</div>
+            </div>
+          </div>
+
+          <!-- <div class="primary-progress-section">
+          <div class="primary-progress-header">
+            <span class="primary-progress-label">Progress</span>
+            <span class="primary-progress-percentage">196.8%</span>
+          </div>
+          <div class="primary-progress-bar">
+            <div class="primary-progress-fill monthly-target-progress"></div>
+          </div>
+          <div class="primary-status-badge monthly-target-status">
+           <img src="assets/imgs/check.webp" alt="" style="width: 35px;"> 
+            Target Exceeded
+          </div>
+        </div> -->
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Yearly Target Card -->
+      <ion-card class="primary-target-card yearly-target-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+
+            <img class="primary-card-icon yearly-target-icon" src="assets/imgs/targetcalender.png" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Yearly Target</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Annual Progress Overview</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="primary-target-section">
+            <div class="primary-target-item">
+              <div class="primary-target-label">Target</div>
+              <div class="primary-target-value primary-target-amount">₹{{AllData.yearlyTarget}}</div>
+            </div>
+            <div class="primary-target-item">
+              <div class="primary-target-label">Achievement</div>
+              <div class="primary-target-value primary-achievement-amount">₹{{AllData.yearlyAchieve}}</div>
+            </div>
+          </div>
+
+          <!-- <div class="primary-progress-section">
+          <div class="primary-progress-header">
+            <span class="primary-progress-label">Progress</span>
+            <span class="primary-progress-percentage">196.8%</span>
+          </div>
+          <div class="primary-progress-bar">
+            <div class="primary-progress-fill yearly-target-progress"></div>
+          </div>
+          <div class="primary-status-badge yearly-target-status">
+            <img src="assets/imgs/award.png" alt="" style="width: 35px;"> 
+            Excellent Performance
+          </div>
+        </div> -->
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Top 3 Performers Card -->
+      <ion-card class="primary-target-card top-performers-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+            <img class="primary-card-icon top-performers-icon" src="assets/imgs/topperformer.png" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Top 3 Performers</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Leading Team Members</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="performers-list" *ngFor="let row of ToperPrimary;let i=index">
+            <!-- Rank 1 -->
+            <div class="performer-item rank-1">
+              <div class="performer-rank">
+                <img src="assets/imgs/first.webp" alt="1st" class="rank-icon">
+                <span class="rank-number">{{i+1}}</span>
+              </div>
+              <div class="performer-info">
+                <div class="performer-name">{{row.name?row.name:''}}</div>
+                <div class="performer-department">{{row.designation_name?row.designation_name:''}}</div>
+              </div>
+              <div class="performer-achievement">
+                <div class="achievement-amount">₹{{row.total_sales?row.total_sales:''}}</div>
+
+              </div>
+            </div>
+
+
+            <!-- <div class="performer-item rank-2">
+        <div class="performer-rank">
+          <img src="assets/imgs/second.webp" alt="2nd" class="rank-icon">
+          <span class="rank-number">{{i+1}}</span>
+        </div>
+        <div class="performer-info">
+          <div class="performer-name">{{row.name}}</div>
+          <div class="performer-department">{{row.designation_name}}</div>
+        </div>
+        <div class="performer-achievement">
+          <div class="achievement-amount">₹{{row.total_sales}}</div>
+        </div>
+      </div>
+
+     
+      <div class="performer-item rank-3">
+        <div class="performer-rank">
+          <img src="assets/imgs/third.webp" alt="3rd" class="rank-icon">
+          <span class="rank-number">{{i+1}}</span>
+        </div>
+        <div class="performer-info">
+          <div class="performer-name">{{row.name}}</div>
+          <div class="performer-department">{{row.designation_name}}</div>
+        </div>
+        <div class="performer-achievement">
+          <div class="achievement-amount">₹{{row.total_sales}}</div>
+        </div>
+      </div> -->
+          </div>
+
+
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+    <ng-container *ngIf="dashboardType == 'Secondary'">
+      <!-- Monthly Target Card -->
+      <ion-card class="primary-target-card monthly-target-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+
+            <img class="primary-card-icon monthly-target-icon" src="assets/imgs/yeartarget.webp" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Monthly Target</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Current Month Progress</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="primary-target-section">
+            <div class="primary-target-item">
+              <div class="primary-target-label">Target</div>
+              <div class="primary-target-value primary-target-amount">₹{{AllData.monthlyTarget}}</div>
+            </div>
+            <div class="primary-target-item">
+              <div class="primary-target-label">Achievement</div>
+              <div class="primary-target-value primary-achievement-amount">₹{{AllData.monthlyAchievment}}</div>
+            </div>
+          </div>
+          <!--         
+        <div class="primary-progress-section">
+          <div class="primary-progress-header">
+            <span class="primary-progress-label">Progress</span>
+            <span class="primary-progress-percentage">196.8%</span>
+          </div>
+          <div class="primary-progress-bar">
+            <div class="primary-progress-fill monthly-target-progress"></div>
+          </div>
+          <div class="primary-status-badge monthly-target-status">
+           <img src="assets/imgs/check.webp" alt="" style="width: 35px;"> 
+            Target Exceeded
+          </div>
+        </div> -->
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Yearly Target Card -->
+      <ion-card class="primary-target-card yearly-target-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+
+            <img class="primary-card-icon yearly-target-icon" src="assets/imgs/targetcalender.png" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Yearly Target</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Annual Progress Overview</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="primary-target-section">
+            <div class="primary-target-item">
+              <div class="primary-target-label">Target</div>
+              <div class="primary-target-value primary-target-amount">₹{{AllData.yearlyTarget}}</div>
+            </div>
+            <div class="primary-target-item">
+              <div class="primary-target-label">Achievement</div>
+              <div class="primary-target-value primary-achievement-amount">₹{{AllData.yearlyAchieve}}</div>
+            </div>
+          </div>
+
+          <!-- <div class="primary-progress-section">
+          <div class="primary-progress-header">
+            <span class="primary-progress-label">Progress</span>
+            <span class="primary-progress-percentage">196.8%</span>
+          </div>
+          <div class="primary-progress-bar">
+            <div class="primary-progress-fill yearly-target-progress"></div>
+          </div>
+          <div class="primary-status-badge yearly-target-status">
+            <img src="assets/imgs/award.png" alt="" style="width: 35px;"> 
+            Excellent Performance
+          </div>
+        </div> -->
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Top 3 Performers Card -->
+      <ion-card class="primary-target-card top-performers-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+            <img class="primary-card-icon top-performers-icon" src="assets/imgs/topperformer.png" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Top 3 Performers</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Leading Team Members</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <div class="performers-list" *ngFor="let row of ToperSecondary">
+            <!-- Rank 1 -->
+            <div class="performer-item rank-1">
+              <div class="performer-rank">
+                <img src="assets/imgs/first.webp" alt="1st" class="rank-icon">
+                <span class="rank-number"></span>
+              </div>
+              <div class="performer-info">
+                <div class="performer-name">{{row.name?row.name:''}}</div>
+                <div class="performer-department">{{row.designation_name?row.designation_name:''}}</div>
+              </div>
+              <div class="performer-achievement">
+                <div class="achievement-amount">₹{{row.total_sales}}</div>
+              </div>
+            </div>
+
+            <!-- Rank 2 -->
+            <!-- <div class="performer-item rank-2">
+        <div class="performer-rank">
+          <img src="assets/imgs/second.webp" alt="2nd" class="rank-icon">
+          <span class="rank-number">2</span>
+        </div>
+        <div class="performer-info">
+          <div class="performer-name">Sarah Johnson</div>
+          <div class="performer-department">Marketing Team</div>
+        </div>
+        <div class="performer-achievement">
+          <div class="achievement-amount">₹22,180</div>
+          <div class="achievement-percentage">+128%</div>
+        </div>
+      </div> -->
+
+            <!-- Rank 3 -->
+            <!-- <div class="performer-item rank-3">
+        <div class="performer-rank">
+          <img src="assets/imgs/third.webp" alt="3rd" class="rank-icon">
+          <span class="rank-number">3</span>
+        </div>
+        <div class="performer-info">
+          <div class="performer-name">Mike Davis</div>
+          <div class="performer-department">Operations Team</div>
+        </div>
+        <div class="performer-achievement">
+          <div class="achievement-amount">₹19,750</div>
+          <div class="achievement-percentage">+112%</div>
+        </div>
+      </div> -->
+          </div>
+
+
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <ng-container *ngIf="dashboardType == 'Enquiry'">
+      <!-- Results Overview Card -->
+      <ion-card class="primary-target-card results-overview-card">
+        <ion-card-header class="primary-card-header">
+          <div class="primary-header-content">
+            <img class="primary-card-icon results-overview-icon" src="assets/imgs/enquiryTarget.webp" alt="">
+            <div class="primary-header-text">
+              <ion-card-title class="primary-card-title">Enquiry Overview</ion-card-title>
+              <ion-card-subtitle class="primary-card-subtitle">Qualification Status Summary</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content class="primary-card-content">
+          <!-- Total Count Section -->
+          <div class="results-total-section">
+            <div class="results-total-item">
+              <div class="results-total-label">Total Enquiry</div>
+              <div class="results-total-value">{{EnquiryData.total}}</div>
+            </div>
+          </div>
+
+          <!-- Results Breakdown -->
+          <div class="results-breakdown">
+            <!-- Qualified -->
+
+            <div class="result-item qualified-item">
+              <div class="result-icon-wrapper qualified-icon">
+                <img src="assets/imgs/qualified.webp" alt="Qualified" class="result-status-icon">
+              </div>
+              <div class="result-info">
+                <div class="result-label">Pending</div>
+                <div class="result-count">{{EnquiryData.Pending}}</div>
+              </div>
+            </div>
+            <div class="result-item qualified-item">
+              <div class="result-icon-wrapper qualified-icon">
+                <img src="assets/imgs/qualified.webp" alt="Qualified" class="result-status-icon">
+              </div>
+              <div class="result-info">
+                <div class="result-label">Qualified</div>
+                <div class="result-count">{{EnquiryData.Qualified}}</div>
+              </div>
+            </div>
+
+            <!-- Pending -->
+            <div class="result-item pending-item">
+              <div class="result-icon-wrapper pending-icon">
+                <img src="assets/imgs/time.webp" alt="Pending" class="result-status-icon">
+              </div>
+              <div class="result-info">
+                <!-- <div class="result-label">Pending</div>
+          <div class="result-count">{{EnquiryData.Pending}}</div> -->
+                <div class="result-label">Win</div>
+                <div class="result-count">{{EnquiryData.Win}}</div>
+              </div>
+
+            </div>
+
+            <!-- Disqualified -->
+            <div class="result-item disqualified-item">
+              <div class="result-icon-wrapper disqualified-icon">
+                <img src="assets/imgs/Cross.webp" alt="Disqualified" class="result-status-icon">
+              </div>
+              <div class="result-info">
+                <!-- <div class="result-label">Disqualified</div>
+          <div class="result-count">{{EnquiryData.Disqualified}}</div> -->
+                <div class="result-label">Lost</div>
+                <div class="result-count">{{EnquiryData.Lost}}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Visualization -->
+          <!-- <div class="results-progress-section">
+      <div class="results-progress-bar">
+        <div class="progress-segment qualified-segment" style="width: 57.1%;"></div>
+        <div class="progress-segment pending-segment" style="width: 28.6%;"></div>
+        <div class="progress-segment disqualified-segment" style="width: 14.3%;"></div>
+      </div>
+      <div class="progress-legend">
+        <div class="legend-item">
+          <span class="legend-color qualified-color"></span>
+          <span class="legend-text">Qualified</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color pending-color"></span>
+          <span class="legend-text">Pending</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color disqualified-color"></span>
+          <span class="legend-text">Disqualified</span>
+        </div>
+      </div>
+    </div> -->
+
+
+        </ion-card-content>
+      </ion-card>
+
+      <!-- <ion-card class="qualified-enquiry-card">
+ 
+   <ion-card-header class="primary-card-header">
+    <div class="primary-header-content">
+      <img class="primary-card-icon results-overview-icon" src="assets/imgs/Trophy.webp" alt=""> 
+      <div class="primary-header-text">
+        <ion-card-title class="primary-card-title">Qualified Enquiry</ion-card-title>
+        <ion-card-subtitle class="primary-card-subtitle">Qualification Status Summary</ion-card-subtitle>
+      </div>
+    </div>
+  </ion-card-header>
+  
+  <ion-card-content class="enquiry-content">
+    <ion-grid class="enquiry-stats-grid">
+      <ion-row>
+        <ion-col col-4 class="stat-item">
+          <div class="stat-label">Win:</div>
+          <div class="stat-value stat-success">{{totalQualifiedEnquiry.Win}}</div>
+        </ion-col>
+        <ion-col col-4 class="stat-item">
+          <div class="stat-label">Lost:</div>
+          <div class="stat-value stat-danger">{{totalQualifiedEnquiry.Lost}}</div>
+        </ion-col>
+        <ion-col col-4 class="stat-item">
+          <div class="stat-label">In Process:</div>
+          <div class="stat-value stat-info">{{totalQualifiedEnquiry.Inprocess}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    Circular Progress Cards
+    <div class="circular-progress-section">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 class="circular-item">
+            <div class="circular-progress" [ngStyle]="{
+              background: 'conic-gradient(#28a745 0deg ' + getDegrees(totalQualifiedEnquiry.Win) + 'deg, #e9ecef ' + getDegrees(totalQualifiedEnquiry.Win) + 'deg 360deg)'
+            }">
+              <div class="circular-inner">
+                <span class="circular-text">{{getQualifiedPercentage(totalQualifiedEnquiry.Win)}}%</span>
+              </div>
+            </div>
+            <div class="circular-label">Win Rate</div>
+          </ion-col>
+          
+          <ion-col col-4 class="circular-item">
+            <div class="circular-progress" [ngStyle]="{
+              background: 'conic-gradient(#dc3545 0deg ' + getDegrees(totalQualifiedEnquiry.Lost) + 'deg, #e9ecef ' + getDegrees(totalQualifiedEnquiry.Lost) + 'deg 360deg)'
+            }">
+              <div class="circular-inner">
+                <span class="circular-text">{{getQualifiedPercentage(totalQualifiedEnquiry.Lost)}}%</span>
+              </div>
+            </div>
+            <div class="circular-label">Loss Rate</div>
+          </ion-col>
+          
+          <ion-col col-4 class="circular-item">
+            <div class="circular-progress" [ngStyle]="{
+              background: 'conic-gradient(#17a2b8 0deg ' + getDegrees(totalQualifiedEnquiry.Inprocess) + 'deg, #e9ecef ' + getDegrees(totalQualifiedEnquiry.Inprocess) + 'deg 360deg)'
+            }">
+              <div class="circular-inner">
+                <span class="circular-text">{{getQualifiedPercentage(totalQualifiedEnquiry.Inprocess)}}%</span>
+              </div>
+            </div>
+            <div class="circular-label">In Process</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div> 
+  </ion-card-content>
+</ion-card> -->
+    </ng-container>
+
+
+  </div>
+</ion-content>

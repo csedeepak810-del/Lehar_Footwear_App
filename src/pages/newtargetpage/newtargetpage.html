@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="target_Type=='My' || target_Type=='Dr' ">Target </ion-title>
+    <ion-title *ngIf="target_Type=='Team'">
+      Team Target
+    </ion-title>
+    <ion-buttons end *ngIf="teamCount > 0">
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar color="white" *ngIf="target_Type !='Dr'">
+    <div class="">
+      <ion-segment [(ngModel)]="sale_type">
+        <ion-segment-button value="Primary"
+          (click)="sale_type = 'Primary'; Target('Primary')">Primary</ion-segment-button>
+        <ion-segment-button value="Secondary"
+          (click)="sale_type = 'Secondary'; Target('Secondary')">Secondary</ion-segment-button>
+        <!-- <ion-segment-button value="Stock Transfer"
+          (click)="sale_type = 'Stock Transfer'; Target('Stock Transfer')">Stock Transfer</ion-segment-button> -->
+        <ion-segment-button value="Collection" (click)="sale_type = 'Collection'; Target('Collection')">Collection</ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="edit m4" *ngIf="target_Type=='Team'">
+    <ion-list>
+      <ion-item class="cs-normal-select retailerSelectionBox mt0 mb0">
+        <ion-label>Select User</ion-label>
+        <ionic-selectable item-content name="data" [(ngModel)]="data" [items]="user_list" itemValueField="id"
+          itemTextField="name" [canSearch]="true" #selectComponent
+          (ngModelChange)="Target(sale_type)"></ionic-selectable>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
+  
+  <ng-container>
+
+    <div class="capsule-tabsnew">
+      <ul>
+        <li *ngFor="let row of month_array" [ngClass]="{'active' : row.month==current_month}"
+          (click)="current_month=row.month;current_year=row.year;current_month_name=row.month_name; Target(sale_type)">
+          {{row.month_name}}
+          {{row.year}}</li>
+      </ul>
+    </div>
+    <div class="pl16 pr16 ">
+      <div class="workimg_summary mt16" >
+        <ion-list>
+          <ion-item>
+            <h6 >Total Target <span class="left-count">₹ {{target_list.target}}</span></h6>
+           
+          </ion-item>
+          <ion-item>
+            <h6 >Total Achievement <span class="left-count">₹ {{target_list.achieved}}</span></h6>
+          </ion-item>
+          <ion-item>
+            <h6>Remaining Days <span class="left-count">{{target_list.remainingDays}}</span></h6>
+          </ion-item>
+          <ion-item>
+            <h6>Target achievement <span class="left-count">{{target_list.achievedPercentage}}%</span> </h6>
+          </ion-item>
+       
+
+        </ion-list>
+      </div>
+   
+    </div>
+    <div class="nothing-here" *ngIf="target_list==''">
+      <div class="outer">
+        <div class="innear">
+          <img src="assets/imgs/no_found.svg" alt="">
+          <p>Data Not Available</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+
+
+</ion-content>
+<!-- <ion-footer class="af-none">
+  <div class="ml16 mb16 mr16">
+    <button ion-button block icon-start round color="primary" (click)="addTarget()">Add {{sale_type}}
+      Projection</button>
+  </div>
+</ion-footer> -->

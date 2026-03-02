@@ -1,0 +1,28 @@
+<ion-content class="transprant-bg">
+  <div class="work-modal">
+    <div class="work-modal-bg">
+      <div class="head">
+        <div style="flex-direction: column;">
+          <h2>Battery Optimizations</h2>
+        </div>
+      </div>
+      <div class="working-summary-card mt10">
+        <div class="paragraphs">
+          <p>To ensure a smooth app experience in the background, please disable <strong>Battery Optimizations</strong>
+            on your device.</p>
+          <p>You can learn how to disable battery optimization by clicking <strong>DoNotKillMyApp</strong> button.
+          </p>
+          <p>{{navData.message}}</p>
+        </div>
+      </div>
+      <div class="wp100 text-right p8">
+        <button (click)="goToDonotlkillmyapp()" ion-button round icon-end color="primary">
+          Do Not Kill My App
+        </button>
+        <button (click)="goToSetting()" ion-button round icon-end color="success">
+          Go To Setting
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

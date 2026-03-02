@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-navbar class="premium-navbar">
+    <ion-title>Product Details</ion-title>
+    <ion-buttons end *ngIf="availableColors[selectedColorIndex]?.image">
+      <!-- Download icon (top right like screenshot) -->
+      <button ion-button icon-only (click)="downloadImage(url + availableColors[selectedColorIndex]?.image, $event)"
+        class="nav-btn">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <!-- Share button -->
+      <button ion-button icon-only (click)="shareProduct()" class="nav-btn">
+        <ion-icon name="share"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="product-detail-content">
+
+  <!-- Hero Slider: Large clean image area -->
+  <div class="hero-section">
+    <ion-slides #productSlides [pager]="true" [loop]="false" class="hero-slider" (ionSlideDidChange)="onSlideChange()">
+      <ion-slide *ngFor="let color of availableColors; let i = index">
+        <div class="image-wrapper">
+          <img [src]="color.image ? (url + color.image) : null" class="hero-image" [alt]="color.color"
+            (error)="color.imageError = true" *ngIf="!color.imageError" />
+          <div class="image-placeholder" *ngIf="!color.image || color.imageError">
+            <span class="no-img-emoji">👟</span>
+            <p>NO IMAGE</p>
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slides>
+
+    <!-- Wishlist / Add to List button - corner, turns red on click -->
+    <button class="wishlist-btn" (click)="toggleWishlist()" [class.active]="isWishlisted">
+      <ion-icon [name]="isWishlisted ? 'heart' : 'heart-outline'"></ion-icon>
+    </button>
+
+  </div>
+
+  <!-- Product Info: Name + Price inline + Place Order Button -->
+  <div class="content-card">
+
+    <div class="product-header">
+      <h1 class="product-title">{{ productName }}</h1>
+      <span class="current-price">₹{{ productPrice }}</span>
+      <span class="warn" *ngIf="!productPrice">Product Price is Not Available</span>
+    </div>
+
+    <!-- Colors Section -->
+    <div class="variant-section">
+      <div class="section-title">
+        <h3>Colors</h3>
+      </div>
+
+      <div class="color-grid">
+        <div class="color-item" *ngFor="let color of availableColors; let i = index"
+          [class.active]="selectedColorIndex === i" (click)="selectColor(i)">
+          <div class="color-image-wrapper">
+            <img [src]="color.image ? (url + color.image) : null" class="color-image" [alt]="color.color"
+              (error)="color.thumbError = true" *ngIf="!color.thumbError" />
+            <div class="thumb-placeholder" *ngIf="!color.image || color.thumbError">
+              <span class="no-img-emoji">👟</span>
+              <span class="no-img-label">NO IMAGE</span>
+            </div>
+            <div class="check-overlay" *ngIf="selectedColorIndex === i">
+              <ion-icon name="checkmark-circle"></ion-icon>
+            </div>
+          </div>
+          <p class="color-name">{{ color.color }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Gallery (with download + share provisions) -->
+    <div class="banner-section">
+      <div class="banner-header">
+        <h3 class="banner-title">Product Gallery</h3>
+        <p class="banner-subtitle">Tap to view full size</p>
+      </div>
+
+      <div class="banner-images-container">
+        <div class="banner-item" *ngFor="let color of availableColors; let i = index"
+          [class.active]="selectedColorIndex === i">
+          <div class="banner-wrapper" (click)="imageModal(this.url+color.image)">
+            <img [src]="color.image ? (url + color.image) : null" class="product-banner" [alt]="color.color"
+              (error)="color.imageError = true" *ngIf="!color.imageError" />
+
+            <div class="image-placeholder" *ngIf="!color.image || color.imageError">
+              <span class="no-img-emoji">👟</span>
+              <p>NO IMAGE</p>
+            </div>
+
+            <!-- Download Button -->
+            <button class="download-btn" (click)="downloadImage(this.url+color.image, $event)"
+              *ngIf="!color.imageError">
+              <ion-icon name="cloud-download"></ion-icon>
+            </button>
+
+            <!-- Share Button -->
+            <button class="share-btn" (click)="shareProduct(); $event.stopPropagation()" *ngIf="!color.imageError">
+              <ion-icon name="share"></ion-icon>
+            </button>
+
+            <div class="banner-color-label" [ngStyle]="{
+              background: 'linear-gradient(135deg,' + color.uiGradient.start + ',' + color.uiGradient.end + ')',
+              color: color.isLightBg ? '#000' : '#fff'
+            }">
+              {{ color.color_name }}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+
+</ion-content>
+
+<!-- Sticky Place Order Footer -->
+<ion-footer class="action-footer">
+  <div class="action-container">
+    <button class="place-order-btn" [disabled]="!productPrice" (click)="placeOrder()">
+      <ion-icon name="bag-handle-outline"></ion-icon>
+      Place Order
+    </button>
+    <span class="warn" *ngIf="!productPrice">Product Price is Not Available — Button Disabled</span>
+  </div>
+</ion-footer>

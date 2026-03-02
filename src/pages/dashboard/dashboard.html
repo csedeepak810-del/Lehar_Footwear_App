@@ -1,0 +1,339 @@
+<ion-content class="sfa-content">
+  <!-- Refresher -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="skLoading == false">
+    <div class="attendance-wrapper">
+      <div [ngClass]="
+  diwaliFlag === 1 ? 'diwali-attendance-card' :
+  dussheraFlag === 1 ? 'dusshera-attendance-card' :
+  christmasFlag === 1 ? 'christmas-attendance-card' :
+  nationalFlag === 1 ? 'national-attendance-card' :
+  holiFlag === 1 ? 'holi-attendance-card' :
+  rakhiFlag === 1 ? 'rakhi-attendance-card' :
+  'attendance-card'
+">
+
+
+        <div class="card-header">
+          <div style="display: flex; justify-content: space-between;">
+            <img src="assets/imgs/new-logo.png" alt="" style="height: auto;width: 60px;">
+
+
+            <div class="left-auto">
+
+
+              <ion-icon (click)="initSpeech()" name="mic" style="margin-right: 20px;font-size: 25px;"></ion-icon>
+              <ion-icon (click)="announcementModal()" name="notifications" style="font-size: 25px;"></ion-icon>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="user-section" (click)="GoToProfile()">
+            <img *ngIf="greeting == 'Good Morning';" src="assets/imgs/profile1.png" alt="" style="height: 140px;">
+            <img *ngIf="greeting == 'Good Evening';" src="assets/imgs/profile2.png" alt="" style="height: 140px;">
+            <img *ngIf="greeting == 'Good Afternoon';" src="assets/imgs/profile3.png" alt="" style="height: 140px;">
+            <img *ngIf="greeting == 'Hello';" src="assets/imgs/profile.png" alt="" style="height: 140px;">
+            <div class="user-info">
+              <h2 class="user-name">{{greeting}}, {{!user_data.name ? '---' : user_data.name | titlecase}}</h2>
+              <p class="user-mobile" *ngIf="user_data.mobile">+91 {{user_data.mobile}}</p>
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+        <div class="card-divider"></div>
+
+
+        <div class="card-content">
+
+
+          <div *ngIf="last_attendence_data.manual_absent=='0'">
+
+
+            <button ion-button full class="attendance-btn start-work-btn" (click)="cameraModal('start')"
+              [disabled]="spinner == true"
+              *ngIf="(last_attendence_data.start_time == '00:00:00'||last_attendence_data.start_time == '')">
+              <ion-icon *ngIf="spinner == false" name="play" class="btn-icon"></ion-icon>
+              <ion-spinner *ngIf="spinner == true" class="btn-spinner"></ion-spinner>
+              &nbsp;&nbsp;Start Working
+            </button>
+
+
+            <div class="time-display-section"
+              *ngIf="last_attendence_data.start_time != '' && last_attendence_data.start_time != '00:00:00'">
+              <div>
+
+
+                <div class="time-row" *ngIf="last_attendence_data.start_time != ''">
+                  <div class="time-info">
+                    <span class="time-label">Start Time</span>
+                    <span class="time-value">{{start_attend_time}}</span>
+                  </div>
+
+                </div>
+
+
+                <div class="time-row"
+                  *ngIf="last_attendence_data.stop_time != '' && last_attendence_data.stop_time != '00:00:00'">
+                  <div class="time-info">
+                    <span class="time-label">Stop Time</span>
+                    <span class="time-value">{{stop_attend_time}}</span>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+              <div class="time-row total-time-row"
+                *ngIf="last_attendence_data.Total_Working_Time != '' && last_attendence_data.Total_Working_Time != '0 hr 0 min'">
+                <div class="time-info">
+                  <span class="time-label">Total Working Time</span>
+                  <span class="time-value total-time">{{last_attendence_data.Total_Working_Time}}</span>
+                </div>
+
+              </div>
+
+
+              <button ion-button full class="attendance-btn stop-work-btn" (click)="cameraModal('stop')"
+                [disabled]="spinner == true"
+                *ngIf="(last_attendence_data.stop_time == '00:00:00'||last_attendence_data.stop_time == '') && last_attendence_data.start_time != ''">
+                <ion-icon *ngIf="spinner == false" name="square" class="btn-icon"></ion-icon>
+                <ion-spinner *ngIf="spinner == true" class="btn-spinner"></ion-spinner>
+                &nbsp;&nbsp;Stop Working
+              </button>
+            </div>
+          </div>
+
+
+          <div class="absent-info" *ngIf="last_attendence_data.manual_absent=='1'">
+            <div class="absent-icon">
+              <ion-icon name="information-circle-outline"></ion-icon>
+            </div>
+            <div class="absent-text">
+              <p>For Attendance Information, Contact To Admin</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Dashboard -->
+    <div class="summary-section1">
+      <div class="section-header">
+        <h3 class="section-title1">Today's Summary</h3>
+        <!-- <button class="view-all-btn">
+          <span>View All</span>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </button> -->
+      </div>
+
+      <div class="summary-cards">
+        <div class="summary-card primary-orders" (click)="goToPrimaryOrders()"
+          *ngIf="(user_data.order_type && user_data.order_type.toLowerCase() == 'primary') || (user_data.order_type && user_data.order_type.toLowerCase() == 'both')">
+          <div class="card-icon">
+            <img src="assets/imgs/product.png" alt="">
+            <span class="count-badge">{{today_count.total_primary_order}}</span>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Order Catalogue</h4>
+            <p class="card-amount">₹{{today_count.today_primary_amount | number:'1.2-2'}}</p>
+          </div>
+          <ion-icon name="chevron-forward" class="card-arrow"></ion-icon>
+        </div>
+
+        <!-- <div class="summary-card secondary-orders" (click)="goToSecondaryOrders('My')"
+          *ngIf="(user_data.order_type && user_data.order_type.toLowerCase() == 'secondary') || (user_data.order_type && user_data.order_type.toLowerCase() == 'both')">
+          <div class="card-icon">
+            <img src="assets/imgs/cargo.png" alt="">
+            <span class="count-badge">{{today_count.total_secondary_order}}</span>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Secondary Orders</h4>
+            <p class="card-amount">₹{{today_count.total_secondary_amount | number:'1.2-2'}}</p>
+          </div>
+          <ion-icon name="chevron-forward" class="card-arrow"></ion-icon>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Quick Actions Banner -->
+    <div class="banner-section">
+      <ion-slides #bannerSlides [autoplay]="4000" [loop]="true" [speed]="400" [spaceBetween]="16" [slidesPerView]="1"
+        [centeredSlides]="false">
+
+        <ion-slide class="banner-slide expenses-banner" (click)="goToExpense('My')">
+          <div class="banner-content">
+            <div class="banner-icon">
+              <img src="assets/imgs/wallet.png" alt="">
+            </div>
+            <div class="banner-text">
+              <h4>Track Expenses</h4>
+              <p>Manage your daily expenses</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide>
+
+        <ion-slide class="banner-slide travel-banner" (click)="goToTravel('My')">
+          <div class="banner-content">
+            <div class="banner-icon">
+              <img src="assets/imgs/car.png" alt="">
+            </div>
+            <div class="banner-text">
+              <h4>Plan Journey</h4>
+              <p>Check travel schedules</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide>
+
+        <ion-slide class="banner-slide products-banner" (click)="goOnProductPage()">
+          <div class="banner-content">
+            <div class="banner-icon">
+              <img src="assets/imgs/product.png" alt="">
+            </div>
+            <div class="banner-text">
+              <h4>Product Catalog</h4>
+              <p>Browse all products</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
+    <!-- Quick Actions Grid -->
+    <div class="actions-section">
+      <div class="section-header">
+        <h3 class="section-title1">Quick Actions</h3>
+      </div>
+
+      <div class="actions-grid">
+        <div class="action-item dashboard-action" (click)="goToDashboard()">
+          <div class="action-icon">
+            <img src="assets/imgs/dashboard.png" alt="">
+          </div>
+          <span class="action-label">Dashboard</span>
+        </div>
+
+        <!-- <div class="action-item leads-action" (click)="goToSite()">
+          <div class="action-icon">
+            <img src="assets/imgs/lead.png" alt="">
+          </div>
+          <span class="action-label">Site</span>
+        </div> -->
+
+        <div class="action-item leave-action" (click)="goToLeave('My')">
+          <div class="action-icon">
+            <img src="assets/imgs/leave.png" alt="">
+          </div>
+          <span class="action-label">Leave</span>
+        </div>
+
+        <div class="action-item checkin-action" (click)="goToFollowup()">
+          <div class="action-icon">
+            <img src="assets/imgs/call.png" alt="">
+          </div>
+          <span class="action-label">Follow Up</span>
+        </div>
+
+        <!-- <div class="action-item reports-action" (click)="goToAttendence()">
+          <div class="action-icon">
+              <img src="assets/imgs/attendance.png" alt=""> 
+          </div>
+          <span class="action-label">Attendance</span>
+        </div> -->
+
+        <div class="action-item reports-action" (click)="goToevent()">
+          <div class="action-icon">
+            <img src="assets/imgs/EventPlan.png" alt="">
+          </div>
+          <span class="action-label">Event Plan</span>
+        </div>
+
+        <div class="action-item more-action" (click)="viewAll()">
+          <div class="action-icon">
+            <img src="assets/imgs/menu.png" alt="">
+          </div>
+          <span class="action-label">More</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div *ngIf="skLoading" class="skeleton-container">
+    <div class="skeleton-header"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-summary">
+      <div class="skeleton-item" *ngFor="let item of [].constructor(2)"></div>
+    </div>
+    <div class="skeleton-actions">
+      <div class="skeleton-action" *ngFor="let item of [].constructor(6)"></div>
+    </div>
+  </div>
+
+  <!-- Suggestions Bottom Sheet -->
+  <div class="suggestions-overlay" *ngIf="suggestionList?.length">
+    <div class="suggestions-container">
+      <div class="suggestions-header">
+        <h3>Suggestions</h3>
+        <button class="close-btn" (click)="closeBottomSheet()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <div class="suggestions-list">
+        <div class="suggestion-item" *ngFor="let data of suggestionList; let i = index">
+          <div class="suggestion-info">
+            <h4>{{data.display_name}}</h4>
+            <span class="suggestion-type">{{data.type_name}}</span>
+          </div>
+          <button class="add-btn" [disabled]="spinnerLoader"
+            (click)="commandType =='Order'? createOrder(data) : customerAddToList(data)">
+            <ion-icon *ngIf="!spinnerLoader" name="add"></ion-icon>
+            <ion-spinner *ngIf="spinnerLoader"></ion-spinner>
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="dashboard-footer" *ngIf="skLoading == false">
+  <div class="bottom-nav">
+    <div class="nav-item" (click)="goToOrderCatalogue()">
+      <i class="material-icons">category</i>
+      <span>Catalogue</span>
+    </div>
+    <div class="nav-item" (click)="goToAttendence()">
+      <i class="material-icons">event_available</i>
+      <span>Attendance</span>
+    </div>
+    <div class="nav-item" (click)="goToLead()">
+      <ion-icon name="people"></ion-icon>
+      <span>Enquiry</span>
+    </div>
+    <div class="nav-item" (click)="goToExpense('My')">
+      <i class="material-icons">account_balance_wallet</i>
+      <span>Expense</span>
+    </div>
+    <div class="nav-item center-nav" (click)="goToCheckin()">
+      <i class="material-icons center-icon" style="font-size: 35px;">location_on</i>
+    </div>
+  </div>
+</ion-footer>

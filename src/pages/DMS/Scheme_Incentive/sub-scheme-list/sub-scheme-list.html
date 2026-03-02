@@ -1,0 +1,90 @@
+<ion-header class="sc-header-modify">
+    <ion-navbar>
+        <ion-title>Sub Scheme List</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="sc-content-modify">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    
+    <div class="scheme_container">
+        <div class="scheme_tabs">
+            <ul>
+                <li [ngClass]="{'active' : ActiveTab=='Running'}" (click)="ActiveTab='Running' ;getSubSchemeList(ActiveTab)">
+                    <p>Running</p>
+                </li>
+                <li class="active" [ngClass]="{'active' : ActiveTab=='Expire'}" (click)="ActiveTab='Expire' ;getSubSchemeList(ActiveTab)">
+                    <p>Expire</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="sc_listing" *ngIf="ActiveTab=='Running'">
+            <button class="sc_card" *ngFor="let row of subSchemeDetailRunning">
+                <div class="sc_image" (click)="imageModal(bannerURL+row.bannerData[0].banner)" *ngIf="row.bannerData.length">
+                    <img src="{{bannerURL+row.bannerData[0].banner}}">
+                </div>
+                <div class="sc_image" *ngIf="!row.bannerData.length">
+                    <img src="assets/imgs/default.PNG">
+                </div>
+                <div class="sc_right" (click)="goToSubSchemeDetail(row.id)">
+                    <div class="sc_content-upr">
+                        <h1>{{row.title}}</h1>
+                        <div class="sc_progress_bar"><div [ngStyle]="{'width': row.currentDaysPer+'%'}"></div></div>
+                    </div>
+                    <div class="sc_content-mid">
+                        <p>{{row.remaining_days}} Days Left</p>
+                        <span>Expire on {{row.end_date | date:'d MMM yy'}}</span>
+                    </div>
+                    <div class="sc_content-btm">
+                        <i class="material-icons">arrow_forward</i>
+                    </div>
+                </div>
+            </button>
+            <div class="nothing-here" style="height: 70vh;" *ngIf="!subSchemeDetailRunning?.length">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/imgs/no_found.svg" alt="">
+                        <p>Data Not Available</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sc_listing" *ngIf="ActiveTab=='Expire'">
+            <button class="sc_card" *ngFor="let row of subSchemeDetailExpire">
+                <div class="sc_image" (click)="imageModal(bannerURL+row.bannerData[0].banner)"*ngIf="row.bannerData.length">
+                    <img src="{{bannerURL+row.bannerData[0].banner}}">
+                </div>
+                <div class="sc_image" *ngIf="!row.bannerData.length">
+                    <img src="assets/imgs/default.PNG">
+                </div>
+                <div class="sc_right" (click)="goToSubSchemeDetail(row.id)">
+                    <div class="sc_content-upr">
+                        <h1>{{row.title}}</h1>
+                        <div class="sc_progress_bar"><div [ngStyle]="{'width': row.currentDaysPer+'%'}"></div></div>
+                    </div>
+                    <div class="sc_content-mid">
+                        <p>{{row.remaining_days}} Days Left</p>
+                        <span>Expire on {{row.end_date | date:'d MMM yy'}}</span>
+                    </div>
+                    <div class="sc_content-btm">
+                        <i class="material-icons">arrow_forward</i>
+                    </div>
+                </div>
+            </button>
+            <div class="nothing-here" style="height: 70vh;" *ngIf="!subSchemeDetailExpire?.length">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/imgs/no_found.svg" alt="">
+                        <p>Data Not Available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

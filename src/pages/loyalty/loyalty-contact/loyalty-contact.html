@@ -1,0 +1,71 @@
+<!--
+  Generated template for the LoyaltyContactPage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Contact Us'|translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="nev-adjust">
+    <!-- <div class="background hp100">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516.696292597175!2d76.87004267412102!3d28.186150475911404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d37d1ad538c4f%3A0xc4cf58775312d5f6!2sEau%20Bathing%20Solutions%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1682051078455!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div> -->
+    
+    <div class="cs-nevigation">
+      
+      <div class="flex-item">
+        <div class="about-box">
+          <div class="about-head">{{'About Saathi Samreedhi'|translate}}</div>
+          <ng-container *ngIf="about_data">
+            <div [innerHTML]="about_data.about_us"></div>
+          </ng-container>
+        </div>
+        
+        <div class="pdf-box">
+          <h2>{{'View Catalogue PDF'|translate}}</h2>
+          <a (click)="goOnDigitalcatPage();"><img src="assets/imgs/page.png"></a>
+        </div>
+      </div>
+      
+      <div class="our-client">
+        <h2>{{'OUR CLIENTELLE'|translate}}</h2>
+        <img src="assets/certification/client.png">
+      </div>
+      <div class="social-icons">
+        <a href=" https://www.linkedin.com/company/eau-bathing-solutions-pvt-ltd/" target="_blank"><img src="assets/social/link.png"></a>
+        <a href="https://www.instagram.com/eauset_official/?hl=en" target="_blank"><img src="assets/social/ins.png"></a>
+        <a href="https://www.facebook.com/eausetofficial/" target="_blank"><img src="assets/social/fb.png"></a>
+        <a href="https://twitter.com/eausetofficial" target="_blank"><img src="assets/social/tw.png"></a>
+      </div>
+      <div class="map-main" >
+        <div class="map-content">
+          <div class="location brd-btm"  *ngIf="contact.address">
+            <p>{{contact.address}}</p>
+          </div>
+          <div class="location" *ngIf="contact.contact_number">
+            <a href="tel:{{contact.contact_number}}">{{contact.contact_number}} </a>
+          </div>
+          <div class="location" *ngIf="contact.contact_number_2">
+            <a href="tel:{{contact.contact_number_2}}">{{contact.contact_number_2}} </a>
+          </div>
+          <div class="location" *ngIf="contact.email">
+            <a href="mailto:{{contact.email}}">{{contact.email}}</a>
+          </div>
+          <div class="location" *ngIf="contact.url">
+            <a href="{{contact.url}}">{{contact.url}}</a>
+          </div>
+        </div>
+        <div class="elementor-image">
+          <img src="assets/certification/1.png">
+          <img src="assets/certification/2.png">
+          <img src="assets/certification/3.png">
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

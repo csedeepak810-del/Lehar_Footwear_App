@@ -1,0 +1,197 @@
+<!--
+  Generated template for the SfaShortcutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-content >
+  <div class="dashboard-wrapper">
+     <div class="dashboard-card network-card">
+        <div class="card-header" style="display: flex; justify-content: space-between;">
+       
+          <h3 class="card-title">Customer Network</h3>
+             <h3 class="card-title" (click)="closePage()"> <i class="material-icons" style="font-size: 30px;color: red;">close</i></h3>
+        </div>
+        <div class="card-content">
+          <div class="network-grid">
+            <div class="network-item" *ngFor="let row of networkType" (click)="goToMainDistributorListPage(row.type)">
+              <div class="network-icon">
+                <i class="material-icons">storefront</i>
+              </div>
+              <span class="network-label">{{row.module_name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="dashboard-card shortcuts-card">
+        <div class="card-header">
+          <h3 class="card-title">Quick Actions</h3>
+        </div>
+        <div class="card-content">
+          <div class="shortcuts-grid">
+
+            <!-- <div class="shortcut-item" (click)="goToDashboard()">
+              <div class="shortcut-icon dashboard-icon">
+                <i class="material-icons">dashboard</i>
+              </div>
+              <span>Dashboard</span>
+            </div> -->
+
+           
+
+            <!-- <div class="shortcut-item" (click)="goToAttendence()">
+              <div class="shortcut-icon attendance-icon">
+                <i class="material-icons">schedule</i>
+              </div>
+              <span>Attendance</span>
+            </div> -->
+            <!-- <div class="shortcut-item" (click)="goToSite()">
+              <div class="shortcut-icon target-icon">
+                <i class="material-icons">groups</i>
+              </div>
+              <span>Lead</span>
+            </div> -->
+             <!-- <div class="shortcut-item" (click)="goToQuotationList()">
+              <div class="shortcut-icon secondary-order-icon">
+                <i class="material-icons">insert_drive_file</i>
+              </div>
+              <span>Quotation</span>
+            </div> -->
+            
+
+
+            <!-- <div class="shortcut-item" (click)="goToFollowup()">
+              <div class="shortcut-icon followup-icon">
+                <i class="material-icons">phone</i>
+              </div>
+              <span>Follow Up</span>
+            </div> -->
+
+            <!-- <div class="shortcut-item" (click)="goToCheckin()">
+              <div class="shortcut-icon checkin-icon">
+                <i class="material-icons">location_on</i>
+              </div>
+              <span>Check In</span>
+            </div> -->
+             <div class="shortcut-item" (click)="announcementList()">
+              <div class="shortcut-icon announcement-icon">
+                <i class="material-icons">campaign</i>
+                <span class="notification-badge" *ngIf="announcementCount > 0">{{announcementCount}}</span>
+              </div>
+              <span>Announcement</span>
+            </div>
+              <div class="shortcut-item" (click)="goOnDigitalcatPage()">
+              <div class="shortcut-icon catalog-icon">
+                <i class="material-icons">picture_as_pdf</i>
+              </div>
+              <span>E-Catalogue</span>
+            </div>
+
+            <!-- <div class="shortcut-item" (click)="goToLead()">
+              <div class="shortcut-icon enquiry-icon">
+                <i class="material-icons">people</i>
+                <span class="notification-badge" *ngIf="enquiry_count > 0">{{enquiry_count}}</span>
+              </div>
+              <span>Enquiry</span>
+            </div> -->
+
+            <!-- <div class="shortcut-item" (click)="goToevent()">
+              <div class="shortcut-icon event-icon">
+                <i class="material-icons">event</i>
+              </div>
+              <span>Event Plan</span>
+            </div>  -->
+            <div class="shortcut-item" (click)="gotoHolidayList()">
+              <div class="shortcut-icon holiday-icon">
+                <i class="material-icons">calendar_today</i>
+              </div>
+              <span>Holidays</span>
+            </div>
+
+            <!-- <div class="shortcut-item blink" (click)="viewAchievement()">
+              <div class="shortcut-icon target-icon">
+                <i class="material-icons">trending_up</i>
+              </div>
+              <span>Target</span>
+            </div> -->
+              <div class="shortcut-item" (click)="goOnProductPage()">
+              <div class="shortcut-icon product-icon">
+                <i class="material-icons">category</i>
+              </div>
+              <span>Products</span>
+            </div>
+
+            <div class="shortcut-item" (click)="goTopop()">
+              <div class="shortcut-icon gift-icon">
+                <i class="material-icons">card_giftcard</i>
+              </div>
+              <span>Pop & Gift</span>
+            </div>
+
+            <!-- <div class="shortcut-item" (click)="goToTravel('My')">
+              <div class="shortcut-icon travel-icon">
+                <i class="material-icons">directions_transit</i>
+              </div>
+              <span>Travel Plan</span>
+            </div> -->
+
+            <!-- <div class="shortcut-item" (click)="goToExpense('My')">
+              <div class="shortcut-icon expense-icon">
+                <i class="material-icons">account_balance_wallet</i>
+              </div>
+              <span>Expense</span>
+            </div> -->
+
+            <!-- <div class="shortcut-item" (click)="goToLeave('My')">
+              <div class="shortcut-icon leave-icon">
+                <i class="material-icons">exit_to_app</i>
+              </div>
+              <span>Leave</span>
+            </div> -->
+
+             <div class="shortcut-item" (click)="goToSurvey()">
+              <div class="shortcut-icon survey-icon">
+                <i class="material-icons">poll</i>
+              </div>
+              <span>Survey</span>
+            </div>
+            
+            <div class="shortcut-item" (click)="goToTeamMember()" *ngIf="team_count > 0">
+              <div class="shortcut-icon team-icon">
+                <i class="material-icons">group</i>
+              </div>
+              <span>Team Members</span>
+            </div>
+
+            <div class="shortcut-item" (click)="goToTask()">
+              <div class="shortcut-icon task-icon">
+                <i class="material-icons">assignment</i>
+              </div>
+              <span>Task</span>
+            </div>
+
+           
+
+          
+
+          
+
+           
+
+            
+
+            <!-- <div class="shortcut-item" (click)="goToTeamMember()" *ngIf="team_count > 0">
+              <div class="shortcut-icon team-icon">
+                <i class="material-icons">group</i>
+              </div>
+              <span>Team Members</span>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+  </div>
+  
+</ion-content>

@@ -1,0 +1,67 @@
+page-secondary-bill-upload-add {
+    .edit
+    {
+        border: 0px;
+        border-radius: 0px !important;
+        padding: 16px !important;
+        padding-top: 10px !important;
+    }
+    
+    .qr-btns
+    {
+        a {
+            border-radius: 5px;
+            border: 1px dashed #616161;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 5px 5px;
+            background: #f8f8f8;
+            
+            i 
+            {
+                font-size: 29px;
+            }
+            
+            p
+            {
+                text-transform: uppercase;
+                font-size: 12px;
+                text-align: center;
+                width: 100%;
+                font-weight: 500;
+                color: green;
+            }
+        }
+        
+    }
+    
+    .or-sepration
+    {
+        width: 100%;
+        margin-top: 10px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        
+        p
+        {
+            width: fit-content;
+            background: #fff;
+            text-align: center;
+            color: #d7d7d7;
+            font-weight: 500;
+            
+            &:after {
+                content: "";
+                position: absolute;
+                top: 7px;
+                left: 0px;
+                border: 1px solid #afafaf;
+                width: 100%;
+                z-index: -1;
+            }
+        }
+        
+    }
+}

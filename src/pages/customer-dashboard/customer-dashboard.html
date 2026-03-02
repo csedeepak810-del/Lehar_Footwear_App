@@ -1,0 +1,337 @@
+<ion-content class="dms-content">
+  <!-- Refresher -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="skLoading == false">
+    <!-- Header Card -->
+    <div class="dms-header-card">
+      <div class="header-top">
+        <img src="assets/imgs/new-logo.png" alt="Logo" class="logo">
+        <div class="header-actions">
+          <ion-icon name="notifications" (click)="getNotification()" class="notification-icon"></ion-icon>
+        </div>
+      </div>
+
+      <div class="distributor-profile" (click)="GoToProfile()">
+        <div class="profile-avatar">
+          <span class="avatar-text">{{user_data.company_name.substring(0,1).toUpperCase()}}</span>
+        </div>
+        <div class="profile-info">
+          <h2 class="profile-greeting">Hi, {{user_data.company_name | titlecase}}</h2>
+          <p class="profile-name">{{!user_data.name ? '---' : user_data.name | titlecase}}</p>
+          <p class="profile-mobile" *ngIf="user_data.mobile">+91 {{user_data.mobile}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Information Card -->
+    <div class="payment-info-card">
+      <h3 class="section-title">Payment Information</h3>
+
+      <div class="payment-grid">
+        <div class="payment-item credit-limit">
+          <div class="payment-value">0</div>
+          <div class="payment-label">Credit Limit</div>
+        </div>
+        <div class="payment-item credit-days">
+          <div class="payment-value">0</div>
+          <div class="payment-label">Credit Day's</div>
+        </div>
+      </div>
+
+      <div class="payment-grid mt-3">
+        <div class="payment-item outstanding">
+          <div class="payment-value">---</div>
+          <div class="payment-label">Outstanding</div>
+        </div>
+        <div class="payment-item overdue">
+          <div class="payment-value">---</div>
+          <div class="payment-label">Overdue</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Tabs Section -->
+    <div class="interactive-section">
+      <div class="tab-header">
+        <button class="tab-btn" [class.active]="activeTab === 'orders'" (click)="activeTab = 'orders'">
+          <ion-icon name="cart"></ion-icon>
+          Orders
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'ledger'" (click)="activeTab = 'ledger'">
+          <ion-icon name="swap-horizontal"></ion-icon>
+          Ledger
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'invoices'" (click)="activeTab = 'invoices'">
+          <ion-icon name="document-text"></ion-icon>
+          Invoices
+        </button>
+      </div>
+
+      <!-- Orders Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'orders'">
+        <!-- Order Stats -->
+        <div class="stats-row">
+          <div class="stat-card total-orders">
+            <div class="stat-icon">
+              <ion-icon name="cart"></ion-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{paymentDetail.all_order}}</div>
+              <div class="stat-label">Total Orders</div>
+            </div>
+          </div>
+          <div class="stat-card pending-orders">
+            <div class="stat-icon">
+              <ion-icon name="time"></ion-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{paymentDetail.pending_order}}</div>
+              <div class="stat-label">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders List -->
+        <div class="content-header">
+          <h4 class="content-title">Recent Orders</h4>
+          <button class="view-all-btn" (click)="goToOrderlist()" *ngIf="latestOrders.length > 0">
+            View All
+            <ion-icon name="chevron-forward"></ion-icon>
+          </button>
+        </div>
+
+        <div class="orders-list">
+          <div class="order-card" *ngFor="let order of latestOrders" (click)="viewOrderDetails(order.id)">
+            <div class="order-header">
+              <div class="order-id">
+                <ion-icon name="receipt"></ion-icon>
+                {{order.order_no}}
+              </div>
+              <span class="order-status"
+                [ngClass]="getOrderStatusClass(order.order_status)">{{order.order_status}}</span>
+            </div>
+            <div class="order-body">
+              <div class="order-retailer">
+                <ion-icon name="storefront"></ion-icon>
+                {{order.created_by_name}}
+              </div>
+              <div class="order-date">
+                <ion-icon name="calendar"></ion-icon>
+                {{order.date_created | date:'d MMM y'}}
+              </div>
+            </div>
+            <div class="order-footer">
+              <div class="order-items">{{order.total_qty}} Items</div>
+              <div class="order-amount">₹{{order.order_grand_total}}</div>
+            </div>
+          </div>
+          <div class="order-card" style="justify-content: center"
+            *ngIf="!latestOrders.length || latestOrders.length < 0  ">
+            <div class="nothing-here" style="height: 60%;" *ngIf="!latestOrders.length">
+              <div class="outer">
+                <div class="innear">
+                  <img src="assets/imgs/no_found.svg" alt="">
+                  <p>No Data Available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ledger Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'ledger'">
+        <div class="content-header">
+          <h4 class="content-title">Ledger Entries</h4>
+          <button class="view-all-btn" (click)="goOnLedger()" *ngIf="latestLedger.length > 0">
+            View All
+            <ion-icon name="chevron-forward"></ion-icon>
+          </button>
+        </div>
+
+        <div class="ledger-list">
+          <div class="ledger-card" *ngFor="let ledger of latestLedger"
+            [ngClass]="ledger.ledger_type ==  'Credit' ? 'credit' : 'debit'">
+            <div class="ledger-icon">
+              <ion-icon name="arrow-down"></ion-icon>
+            </div>
+            <div class="ledger-details">
+              <div class="ledger-description">{{ledger.ledger_type ? ledger.ledger_type : ledger.transaction_type}}
+              </div>
+              <div class="ledger-date">{{ledger.date_created | date:'d MMM y'}}</div>
+            </div>
+            <div class="ledger-amounts">
+              <div class="ledger-amount" [ngClass]="ledger.ledger_type ==  'Credit' ? 'credit-amount' : 'debit-amount'">
+                ₹{{ledger.transaction_amount}}</div>
+              <div class="ledger-balance">Bal: {{ledger.balance_amount}}</div>
+            </div>
+          </div>
+
+          <div class="ledger-card" style="justify-content: center"
+            *ngIf="!latestLedger.length || latestLedger.length < 0  ">
+            <div class="nothing-here" style="height: 60%;" *ngIf="!latestLedger.length">
+              <div class="outer">
+                <div class="innear">
+                  <img src="assets/imgs/no_found.svg" alt="">
+                  <p>No Data Available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoices Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'invoices'">
+        <div class="content-header">
+          <h4 class="content-title">Recent Invoices</h4>
+          <button class="view-all-btn" (click)="goOnInvoice()" *ngIf="latestInvoice.length > 0">
+            View All
+            <ion-icon name="chevron-forward"></ion-icon>
+          </button>
+        </div>
+
+        <div class="invoices-list">
+          <div class="invoice-card" *ngFor="let invoice of latestInvoice"
+            (click)="go_to(invoice.id,invoice.customer_code)">
+            <div class="invoice-header">
+              <div class="invoice-id">
+                <ion-icon name="document-text"></ion-icon>
+                #{{invoice.bill_number}}
+              </div>
+            </div>
+            <div class="invoice-body">
+              <div class="invoice-amount">Invoice Amount : ₹ {{invoice.total_billing_amount}}</div>
+              <div class="invoice-dates">
+                <div class="invoice-date">
+                  <span class="date-label">Invoice Created On:</span>
+                  <span class="date-value">{{invoice.billing_date | date:'d MMM y'}}</span>
+                </div>
+                <div class="invoice-date">
+                  <span class="date-label">Total Item Qty</span>
+                  <span class="date-value">{{invoice.total_billing_item}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="invoice-footer">
+              <button class="invoice-action-btn download">
+                <ion-icon name="card"></ion-icon>
+                View
+              </button>
+
+            </div>
+          </div>
+
+          <div class="invoice-card" *ngIf="!latestInvoice.length || latestInvoice.length < 0  ">
+            <div class="nothing-here" style="height: 60%;" *ngIf="!latestInvoice.length">
+              <div class="outer">
+                <div class="innear">
+                  <img src="assets/imgs/no_found.svg" alt="">
+                  <p>No Data Available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Banner -->
+    <div class="banner-section">
+      <h3 class="section-title">Quick Actions</h3>
+      <ion-slides #bannerSlides [autoplay]="4000" [loop]="true" [speed]="400" [spaceBetween]="16" [slidesPerView]="1">
+        <ion-slide class="action-banner add-order-banner">
+          <div class="banner-content" (click)="goToProducts()" >
+            <div class="banner-icon">
+              <img src="assets/imgs/bag.png" alt="">
+            </div>
+            <div class="banner-text" >
+              <h4>Add Order</h4>
+              <p>Create new order quickly</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide>
+
+        <ion-slide class="action-banner target-banner">
+          <div class="banner-content" (click)="goToTarget()">
+            <div class="banner-icon">
+              <ion-icon name="trophy"></ion-icon>
+            </div>
+            <div class="banner-text">
+              <h4>View Targets</h4>
+              <p>Track your achievements</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide>
+
+        <!-- <ion-slide class="action-banner scheme-banner" (click)="goToScheme()">
+          <div class="banner-content">
+            <div class="banner-icon">
+              <ion-icon name="gift"></ion-icon>
+            </div>
+            <div class="banner-text">
+              <h4>Schemes & Incentives</h4>
+              <p>View available offers</p>
+            </div>
+            <ion-icon name="arrow-forward" class="banner-arrow"></ion-icon>
+          </div>
+        </ion-slide> -->
+      </ion-slides>
+    </div>
+
+    <!-- Additional Quick Links -->
+    <div class="quick-links-section">
+      <!-- <div class="quick-link-card" (click)="goToRetailers()">
+        <div class="quick-link-icon retailers">
+          <ion-icon name="storefront"></ion-icon>
+        </div>
+        <div class="quick-link-info">
+          <h4>My Retailers</h4>
+          <p>Manage your network</p>
+        </div>
+        <ion-icon name="chevron-forward" class="link-arrow"></ion-icon>
+      </div> -->
+
+      <div class="quick-link-card" (click)="goToProducts()">
+        <div class="quick-link-icon products">
+          <ion-icon name="cube"></ion-icon>
+        </div>
+        <div class="quick-link-info">
+          <h4>Product Catalog</h4>
+          <p>Browse all products</p>
+        </div>
+        <ion-icon name="chevron-forward" class="link-arrow"></ion-icon>
+      </div>
+
+      <div class="quick-link-card" (click)="goToSupport()">
+        <div class="quick-link-icon support">
+          <ion-icon name="help-circle"></ion-icon>
+        </div>
+        <div class="quick-link-info">
+          <h4>Support</h4>
+          <p>Get help & assistance</p>
+        </div>
+        <ion-icon name="chevron-forward" class="link-arrow"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div *ngIf="skLoading" class="skeleton-container">
+    <div class="skeleton-header"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-summary">
+      <div class="skeleton-item" *ngFor="let item of [].constructor(4)"></div>
+    </div>
+  </div>
+</ion-content>

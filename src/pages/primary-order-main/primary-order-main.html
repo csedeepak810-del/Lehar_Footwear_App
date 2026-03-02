@@ -1,0 +1,123 @@
+<ion-header class="pom-header">
+  <ion-navbar>
+    <ion-title *ngIf="target_Type == 'My'">Primary Order</ion-title>
+    <ion-title *ngIf="target_Type != 'My'">Team's Primary Order</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="statusModal('OrderDateFilter')">
+        <span class="pom-filter-date" *ngIf="filter?.date_from">{{(filter.date_from | date:'dd/MM')+' -
+          '+(filter.date_to |
+          date:'dd/MM/yy')}}</span>
+        <i class="material-icons">filter_list</i>
+      </button>
+      <button ion-button icon-only *ngIf="teamCount > 0" (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar class="pom-search-bar">
+    <div class="pom-search-row">
+      <ion-searchbar type='text' name="master" [(ngModel)]="filter.search" (keydown.enter)="get_orders()"
+        placeholder="Search orders...">
+      </ion-searchbar>
+      <a class="pom-date-btn">
+        <label>
+          <input type="date" name="date" [max]="date" [(ngModel)]="filter.date" (ngModelChange)="get_orders()" />
+          <i class="material-icons">date_range</i>
+        </label>
+      </a>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Date Filter Badge -->
+<div class="pom-date-badge" *ngIf="filter.date">
+  <div class="pom-date-info">
+    <i class="material-icons">event</i>
+    <span>{{filter.date | date:'d MMM y'}}</span>
+  </div>
+  <i class="material-icons pom-date-clear" (click)="filter.date='';get_orders()">close</i>
+</div>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Status Filter Tabs -->
+  <div class="pom-status-tabs">
+    <div class="pom-tab" [ngClass]="{'active': order_status=='Pending'}"
+      (click)="filter.date='';filter.master='';start=0;order_status='Pending';get_orders()">
+      <span class="pom-tab-label">Pending</span>
+      <span class="pom-tab-count">{{count.Pending}}</span>
+    </div>
+    <div class="pom-tab" [ngClass]="{'active': order_status=='Approved'}"
+      (click)="filter.date='';filter.master='';start=0;order_status='Approved';get_orders()">
+      <span class="pom-tab-label">Approved</span>
+      <span class="pom-tab-count">{{count.Approved}}</span>
+    </div>
+    <div class="pom-tab" [ngClass]="{'active': order_status=='Reject'}"
+      (click)="filter.date='';filter.master='';start=0;order_status='Reject';get_orders()">
+      <span class="pom-tab-label">Rejected</span>
+      <span class="pom-tab-count">{{count.Reject}}</span>
+    </div>
+  </div>
+
+  <!-- Today's Amount Strip -->
+  <div class="pom-amount-strip">
+    <span class="pom-amount-label">Today's Total Amount</span>
+    <span class="pom-amount-value">&#8377;{{today_primary_amount | number:'1.0-0'}}</span>
+  </div>
+
+  <!-- Order Cards List -->
+  <div class="pom-order-list">
+    <div class="pom-order-card" *ngFor="let row of order_list" (click)="goOnOrderDetailFromDrLogin(row.id)">
+
+      <!-- Card Header: Order No + Date -->
+      <div class="pom-card-header">
+        <span class="pom-order-no">{{row.order_no}}</span>
+        <span class="pom-order-date">{{row.date_created | date:'d MMM y'}}</span>
+      </div>
+
+      <!-- Party Info -->
+      <div class="pom-party-row">
+        <div class="pom-party-avatar">{{row.name?.trim().substring(0,1).toUpperCase()}}</div>
+        <div class="pom-party-info">
+          <h3 class="pom-company-name">{{row.company_name?.toUpperCase()}}</h3>
+          <p class="pom-contact-name">{{row.name ? row.name : 'N/A'}}</p>
+          <p class="pom-created-by" *ngIf="row.created_by_name != null">Created by: {{row.created_by_name}}</p>
+        </div>
+        <ion-icon name="chevron-forward" class="pom-arrow"></ion-icon>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="pom-card-stats">
+        <div class="pom-stat">
+          <span class="pom-stat-val">{{row.order_item ? row.order_item : '0'}}</span>
+          <span class="pom-stat-lbl">Items</span>
+        </div>
+        <div class="pom-stat">
+          <span class="pom-stat-val">{{row.total_order_qty ? row.total_order_qty : '0'}}</span>
+          <span class="pom-stat-lbl">Qty</span>
+        </div>
+        <div class="pom-stat pom-stat-amount">
+          <span class="pom-stat-val">₹{{row.order_grand_total | number:'1.2-2'}}</span>
+          <span class="pom-stat-lbl">Amount</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="flag!=1">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Empty State -->
+  <div class="pom-empty-state" *ngIf="!order_list?.length && sendRequest">
+    <img src="assets/imgs/no_found.svg" alt="">
+    <p>No Orders Found</p>
+  </div>
+
+</ion-content>

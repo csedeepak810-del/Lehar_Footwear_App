@@ -1,0 +1,45 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title> Product Stock List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content >
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+<div class="nothing-here" *ngIf="!StocKListData.length && sendRequest == true">
+  <div class="outer">
+    <div class="innear">
+      <img src="assets/imgs/no_found.svg" alt="">
+      <p>Data Not Available</p>
+    </div>
+  </div>
+</div>
+  <div class="pd-left-right16 mt16 mb100">
+    <ng-container  *ngFor="let data of StocKListData" >
+    
+    <div class="attendance-list green_bg" (click)="Stock_detail(data.id)"  >
+   
+      <div class="other-block">
+        <p><strong>Ware House :</strong> 
+         {{data.display_name}}
+        </p>
+      </div>
+      <div class="next-forword">
+        <i class="material-icons">chevron_right</i>
+      </div>
+    </div>
+  </ng-container>
+  </div>
+  
+  <!-- <ion-fab right bottom *ngIf="team_exist==true" (click)="goToSupportAdd()">
+    <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+  </ion-fab> -->
+
+</ion-content>

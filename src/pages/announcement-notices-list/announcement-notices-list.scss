@@ -1,0 +1,386 @@
+page-announcement-notices-list {
+/* Page Background - Matching your app's theme */
+.notification-page {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  min-height: 100vh;
+}
+
+.notification-page .scroll-content {
+  background: transparent;
+  padding: 0;
+}
+
+
+
+
+/* Refresher Styling */
+.notification-refresher {
+  color: white;
+}
+
+.notification-refresher .refresher-pulling-icon,
+.notification-refresher .refresher-refreshing-icon {
+  color: white;
+}
+
+.notification-refresher .refresher-pulling-text,
+.notification-refresher .refresher-refreshing-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+/* Empty State Container */
+.notification-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  min-height: 60vh;
+}
+
+.notification-empty-wrapper {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  max-width: 300px;
+  width: 100%;
+}
+
+.notification-empty-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+  filter: grayscale(20%);
+}
+
+.notification-empty-text {
+  color: #495057;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Notification List Container */
+.notification-container {
+  padding: 16px;
+  margin-bottom: 80px;
+}
+
+/* Individual Notification Item - Card Style like your app */
+.notification-item {
+  background: white;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* Unread Notification Styling - Blue accent like your theme */
+.notification-item.notification-unread {
+  background: linear-gradient(135deg, rgba(30, 60, 114, 0.05) 0%, rgba(42, 82, 152, 0.05) 100%);
+  border-left: 4px solid #2a5298;
+}
+
+.notification-item.notification-unread::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.notification-item.notification-unread::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 10px;
+  height: 10px;
+  background: #2a5298;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Notification Content */
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-message {
+  color: #2c3e50;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+  padding-right: 30px;
+}
+
+.notification-unread .notification-message {
+  color: #1a202c;
+  font-weight: 600;
+}
+
+/* Date styling with icon */
+.notification-date {
+  color: #6c757d;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification-date::before {
+  content: '🕐';
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.notification-unread .notification-date {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Status indicator matching your app's style */
+.notification-status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background: #28a745;
+  vertical-align: middle;
+}
+
+.notification-unread .notification-status-indicator {
+  background: #2a5298;
+  box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
+}
+
+/* Infinite Scroll Loading */
+.notification-infinite-scroll {
+  background: transparent;
+}
+
+.notification-infinite-scroll .infinite-scroll-content {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  text-align: center;
+}
+
+.notification-infinite-scroll .infinite-loading-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Loading Animation */
+.notification-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.notification-loading-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Category badge styling */
+.notification-category-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Notification meta info */
+.notification-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.notification-priority {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.notification-priority.high {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.notification-priority.medium {
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.notification-priority.low {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+/* Swipe Actions */
+.notification-item.notification-swiped {
+  transform: translateX(-80px);
+  transition: transform 0.3s ease;
+}
+
+.notification-actions {
+  position: absolute;
+  right: -80px;
+  top: 0;
+  height: 100%;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border-radius: 0 16px 16px 0;
+}
+
+.notification-delete-btn {
+  color: white;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+}
+
+
+/* Slide-in Animation */
+.notification-item {
+  animation: slideInFromRight 0.4s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Notification type indicators */
+.notification-type-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.8rem;
+}
+
+/* Pull to refresh enhancement */
+.notification-refresher .refresher-pulling-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.notification-refresher .refresher-refreshing-icon {
+  color: white;
+}
+
+/* Enhanced scroll indicators */
+.notification-infinite-scroll .infinite-scroll-content {
+  background: rgba(255, 255, 255, 0.1);
+  margin: 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+/* Notification priority border */
+.notification-item.priority-high {
+  border-left: 4px solid #dc3545;
+}
+
+.notification-item.priority-medium {
+  border-left: 4px solid #ffc107;
+}
+
+.notification-item.priority-low {
+  border-left: 4px solid #28a745;
+}
+
+/* Smooth transitions for all interactive elements */
+.notification-item,
+.notification-delete-btn,
+.notification-status-indicator {
+  transition: all 0.3s ease;
+}
+
+/* Focus states for accessibility */
+.notification-item:focus {
+  outline: 2px solid #2a5298;
+  outline-offset: 2px;
+}
+
+/* Loading skeleton animation */
+.notification-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+}

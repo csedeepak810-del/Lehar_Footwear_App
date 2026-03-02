@@ -1,0 +1,267 @@
+<ion-header class="header">
+    <div class="header-content">
+        <img src="assets/imgs/logo.png" class="logo" />
+
+        <button class="notification-btn" (click)="getNotification()">
+            <ion-icon name="notifications-outline"></ion-icon>
+            <!-- <span class="notification-badge"></span> -->
+        </button>
+    </div>
+</ion-header>
+
+<ion-content>
+
+    <!-- Banner -->
+      <div class="banner-slider" *ngIf="appbanner.length > 0">
+        <div class="round-slider">
+            <ion-slides [initialSlide]="0" pager autoplay="200" speed="200">
+                <ion-slide *ngFor="let row of appbanner">
+                    <img src="{{bannerURL+row.banner}}">
+                </ion-slide>
+            </ion-slides>
+        </div>
+    </div>
+
+    <!-- Greeting -->
+    <div class="greeting-card">
+        <div class="greeting-content">
+            <div class="greeting-left">
+                <div class="greeting-icon">
+                    <i class="material-icons">
+                        person
+                    </i>
+                </div>
+
+                <div class="greeting-text">
+                    <h2>{{ greeting }},{{dashboardData.company_name ? dashboardData.company_name : '---'}}</h2>
+                    <p>{{dashboardData.name | titlecase}} - {{dashboardData.mobile}}</p>
+                </div>
+            </div>
+
+            <button class="profile-arrow" (click)="goToProfile()">
+                <i class="material-icons" style="font-weight:800" (click)="GoToProfile()">
+                    chevron_right
+                </i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Payment Info -->
+    <div class="payment-card">
+        <div class="card-header">
+            <ion-icon name="wallet-outline"></ion-icon>
+            <h3>Payment Information</h3>
+        </div>
+
+        <div class="payment-grid">
+            <div class="payment-box blue-gradient">
+                <ion-icon name="card-outline"></ion-icon>
+                <div class="payment-value">{{paymentDetail.credit_limit ? ( '₹' + paymentDetail.credit_limit) : '0'}}
+                </div>
+                <div class="payment-label">Credit Limit</div>
+            </div>
+
+            <div class="payment-box purple-gradient">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <div class="payment-value">{{paymentDetail.credit_period}}</div>
+                <div class="payment-label">Credit Days</div>
+            </div>
+
+            <div class="payment-box green-gradient">
+                <ion-icon name="trending-up-outline"></ion-icon>
+                <div class="payment-value">{{paymentDetail.Outstanding_balance ? ( '₹' +
+                    paymentDetail.Outstanding_balance) : '---'}}</div>
+                <div class="payment-label">Outstanding</div>
+            </div>
+
+            <div class="payment-box red-gradient">
+                <ion-icon name="warning-outline"></ion-icon>
+                <div class="payment-value">{{paymentDetail.Overdue_balance ? ( '₹' + paymentDetail.Overdue_balance) :
+                    '---'}}</div>
+                <div class="payment-label">Overdue</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shortcuts -->
+    <div class="shortcuts-card">
+        <div class="card-header">
+            <ion-icon name="flash-outline"></ion-icon>
+            <h3>Shortcuts</h3>
+        </div>
+
+        <div class="shortcut-grid">
+
+            <div class="shortcut-item" (click)="orderAdd()">
+                <div class="shortcut-icon red-gradient">
+                    <i class="material-icons">
+                        add_shopping_cart
+                    </i>
+                </div>
+                <div class="shortcut-label">Add Order</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goToOrderlist()">
+                <div class="shortcut-icon orange-gradient">
+                    <i class="material-icons">
+                        assignment
+                    </i>
+                </div>
+                <div class="shortcut-label">My Orders</div>
+            </div>
+
+            <!-- <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 7" (click)="goToassignedDr()">
+                <div class="shortcut-icon blue-gradient">
+                    <ion-icon name="storefront-outline"></ion-icon>
+                </div>
+                <div class="shortcut-label" *ngIf="constant.UserLoggedInData.all_data?.type == 1">
+                    Retailer's
+                </div>
+                <div class="shortcut-label" *ngIf="constant.UserLoggedInData.all_data?.type == 3">
+                    Distributors
+                </div>
+            </div> -->
+
+            <!-- <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type == 1" (click)="goTosecondary()">
+                <div class="shortcut-icon purple-gradient">
+                    <ion-icon name="bag-check-outline"></ion-icon>
+                </div>
+                <div class="shortcut-label">Retailer's Order</div>
+            </div> -->
+
+            <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 3"
+                (click)="viewAchievement()">
+                <div class="shortcut-icon green-gradient">
+                    <i class="material-icons">
+                        track_changes
+                    </i>
+
+                </div>
+                <div class="shortcut-label">Target</div>
+            </div>
+
+            <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 3"
+                (click)="goOnLedger('Ledger')">
+                <div class="shortcut-icon teal-gradient">
+                    <i class="material-icons">
+                        account_balance_wallet
+                    </i>
+                </div>
+                <div class="shortcut-label">Ledger</div>
+            </div>
+
+            <!-- <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 3"
+                (click)="goOnLedger('PendingBill')">
+                <div class="shortcut-icon yellow-gradient">
+                    <i class="material-icons">
+                        receipt
+                    </i>
+                </div>
+                <div class="shortcut-label">Pending Bill</div>
+            </div> -->
+
+            <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 3" (click)="goOnInvoice()">
+                <div class="shortcut-icon pink-gradient">
+                    <i class="material-icons">
+                        receipt_long
+                    </i>
+
+                </div>
+                <div class="shortcut-label">Invoice</div>
+            </div>
+
+            <!-- <div class="shortcut-item" *ngIf="constant.UserLoggedInData.all_data?.type != 3"
+                (click)="goToSchemeIncentive()">
+                <div class="shortcut-icon gold-gradient">
+
+                    <i class="material-icons">
+                        loyalty
+                    </i>
+                </div>
+                <div class="shortcut-label">Scheme / Incentive</div>
+            </div> -->
+
+            <div class="shortcut-item" (click)="goOnProductPage()">
+                <div class="shortcut-icon indigo-gradient">
+                    <i class="material-icons">
+                        inventory
+                    </i>
+                </div>
+                <div class="shortcut-label">Product</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goOnDigitalcatPage()">
+                <div class="shortcut-icon brown-gradient">
+                    <i class="material-icons">
+                        picture_as_pdf
+                    </i>
+                </div>
+                <div class="shortcut-label">E-Catalogue</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goToSurvey()">
+                <div class="shortcut-icon cyan-gradient">
+                    <i class="material-icons">
+                        analytics
+                    </i>
+                </div>
+                <div class="shortcut-label">Survey</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goToSupport()">
+                <div class="shortcut-icon lime-gradient">
+                    <i class="material-icons">
+                        support_agent
+                    </i>
+                </div>
+                <div class="shortcut-label">Support</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goToVideo()">
+                <div class="shortcut-icon deep-orange-gradient">
+                    <i class="material-icons">
+                        video_file
+                    </i>
+
+                </div>
+                <div class="shortcut-label">Videos</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goToAbout()">
+                <div class="shortcut-icon blue-grey-gradient">
+                    <i class="material-icons">
+                        info
+                    </i>
+                </div>
+                <div class="shortcut-label">About Us</div>
+            </div>
+
+            <div class="shortcut-item" (click)="goOnContactPage()">
+                <div class="shortcut-icon red-gradient">
+                    <i class="material-icons">
+                        call
+                    </i>
+                </div>
+                <div class="shortcut-label">Contact Us</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Orders -->
+    <div class="order-card" (click)="goToOrderlist()">
+        <div class="order-count-badge">
+            <div class="order-count">0</div>
+            <div class="order-label">Total</div>
+        </div>
+
+        <div class="order-details">
+            <h4>Primary Order</h4>
+            <p class="order-amount">₹ 0.00</p>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+
+</ion-content>

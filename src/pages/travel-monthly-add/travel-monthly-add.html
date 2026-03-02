@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Plan of Action</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="form">
+    <ion-list no-lines class="padding10 mb10 pt0">
+      <ion-item>
+        <ion-label floating><span>Select Month <strong class="reject">*</strong></span></ion-label>
+        <ion-select [(ngModel)]="travel_data.month" [disabled]="stateDistrictList.length" interface="action-sheet"
+          (ngModelChange)="setYear(travel_data.month)">
+          <ion-option *ngFor="let row of remainingMonths" [value]="row">{{ row.name }} - {{row.year}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label floating>Select State <strong class="reject">*</strong></ion-label>
+        <ionic-selectable item-content [(ngModel)]="selectedState" [items]="state_list" itemValueField="state_name"
+          itemTextField="state_name" [canSearch]="true" (ngModelChange)="getDstrictList(selectedState)">
+        </ionic-selectable>
+      </ion-item>
+      <ion-item *ngIf="selectedState">
+        <ion-label floating>Select District <strong class="reject">*</strong></ion-label>
+        <ionic-selectable item-content [(ngModel)]="selectedDistrict" [items]="district_list"
+          itemValueField="district_name" itemTextField="district_name" [canSearch]="true"
+          (ngModelChange)="getCityList(selectedDistrict)">
+        </ionic-selectable>
+      </ion-item>
+      <ion-item *ngIf="selectedDistrict">
+        <ion-label floating>Select City <strong class="reject">*</strong></ion-label>
+        <ionic-selectable item-content [(ngModel)]="selectedCity" [items]="city_list" itemValueField="city"
+          itemTextField="city" [canSearch]="true"    (ngModelChange)="selectarea()">
+        </ionic-selectable>
+      </ion-item>
+      <ion-item *ngIf="selectedCity">
+        <ion-label floating>Select Area <strong class="reject">*</strong></ion-label>
+        <ionic-selectable item-content [(ngModel)]="selectedArea" [items]="area_list" itemValueField="area"
+          itemTextField="area" [canSearch]="true" [isMultiple]="true">
+        </ionic-selectable>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Visit Days <strong class="red-text">*</strong></ion-label>
+        <ion-input type="tel" name="visit_days" #visit_days="ngModel" minLength="1" maxLength="2"
+          [(ngModel)]="travel_data.visit_days" required>
+        </ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div class="pl6 pr6">
+      <button ion-button round full color="primary" [disabled]="!selectedDistrict || !travel_data.year"
+        (click)="customerAddToList({'state':selectedState.state_name,'district':selectedDistrict.district_name,'visit_days':travel_data.visit_days });">
+        Add To List
+      </button>
+    </div>
+
+  </div>
+  <ng-container *ngIf="stateDistrictList?.length">
+    <div class="travel travel">
+      <ul class="mb10">
+        <li>
+          <div class="travel-action">
+            <span>{{travel_data.month.name}} {{travel_data.year}}</span>
+            <button (click)="removeWholeList()" ion-button class="deleteBtn">
+              <i class="material-icons">delete_sweep</i>
+            </button>
+          </div>
+
+        </li>
+        <li *ngFor="let row of stateDistrictList; let i = index;">
+          <span class="vistit-count">{{i+1}}</span>
+          <div class="counter">
+            <div>
+              <h2 class="f12">{{row.state ? (row.state | titlecase) : ''}}
+              </h2>
+              <div class="visit-time pb10">
+                <div class="visit-hours">
+                  <span>District & City</span>
+                  <p>{{row.district ? row.district : '---'}} ({{row.city ? row.city : '---'}})</p>
+                </div>
+                <div class="visit-hours">
+                  <span>Visit Days</span>
+                  <p>{{row.visit_days ? row.visit_days : '---'}}</p>
+                </div>
+
+              </div>
+              <div class="visit-time pb10">
+                <div class="visit-hours">
+                  <span>Area</span>
+                  <p>{{row.area ? row.area : '---'}}</p>
+                </div>
+
+
+              </div>
+
+              <button (click)="removeRow(i)" ion-button class="deleteBtn rm-btn">
+                <i class="material-icons">remove_circle</i>
+              </button>
+
+
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="pl16 pr16 mb20">
+      <button ion-button round full color="primary" [disabled]="!stateDistrictList?.length" (click)="checkAlert()">
+        Save
+      </button>
+    </div>
+  </ng-container>
+
+</ion-content>

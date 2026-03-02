@@ -1,0 +1,273 @@
+<ion-header>
+    <ion-toolbar color="white">
+        <ion-title>
+            <div class="company-logo">
+                <img src="assets/imgs/logo.png" style="height: 35px;" alt="">
+            </div>
+        </ion-title>
+        <ion-buttons end >
+           
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button icon-only class="share-text" (click)="announcementModal()">
+                <ion-icon name="notifications" color="themePrimary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh'|translate}}"
+            refreshingSpinner="circles" refreshingText="{{'Refreshing...' |translate}}">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="skLoading == false">
+        <div class="slide-image" *ngIf="appbanner.length > 0">
+            <ion-slides *ngIf="appbanner.length " [initialSlide]="0" pager autoplay="1000" speed="1000">
+                <ion-slide *ngFor="let row of appbanner">
+                    <img src="{{bannerURL+row.banner}}">
+                </ion-slide>
+            </ion-slides>
+        </div>
+
+        <div class="pl16 pr16">
+            <!-- <div id="salesReportMeter"></div> -->
+            <div class="wallet_point">
+                <div class="point-column">
+                    <p>{{'Welcome' |translate}} <span>{{influencer_detail.name | titlecase}}</span></p>
+                    <p>{{'Total Reward Points'|translate}} <span>{{pointRight.wallet_point ? pointRight.wallet_point
+                            :'0'}}</span>
+                    </p>
+                    <p>{{'Points Redeemed' |translate}} <span>{{pointRight.redeem_point ? pointRight.redeem_point
+                            :'0'}}</span></p>
+                    <p>{{'Balance Points' |translate}} <span>{{pointRight.balance_point ? pointRight.balance_point
+                            :'0'}}</span>
+                    </p>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <div class="home-btn-group">
+                <!-- <ng-container *ngIf="influencer_detail.user_type == 1 && influencer_detail.status =='Verified' ">
+                <div class="outline-btn" (click)="scanCoupon()">
+                    <div class="icons"><ion-icon name="qr-scanner"></ion-icon></div>
+                    {{'Click here for scan'}}
+                </div>
+            </ng-container> -->
+
+
+                <div class="outline-btn" (click)="goscan()" *ngIf="pointRight.scanning_rights == 'Yes' && influencer_detail.status =='Approved'">
+                    <div class="icons"><i class="material-icons">qr_code_scanner</i></div>
+                    {{'Scan' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToCoupon()" *ngIf="pointRight.scanning_rights == 'Yes' && influencer_detail.status =='Approved'">
+
+                    <div class="icons"><i class="material-icons">qr_code</i></div>
+                    {{'Enter Code'|translate}}
+                </div>
+                <!-- <div class="outline-btn" (click)="goOnPointeListPage()">
+
+                    <div class="icons">
+                        <i class="material-icons">qr_code</i>
+                        {{'Enter Code'|translate}}
+                    </div>
+
+                </div> -->
+                <div class="outline-btn" (click)="goTopurchaselist()" *ngIf="pointRight.scanning_rights == 'Yes' && influencer_detail.status =='Approved'">
+                    <i class="material-icons">card_giftcard</i>
+                    {{'Purchase'|translate}}
+                </div>
+                <div class="outline-btn" (click)="goOnPointeListPage()"
+                    *ngIf="pointRight.scanning_rights == 'Yes' || pointRight.point_transfer_rights == 'Yes' ">
+                    <div class="icons"><i class="material-icons">receipt_long</i></div>
+                    {{'Point History' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goOnDigitalcatPage();">
+                    <i class="material-icons">picture_as_pdf</i>
+                    {{'Catalogues' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goOnProductPage()">
+                    <i class="material-icons ">category</i>
+                    {{'Products' |translate}}
+                </div>
+
+                <!-- <div class="outline-btn" (click)="goOnPointcategory()">
+                    <i class="material-icons ">local_offer</i>
+                    {{'Point Category' |translate}}
+                </div> -->
+                
+                <div class="outline-btn" (click)="goToPointDetail();">
+                    <i class="material-icons">receipt</i>
+                    {{'Point Category'|translate}}
+                </div>
+
+                <div class="outline-btn" (click)="influencer_detail.status != 'Approved' ?  goToGift() : goToDetail()"
+                    *ngIf="pointRight.scanning_rights == 'Yes' || pointRight.point_transfer_rights == 'Yes' ">
+                    <i class="material-icons">card_giftcard</i>
+                    {{'REWARDS (GIFTS)' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToTracker();"
+                    *ngIf="pointRight.scanning_rights == 'Yes' || pointRight.point_transfer_rights == 'Yes' ">
+                    <i class="material-icons">fmd_good</i>
+                    {{'Track Request' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToSurvey()">
+                    <i class="material-icons ">poll</i>
+                    {{'Survey' |translate}}
+                </div>
+                <!-- <div class="outline-btn" (click)="goToBonusPoint();" *ngIf="pointRight.scanning_rights == 'Yes' || pointRight.point_transfer_rights == 'Yes' ">
+                 <i class="material-icons">fmd_good</i>
+                {{'Bonus Point'}}
+                </div> -->
+                <div class="outline-btn" (click)="goOnfaqPage()"
+                *ngIf="pointRight.scanning_rights == 'Yes' || pointRight.point_transfer_rights == 'Yes' ">
+                <div class="icons"><i class="material-icons">description</i></div>
+                {{'Faq'|translate}}
+                </div>
+                <div class="outline-btn" (click)="goToVideo();">
+                    <i class="material-icons">play_circle</i>
+                    {{'Videos' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToAbout();">
+                    <i class="material-icons">info</i>
+                    {{'About Us' |translate}}
+                </div>
+
+                <div class="outline-btn" (click)="goToContact();">
+                    <i class="material-icons">contact_phone</i>
+                    {{'Contact Us' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToProfile();">
+                    <i class="material-icons">person</i>
+                    {{'Profile' |translate}}
+                </div>
+                <div class="outline-btn" (click)="goToSupport();">
+                    <i class="material-icons">help</i>
+                    {{'Support'|translate}}
+                </div>
+                <div class="outline-btn" (click)="announcementList()">
+                    <i class="material-icons">campaign</i>
+                    {{'Annoucement'|translate}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <ng-container>
+        <div *ngIf="skLoading">
+            <div class="slide-image">
+                <ion-slides>
+                    <ion-slide>
+                    </ion-slide>
+                </ion-slides>
+            </div>
+            <div class="pl16 pr16">
+                <div class="center-card sk-loading">
+                    <div class="cs-profile sk-loading"></div>
+                </div>
+                <div class="home-btn-group">
+                    <ng-container>
+                        <div class="outline-btn sk-loading">
+                            <div class="icons"></div>
+                        </div>
+                    </ng-container>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+
+
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                    <div class="outline-btn sk-loading">
+                        <div class="icons"></div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+
+
+    <ion-fab left bottom >
+        <button style="background-color: transparent;" (click)="openDialer(contact.calling_no,$event)">
+            <img src="assets/imgs/call.png" class="h45">
+        </button>
+      </ion-fab>
+      <ion-fab right bottom >
+        <a href="https://api.whatsapp.com/send?phone={{contact.whatsapp_no}}"   rel="whatsapp" target="_system">
+        <img src="assets/imgs/whatsapp.png" class="h45">
+        </a>
+      </ion-fab>
+
+</ion-content>

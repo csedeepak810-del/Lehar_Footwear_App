@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Secondary Sale Plan</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <form name="lcform" #lcform="ngForm" (ngSubmit)="lcform.submitted && lcform.valid && addTarget()">
+      <div class="d-flex  p2 header-bg">
+        <ion-item>
+          <ion-label floating>Select Year</ion-label>
+          <ion-select name="Year" [(ngModel)]="data.year" (ngModelChange)="data.month='';">
+            <ion-option value="2023">2023 </ion-option>
+            <ion-option value="2024">2024</ion-option>
+            <ion-option value="2025">2025</ion-option>
+            <ion-option value="2026">2026</ion-option>
+            <ion-option value="2028">2028</ion-option>
+            <ion-option value="2029">2029</ion-option>
+            <ion-option value="2030">2030</ion-option>
+
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Select Month</ion-label>
+          <ion-select name="Month" [(ngModel)]="data.month" (ngModelChange)="get_targetList()" [disabled]='!data.year'>
+            <ion-option [disabled]="disable_month(data.year,0)" value='01'>Janaury</ion-option>
+            <ion-option [disabled]="disable_month(data.year,1)" value='02'>February</ion-option>
+            <ion-option [disabled]="disable_month(data.year,2)" value='03'>March</ion-option>
+            <ion-option [disabled]="disable_month(data.year,3)" value='04'>April</ion-option>
+            <ion-option [disabled]="disable_month(data.year,4)" value='05'>May</ion-option>
+            <ion-option [disabled]="disable_month(data.year,5)" value='06'>June</ion-option>
+            <ion-option [disabled]="disable_month(data.year,6)" value='07'>July</ion-option>
+            <ion-option [disabled]="disable_month(data.year,7)" value='08'>August</ion-option>
+            <ion-option [disabled]="disable_month(data.year,8)" value='09'>September</ion-option>
+            <ion-option [disabled]="disable_month(data.year,9)" value='10'>October</ion-option>
+            <ion-option [disabled]="disable_month(data.year,10)" value='11'>November</ion-option>
+            <ion-option [disabled]="disable_month(data.year,11)" value='12'>December</ion-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div *ngIf="data.year && data.month">
+        <div class="d-flex p10 header-bg">
+          <h6>{{'Retailers / UBS'}}</h6>
+          <p>Plan</p>
+        </div>
+
+        <ion-list no-lines class="mb70">
+          <ion-item *ngFor="let row of add_target_list; let i=index">
+            <div class="d-flex">
+              <div>
+                <h6 class="company_name" style="text-wrap: wrap; ">{{row.company_name}} </h6>
+            <p style="color: green; ">{{row.type == 3 ? 'Retailer':''}}</p>
+            <p style="color: red; ">{{row.type == 14 ? 'UBS':''}}</p>
+                  <!-- <p style="color: green; ">({{row.type == 3 ? 'Retailer': (row.type ==14 ? 'UBS' : '')}})</p> -->
+              
+                <span class="contact_person">{{row.name?row.name:'N/A'}}
+                  {{row.district?'('+row.district+')':'N/A'}}</span>
+              </div>
+              <ion-item class="inputBox mb0">
+                <ion-input type="number" [name]="'target'+i" #target="ngModel" [(ngModel)]="row.target"  required></ion-input>
+              </ion-item>
+              <!-- (ionChange)="disableSubmitButtonRetrun()" -->
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
+      <!-- <ion-footer> -->
+
+      <div class="button-wrapper">
+        <!-- [disabled]="disableSubmitButton" -->
+        <button ion-button block color="primary" [disabled]="!data.year || !data.month" class="addTargetBtn mt16" ><ion-spinner
+            *ngIf="spinnerLoader"></ion-spinner> Submit </button>
+      </div>
+
+      <!-- </ion-footer> -->
+    </form>
+  </div>
+</ion-content>

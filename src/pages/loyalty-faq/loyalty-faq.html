@@ -1,0 +1,48 @@
+<!--
+  Generated template for the LoyaltyFaqPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Faq List'|translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+    pullingIcon="arrow-dropdown"
+    pullingText="Pull to refresh"
+    refreshingSpinner="circles"
+    refreshingText="Refreshing...">
+  </ion-refresher-content>
+</ion-refresher>
+  
+  <div class="clcsd">
+      <ul class="collapsible">
+          <li *ngFor="let row of question_list_faq;let i=index" class="{{row.active ? 'active' : ''}}">
+              <div class="collapsible-header" (click)="row.active = !row.active">
+                  <div class="counter">{{i+1}}</div>
+                  <div [innerHTML]="row.question"></div>
+              </div>
+              <div class="collapsible-body">
+                  <div [innerHTML]="row.answer"></div>
+              </div>
+          </li>
+      </ul> 
+  </div>
+
+  <div class="nothing-here" style="height: 60%;" *ngIf="!question_list_faq.length">
+    <div class="outer">
+      <div class="innear">
+        <img src="assets/imgs/no_found.svg" alt="">
+        <p>No Data Available</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

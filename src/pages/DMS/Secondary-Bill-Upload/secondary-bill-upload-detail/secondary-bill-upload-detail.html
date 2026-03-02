@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Secondary Bill Upload Detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="list-box">
+    
+    <div class="mid mt0">
+      <div class="content-info">
+        <div class="right-info" >
+          <p>{{secBillUploadData.distributor_company_name}}</p>
+          <p>{{secBillUploadData.distributor_name | titlecase}} ({{secBillUploadData.distributor_mobile}})</p>
+        </div>
+      </div>
+      
+      <div class="tag-info">
+        <a href="tel:{{secBillUploadData.distributor_mobile}}"><i class="material-icons">phone</i></a>
+      </div>
+    </div>
+    
+    <div class="upper">
+      <div class="left-date">
+        <div class="date-section">
+          <p>{{secBillUploadData.bill_date | date:'d MMM y'}}</p>
+          <p>Bill Date</p>
+        </div>
+        
+        <div class="date-section">
+          <p>{{secBillUploadData.bill_no}}</p>
+          <p>Bill No.</p>
+        </div>
+        
+        <div class="date-section">
+          <p>₹ {{secBillUploadData.bill_amount}}</p>
+          <p>Bill Amount</p>
+        </div>
+
+        <div class="date-section" *ngIf="secBillUploadData.approved_amount">
+          <p>₹ {{secBillUploadData.approved_amount}}</p>
+          <p>Approved Amount</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="upper">
+      <div class="left-date">
+        <div class="date-section">
+          <p>{{secBillUploadData.date_created | date:'d MMM y'}}</p>
+          <p>Date Created</p>
+        </div>
+        
+        <div class="date-section">
+          <p>{{secBillUploadData.total_items ? secBillUploadData.total_items : '0'}}</p>
+          <p>Total Item</p>
+        </div>
+        
+        <div class="date-section">
+          <p>{{secBillUploadData.total_items_qty ? secBillUploadData.total_items_qty : '0'}}</p>
+          <p>Total Item Qty</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="slab mt10">
+      <div class="slab-day">
+        <span>Status</span>
+        <p class="bold" [ngClass]="{'pending' : secBillUploadData.status == 'Pending' , 'approved' : secBillUploadData.status == 'Approved' , 'reject' : secBillUploadData.status == 'Reject'}">{{secBillUploadData.status}}</p>
+      </div>
+      <div class="slab-day" *ngIf="secBillUploadData.status != 'Pending'">
+        <span>{{secBillUploadData.status}} Remark</span>
+        <p class="bold">{{secBillUploadData.remark}}</p>
+      </div>
+    </div>
+    
+    <div class="upload-doc padding0" *ngIf="secBillUploadBillDocs.length > 0">
+      <div class="">
+        Bill Images
+      </div>
+      <ul class="padding0" >
+        <li class="image-upload" *ngFor="let image of secBillUploadBillDocs">
+          <img (click)="imageModal(url+image.bill_doc)" src="{{url+image.bill_doc}}">
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="pl16 pr16 mb25">
+    <ng-container>
+      <div class="summary-heading font14 mb8" *ngIf="secBillUploadItems.length > 0">ITEM INFORMATION</div>
+      
+      
+      <div class="attendance-list" style="padding : 5px 10px;" *ngFor="let item of secBillUploadItems; let i = index;">
+        <div class="center-block flat-block">
+          <h1>{{item.product_details}}</h1>
+        </div>
+        
+        <div class="slab slab-three boder-top1 pt5 mt5 dflex jcc align-center">
+          <div class="slab-day">
+            <p>{{item.product_qty}}</p>
+            <span>Qty</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

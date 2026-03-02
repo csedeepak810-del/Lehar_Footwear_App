@@ -1,0 +1,77 @@
+
+<ion-content class="login-content-wrapper">
+    
+    <div class="background-overlay">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+
+    <form class="enhanced-login-form" [formGroup]="validations_form" (ngSubmit)="form.phone?.length == 10 ? login_submit() : ''"
+        autocomplete="off">
+        <div class="brand-logo-container1">
+            <img src="assets/imgs/logo.png" alt="Logo" class="brand-logo-img">
+        </div>
+        <div class="login-card-container">
+            <div class="login-card-content">
+                <div class="welcome-section">
+                    <h1 class="welcome-title">{{'Login' | translate}}</h1>
+                    <p class="welcome-subtitle">
+                        {{'Enter your mobile number to verify We will send you one time password (OTP)' |translate}}
+                    </p>
+                </div>
+
+                <div class="input-section">
+                    <div class="modern-input-group">
+                        <div class="input-wrapper-enhanced">
+                            <div class="input-icon-container">
+                                <i class="material-icons input-icon-modern">phone_android</i>
+                            </div>
+                            <input 
+                                class="modern-phone-input" 
+                                type="tel" 
+                                minlength="10" 
+                                maxlength="10" 
+                                [(ngModel)]="form.phone"
+                                placeholder="{{'Mobile Number' | translate}}" 
+                                formControlName="phone">
+                            <div class="input-focus-line"></div>
+                        </div>
+                        
+                        <div class="error-messages-container">
+                            <p class="modern-error-msg animate-error"
+                                *ngIf="validations_form.get('phone').hasError('required') && validations_form.get('phone').touched">
+                                <i class="material-icons error-icon">error_outline</i>
+                                {{'Please enter your mobile number' | translate}}
+                            </p>
+                            <p class="modern-error-msg animate-error"
+                                *ngIf="(validations_form.get('phone').hasError('minlength') || validations_form.get('phone').hasError('maxlength')) && validations_form.get('phone').touched">
+                                <i class="material-icons error-icon">error_outline</i>
+                                {{'Invalid mobile number' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-button-container">
+            <button 
+                ion-button 
+                class="modern-continue-btn"
+                [disabled]="loading == 1 || validations_form.get('phone').hasError('required') || validations_form.get('phone').hasError('minlength')">
+                <span class="btn-text">{{'Continue' | translate}}</span>
+                <ion-icon 
+                    *ngIf="spinner == false"
+                    name="arrow-forward" 
+                    class="btn-icon">
+                </ion-icon>
+                <ion-spinner 
+                    class="btn-spinner" 
+                    color="white"
+                    *ngIf="spinner == true">
+                </ion-spinner>
+            </button>
+        </div>
+    </form>
+</ion-content>

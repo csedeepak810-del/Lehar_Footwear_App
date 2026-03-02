@@ -1,0 +1,870 @@
+webpackJsonp([20],{
+
+/***/ 1398:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewtargetpagePageModule", function() { return NewtargetpagePageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_selectable__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__newtargetpage__ = __webpack_require__(1452);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var NewtargetpagePageModule = /** @class */ (function () {
+    function NewtargetpagePageModule() {
+    }
+    NewtargetpagePageModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_3__newtargetpage__["a" /* NewtargetpagePage */],
+            ],
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["IonicPageModule"].forChild(__WEBPACK_IMPORTED_MODULE_3__newtargetpage__["a" /* NewtargetpagePage */]),
+                __WEBPACK_IMPORTED_MODULE_2_ionic_selectable__["b" /* IonicSelectableModule */],
+            ],
+        })
+    ], NewtargetpagePageModule);
+    return NewtargetpagePageModule;
+}());
+
+//# sourceMappingURL=newtargetpage.module.js.map
+
+/***/ }),
+
+/***/ 1427:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddTargetPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_myservice_myservice__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ionic_selectable__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_dbservice_dbservice__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__target_target__ = __webpack_require__(141);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var AddTargetPage = /** @class */ (function () {
+    function AddTargetPage(navCtrl, storage, navParams, service, loadingCtrl, alertCtrl, toastCtrl, dbService) {
+        this.navCtrl = navCtrl;
+        this.storage = storage;
+        this.navParams = navParams;
+        this.service = service;
+        this.loadingCtrl = loadingCtrl;
+        this.alertCtrl = alertCtrl;
+        this.toastCtrl = toastCtrl;
+        this.dbService = dbService;
+        this.filter_state_active = false;
+        this.filter_district_active = false;
+        this.filter_city_active = false;
+        this.target_data = {};
+        this.filter_active = false;
+        this.addToListButton = true;
+        this.filter = {};
+        this.today_date = new Date().toISOString().slice(0, 10);
+        this.state_list = [];
+        this.district_list = [];
+        this.channel_partners = [];
+        this.travel_list = [];
+        this.area_list = [];
+        this.form1 = {};
+        this.city_list = [];
+        this.travel_plan_detail_for_update = [];
+        this.state = [];
+        this.customersList = [];
+        this.dateWiseCustomersList = [];
+        this.partyList = [];
+        this.date = new Date();
+        this.customerList = [];
+        this.targetItem = [];
+        this.remainingMonths = [];
+        this.networList = [];
+        this.module_name = '';
+        this.travelType = '';
+        this.assignDistributorList = '';
+        this.teamId = '';
+        this.salesTargetType = '';
+        this.TeamID = '';
+        this.buttonDisable = '';
+        this.months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        this.totalDistance = 0;
+        this.minYear = new Date().getFullYear();
+        this.maxYear = (new Date().getFullYear() + 10).toString();
+        this.minMonth = new Date().getMonth();
+        this.salesTargetType = this.navParams.get('salesTargetType');
+        this.TeamID = this.navParams.get('teamId');
+        this.updateMonths();
+        this.getNetworkList();
+    }
+    AddTargetPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        setTimeout(function () {
+            if (_this.salesTargetType != 'Primary') {
+                _this.getAssignedDistributor();
+            }
+            if (_this.salesTargetType == 'Stock Transfer') {
+                _this.target_data.dr_type = 'Sub Dealer';
+                _this.get_customerList('Sub Dealer');
+            }
+        }, 100);
+    };
+    AddTargetPage.prototype.refresh = function () {
+        this.target_data.state = [];
+        this.target_data.city = [];
+        this.target_data.district = [];
+    };
+    // updateMonths() {
+    //   let currentDate = new Date();
+    //   let currentMonth = currentDate.getMonth(); // Month index (0-11)
+    //   let currentYear = currentDate.getFullYear();
+    //   let currentDay = currentDate.getDate();
+    //   // Check if the current day is after the 5th
+    //   let displayNextMonth = currentDay > 5;
+    //   // Calculate next month
+    //   let nextMonthIndex = (currentMonth + 1) % 12;
+    //   let nextMonthYear = currentYear;
+    //   if (nextMonthIndex === 0) {
+    //     // If next month is January, increment the year
+    //     nextMonthYear++;
+    //   }
+    //   let currentMonthObj = {
+    //     name: this.months[currentMonth],
+    //     month: currentMonth + 1, // Adding 1 to make it human-readable (1-12)
+    //     year: currentYear
+    //   };
+    //   let nextMonthObj = {
+    //     name: this.months[nextMonthIndex],
+    //     month: nextMonthIndex + 1, // Adding 1 to make it human-readable (1-12)
+    //     year: nextMonthYear
+    //   };
+    //   this.remainingMonths = displayNextMonth ? [nextMonthObj] : [currentMonthObj];
+    //   // If current date is on or before the 5th, allow selection of current month
+    //   if (currentDay <= 5) {
+    //     // selectedMonths.push(currentMonthObj);
+    //     this.remainingMonths = [currentMonthObj, nextMonthObj];
+    //   }
+    // }
+    AddTargetPage.prototype.updateMonths = function () {
+        var currentDate = new Date();
+        var currentMonth = currentDate.getMonth(); // Month index (0-11)
+        var currentYear = currentDate.getFullYear();
+        var currentDay = currentDate.getDate();
+        // Check if the current day is after the 5th
+        var displayNextMonth = currentDay > 5;
+        // Calculate next month
+        var nextMonthIndex = (currentMonth + 1) % 12;
+        var nextMonthYear = currentYear;
+        if (nextMonthIndex === 0) {
+            // If next month is January, increment the year
+            nextMonthYear++;
+        }
+        // Format the month with leading zeros
+        var formatMonth = function (month) { return (month < 10 ? '0' : '') + month; };
+        var currentMonthObj = {
+            name: this.months[currentMonth],
+            month: formatMonth(currentMonth + 1),
+            year: currentYear
+        };
+        var nextMonthObj = {
+            name: this.months[nextMonthIndex],
+            month: formatMonth(nextMonthIndex + 1),
+            year: nextMonthYear
+        };
+        this.remainingMonths = displayNextMonth ? [nextMonthObj] : [currentMonthObj];
+        // If current date is on or before the 5th, allow selection of current month
+        if (currentDay <= 5) {
+            // selectedMonths.push(currentMonthObj);
+            this.remainingMonths = [currentMonthObj, nextMonthObj];
+        }
+    };
+    AddTargetPage.prototype.setYear = function (MonthYearData) {
+        console.log(MonthYearData);
+        this.target_data.year = MonthYearData.year;
+    };
+    AddTargetPage.prototype.getNetworkList = function () {
+        var _this = this;
+        this.service.addData({}, 'AppEnquiry/networkList').then(function (result) {
+            if (result['statusCode'] == 200) {
+                _this.networList = result['result'];
+            }
+            else {
+                _this.service.errorToast(result['statusMsg']);
+            }
+        }, function (error) {
+            _this.service.Error_msg(error);
+            _this.service.dismiss();
+        });
+    };
+    AddTargetPage.prototype.get_customerList = function (value) {
+        var _this = this;
+        var cpType = '';
+        var header = {};
+        if (value == 'Prospect CP') {
+            cpType = 'Inactive';
+            header = { 'dr_type': '1', 'user_id': this.TeamID, 'active_tab': cpType };
+        }
+        else if (value == 'Channel Partner') {
+            cpType = 'Active';
+            header = { 'dr_type': '1', 'user_id': this.TeamID, 'active_tab': cpType };
+        }
+        else if (value == 'Sub Dealer') {
+            cpType = 'Active';
+            header = { 'dr_type': '3', 'user_id': this.TeamID, 'active_tab': cpType };
+        }
+        else if (value == 'Lead') {
+            header = { 'dr_type': '15', 'user_id': this.TeamID };
+        }
+        else {
+            var drType = '';
+            var Index = this.networList.findIndex(function (row) { return row.module_name == value; });
+            if (Index != -1) {
+                drType = this.networList[Index]['type'];
+            }
+            header = { 'dr_type': drType, 'user_id': this.TeamID };
+        }
+        this.service.addData(header, 'AppTravelPlan/getRetailerList').then(function (result) {
+            if (result['statusCode'] == 200) {
+                _this.partyList = result['result'];
+            }
+            else {
+                _this.service.dismissLoading();
+                _this.service.errorToast(result['statusMsg']);
+            }
+        }, function (err) {
+            _this.service.dismissLoading();
+            _this.service.errorToast('Something went wrong');
+        });
+    };
+    AddTargetPage.prototype.getAssignedDistributor = function () {
+        var _this = this;
+        this.service.addData({ 'dr_type': '1', 'user_id': this.TeamID, 'active_tab': 'Active' }, 'AppTravelPlan/getRetailerList').then(function (result) {
+            if (result['statusCode'] == 200) {
+                _this.assignDistributorList = result['result'];
+            }
+            else {
+                _this.service.errorToast(result['statusMsg']);
+            }
+        }, function (err) {
+            _this.service.errorToast('Something went wrong');
+        });
+    };
+    AddTargetPage.prototype.getDatesBetween = function (startDate, endDate) {
+        var dates = [];
+        var currentDate = new Date(startDate);
+        var currentEndDate = new Date(endDate);
+        while (currentDate <= currentEndDate) {
+            var newDate = { date: __WEBPACK_IMPORTED_MODULE_3_moment___default()(new Date(currentDate)).format('YYYY-MM-DD') };
+            dates.push(newDate);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    };
+    AddTargetPage.prototype.addTargetPlan = function () {
+        var _this = this;
+        if (this.targetItem.length > 0) {
+            var existIndex = void 0;
+            existIndex = this.targetItem.findIndex(function (row) { return row.dr_id == _this.selectedCustomer.id; });
+            if (existIndex != -1) {
+                this.targetItem[existIndex]['target_ton'] = parseInt(this.target_data.target_ton) + parseInt(this.targetItem[existIndex]['target_ton']);
+                this.blankValue();
+            }
+            else {
+                this.targetItem.push({
+                    'month': this.target_data.month.name,
+                    'year': this.target_data.year,
+                    'dr_id': this.selectedCustomer.id,
+                    'dr_name': this.selectedCustomer.display_name,
+                    'supplier_id': this.salesTargetType != 'Primary' ? this.selectedSupplier.id : '',
+                    'supplier_name': this.salesTargetType != 'Primary' ? this.selectedSupplier.display_name : '',
+                    'target_ton': this.target_data.target_ton
+                });
+                this.blankValue();
+            }
+        }
+        else {
+            this.targetItem.push({
+                'month': this.target_data.month.name,
+                'year': this.target_data.year,
+                'dr_id': this.selectedCustomer.id,
+                'dr_name': this.selectedCustomer.display_name,
+                'supplier_id': this.salesTargetType != 'Primary' ? this.selectedSupplier.id : '',
+                'supplier_name': this.salesTargetType != 'Primary' ? this.selectedSupplier.display_name : '',
+                'target_ton': this.target_data.target_ton
+            });
+            this.blankValue();
+        }
+    };
+    AddTargetPage.prototype.submitTarget = function () {
+        var _this = this;
+        this.buttonDisable = true;
+        var header = '';
+        var payload = {};
+        if (this.salesTargetType == 'Visit') {
+            header = 'AppTarget/addVisitTarget';
+            payload = { 'data': this.target_data, 'month': this.target_data.month.month, 'year': this.target_data.year };
+        }
+        else if (this.salesTargetType == 'Primary') {
+            header = 'AppTarget/addTarget';
+            payload = { 'data': this.targetItem, 'month': this.target_data.month.month, 'year': this.target_data.year, 'dr_type': this.target_data.dr_type };
+        }
+        else if (this.salesTargetType == 'Secondary') {
+            header = 'AppTarget/addSecondaryTarget';
+            payload = { 'data': this.targetItem, 'target_type': "order", 'month': this.target_data.month.month, 'year': this.target_data.year, 'dr_type': this.target_data.dr_type };
+        }
+        else {
+            header = 'AppTarget/addSecondaryTarget';
+            payload = { 'data': this.targetItem, 'target_type': "stock", 'month': this.target_data.month.month, 'year': this.target_data.year, 'dr_type': this.target_data.dr_type };
+        }
+        this.service.addData(payload, header).then(function (result) {
+            if (result['statusCode'] == 200) {
+                _this.buttonDisable = false;
+                _this.service.dismissLoading();
+                _this.service.successToast(result['statusMsg']);
+                _this.navCtrl.popTo(__WEBPACK_IMPORTED_MODULE_7__target_target__["a" /* TargetPage */]);
+            }
+            else {
+                _this.buttonDisable = false;
+                _this.service.dismissLoading();
+                _this.service.errorToast(result['statusMsg']);
+            }
+        }, function (error) {
+            _this.service.Error_msg(error);
+            _this.service.dismissLoading();
+        });
+    };
+    AddTargetPage.prototype.checkAlert = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: 'Are You Sure?',
+            subTitle: 'You want to save',
+            cssClass: 'alert-modal',
+            buttons: [{
+                    text: 'No',
+                    role: 'cancel',
+                    handler: function () {
+                        _this.service.presentToast('Your Data is Safe');
+                    }
+                },
+                {
+                    text: 'Yes',
+                    handler: function () {
+                        _this.submitTarget();
+                    }
+                }]
+        });
+        alert.present();
+    };
+    AddTargetPage.prototype.presentAlert = function (msg) {
+        var alert = this.alertCtrl.create({
+            title: 'Alert',
+            subTitle: msg,
+            buttons: [
+                {
+                    text: 'Ok',
+                    handler: function () {
+                    }
+                }
+            ]
+        });
+        alert.present();
+    };
+    AddTargetPage.prototype.removeWholeCustomerList = function (i) {
+        this.dateWiseCustomersList.splice(i, 1);
+        console.log(this.dateWiseCustomersList);
+    };
+    AddTargetPage.prototype.DeleteItem = function (i, j) {
+        this.targetItem.splice(i, 1);
+    };
+    AddTargetPage.prototype.blankValue = function () {
+        this.target_data.target_ton = '';
+        this.selectedCustomer = '';
+        this.selectedSupplier = '';
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('district_Selectable'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_ionic_selectable__["a" /* IonicSelectableComponent */])
+    ], AddTargetPage.prototype, "district_Selectable", void 0);
+    AddTargetPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-add-target',template:/*ion-inline-start:"D:\Project\Lehar\Lehar_Footwear_App\src\pages\add-target\add-target.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>Add {{salesTargetType}} Target / Projection</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content *ngIf="salesTargetType == \'Primary\'">\n\n  <div class="form">\n\n    <ion-list no-lines class="padding10 mb10 pt0">\n\n      <ion-item>\n\n        <ion-label floating><span>Select Month <strong class="reject">*</strong></span></ion-label>\n\n        <ion-select [(ngModel)]="target_data.month" interface="action-sheet" [disabled]="targetItem.length"\n\n          (ngModelChange)="setYear(target_data.month)">\n\n          <ion-option *ngFor="let row of remainingMonths" [value]="row">{{ row.name }} - {{row.year}}</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n        <ion-label floating>Select Type <strong class="reject">*</strong></ion-label>\n\n        <ion-select name="dr_type" #dr_type="ngModel" [(ngModel)]="target_data.dr_type" interface="action-sheet"\n\n          (ngModelChange)="get_customerList(target_data.dr_type)" required>\n\n          <ng-container *ngFor="let item of networList">\n\n            <ion-option *ngIf="item.type == 1 || item.type == 7"\n\n              [value]="item.module_name">{{item.module_name}}</ion-option>\n\n          </ng-container>\n\n          <!-- <ion-option value="Prospect CP">Prospect CP</ion-option> -->\n\n        </ion-select>\n\n\n\n      </ion-item>\n\n\n\n      <ion-item *ngIf="target_data.dr_type">\n\n        <ion-label floating>Select {{target_data.dr_type}} <strong class="reject">*</strong></ion-label>\n\n        <ionic-selectable item-content [(ngModel)]="selectedCustomer" [items]="partyList" itemValueField="id"\n\n          itemTextField="display_name" [canSearch]="true">\n\n        </ionic-selectable>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox" *ngIf="selectedCustomer">\n\n        <ion-label floating>Projection (qty)<strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="target_ton" [(ngModel)]="target_data.target_ton" #size="ngModel"\n\n          (ngModelChange)="(target_data.target_ton == \'\' || target_data.target_ton == null || target_data.target_ton<1 )?(addToListButton = true):(addToListButton = false);"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n    </ion-list>\n\n\n\n    <div class="pl6 pr6">\n\n      <button ion-button round full color="primary" [disabled]="addToListButton" (click)="addTargetPlan()">\n\n        Add To List\n\n      </button>\n\n    </div>\n\n\n\n  </div>\n\n  <div class="list-box mt10 m16" *ngFor="let row of targetItem;let i=index">\n\n    <div class="mid mt0" style="display: flex;justify-content: space-between;">\n\n      <div class="content-info">\n\n        <div class="right-info">\n\n          <p style="color:rgb(4, 81, 169)">{{row.dr_name}}</p>\n\n        </div>\n\n      </div>\n\n      <div class="tag-info">\n\n        <button><i class="material-icons red-clr" (click)="DeleteItem(i)">delete_sweep</i></button>\n\n      </div>\n\n    </div>\n\n\n\n    <div class="three_boxes">\n\n      <div class="lower">\n\n        <p class="font10">Month - Year</p>\n\n        <p class="font10">{{row.month}} - {{row.year}}</p>\n\n      </div>\n\n      <div class="lower ml5">\n\n        <p class="font10">Projection (qty)</p>\n\n        <p class="font10">{{row.target_ton}}</p>\n\n      </div>\n\n    </div>\n\n  </div>\n\n  <div class="pl16 pr16 mb20" *ngIf="targetItem.length">\n\n    <button ion-button round full color="success" [disabled]="!targetItem?.length|| buttonDisable"\n\n      (click)="checkAlert()">\n\n      Save\n\n    </button>\n\n  </div>\n\n\n\n</ion-content>\n\n\n\n<ion-content *ngIf="salesTargetType == \'Visit\'">\n\n  <div class="form">\n\n    <ion-list no-lines class="padding10 mb10 pt0">\n\n\n\n\n\n      <ion-item>\n\n        <ion-label floating><span>Select Month <strong class="reject">*</strong></span></ion-label>\n\n        <ion-select [(ngModel)]="target_data.month" [disabled]="targetItem.length" interface="action-sheet"\n\n          (ngModelChange)="setYear(target_data.month)">\n\n          <ion-option *ngFor="let row of remainingMonths" [value]="row">{{ row.name }} - {{row.year}}</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Lead Count <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="lead" [(ngModel)]="target_data.lead" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Dealer <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="dealer" [(ngModel)]="target_data.dealer" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Architect <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="architect" [(ngModel)]="target_data.architect" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Interior Designer <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="interior_designer" [(ngModel)]="target_data.interior_designer" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Contractor <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="contractor" [(ngModel)]="target_data.contractor" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox">\n\n        <ion-label floating>Carpenter <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="carpenter" [(ngModel)]="target_data.carpenter" #size="ngModel"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n\n\n    </ion-list>\n\n\n\n  </div>\n\n  <div class="pl16 pr16 mb20">\n\n    <button ion-button round full color="success"\n\n      [disabled]="!target_data.contractor || !target_data.interior_designer  || !target_data.carpenter||!target_data.architect|| !target_data.dealer|| !target_data.lead || buttonDisable"\n\n      (click)="checkAlert()">\n\n      Save\n\n    </button>\n\n  </div>\n\n\n\n</ion-content>\n\n\n\n<ion-content *ngIf="salesTargetType == \'Secondary\'">\n\n  <div class="form">\n\n    <ion-list no-lines class="padding10 mb10 pt0">\n\n\n\n      <ion-item>\n\n        <ion-label floating><span>Select Month <strong class="reject">*</strong></span></ion-label>\n\n        <ion-select [(ngModel)]="target_data.month" [disabled]="targetItem.length" interface="action-sheet"\n\n          (ngModelChange)="setYear(target_data.month)">\n\n          <ion-option *ngFor="let row of remainingMonths" [value]="row">{{ row.name }} - {{row.year}}</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n\n\n\n\n      <ion-item>\n\n        <ion-label floating>Select Type <strong class="red-text">*</strong></ion-label>\n\n        <ion-select name="dr_type" [(ngModel)]="target_data.dr_type" #dr_type="ngModel" interface="action-sheet"\n\n          (ngModelChange)="get_customerList(target_data.dr_type)" required>\n\n          <ng-container *ngFor="let item of networList">\n\n            <ion-option *ngIf="item.type == 13 || item.type == 8 || item.type == 14 || item.type == 16 "\n\n              [value]="item.module_name">{{item.module_name}}</ion-option>\n\n             \n\n          </ng-container>\n\n          <ion-option \n\n          [value]="Lead">Lead</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n\n\n      <ion-item *ngIf="target_data.dr_type">\n\n        <ion-label floating>Select {{target_data.dr_type}} <strong class="reject">*</strong></ion-label>\n\n        <ionic-selectable item-content [(ngModel)]="selectedCustomer" [items]="partyList" itemValueField="id"\n\n          itemTextField="display_name" [canSearch]="true">\n\n        </ionic-selectable>\n\n      </ion-item>\n\n      <ion-item *ngIf="selectedCustomer">\n\n        <ion-label floating>Select Supplier <strong class="reject">*</strong></ion-label>\n\n        <ionic-selectable item-content [(ngModel)]="selectedSupplier" [items]="assignDistributorList"\n\n          itemValueField="id" itemTextField="display_name" [canSearch]="true">\n\n        </ionic-selectable>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox" *ngIf="selectedCustomer">\n\n        <ion-label floating>Number of Sheets <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="target_ton" [(ngModel)]="target_data.target_ton" #size="ngModel"\n\n          (ngModelChange)="(target_data.target_ton == \'\' || target_data.target_ton == null || target_data.target_ton<1 )?(addToListButton = true):(addToListButton = false);"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n    </ion-list>\n\n\n\n    <div class="pl6 pr6">\n\n      <button ion-button round full color="primary" [disabled]="addToListButton" (click)="addTargetPlan()">\n\n        Add To List\n\n      </button>\n\n    </div>\n\n\n\n  </div>\n\n  <div class="list-box mt10 m16" *ngFor="let row of targetItem;let i=index">\n\n    <div class="mid mt0" style="display: flex;justify-content: space-between;">\n\n      <div class="content-info">\n\n        <div class="right-info">\n\n          <p style="color:rgb(4, 81, 169)">{{row.dr_name}}</p>\n\n        </div>\n\n      </div>\n\n      <div class="tag-info">\n\n        <button><i class="material-icons red-clr" (click)="DeleteItem(i)">delete_sweep</i></button>\n\n      </div>\n\n    </div>\n\n\n\n    <div class="three_boxes">\n\n      <div class="lower">\n\n        <p class="font10">Month - Year</p>\n\n        <p class="font10">{{row.month}} - {{row.year}}</p>\n\n      </div>\n\n      <div class="lower ml5">\n\n        <p class="font10">Number of Sheets</p>\n\n        <p class="font10">{{row.target_ton}}</p>\n\n      </div>\n\n    </div>\n\n    <div class="three_boxes">\n\n      <div class="lower">\n\n        <p class="font10">Supplied By</p>\n\n        <p class="font10">{{row.supplier_name}}</p>\n\n      </div>\n\n    </div>\n\n  </div>\n\n  <div class="pl16 pr16 mb20" *ngIf="targetItem.length">\n\n    <button ion-button round full color="success" [disabled]="!targetItem?.length || buttonDisable"\n\n      (click)="checkAlert()">\n\n      Save\n\n    </button>\n\n  </div>\n\n\n\n</ion-content>\n\n\n\n<ion-content *ngIf="salesTargetType == \'Stock Transfer\'">\n\n  <div class="form">\n\n    <ion-list no-lines class="padding10 mb10 pt0">\n\n\n\n      <ion-item>\n\n        <ion-label floating><span>Select Month <strong class="reject">*</strong></span></ion-label>\n\n        <ion-select interface="action-sheet" [(ngModel)]="target_data.month" [disabled]="targetItem.length"\n\n          (ngModelChange)="setYear(target_data.month)">\n\n          <ion-option *ngFor="let row of remainingMonths" [value]="row">{{ row.name }} - {{row.year}}</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n\n\n      <ion-item>\n\n        <ion-label floating>Select {{target_data.dr_type}} <strong class="reject">*</strong></ion-label>\n\n        <ionic-selectable item-content [(ngModel)]="selectedCustomer" [items]="partyList" itemValueField="id"\n\n          itemTextField="display_name" [canSearch]="true">\n\n        </ionic-selectable>\n\n      </ion-item>\n\n      <ion-item *ngIf="selectedCustomer">\n\n        <ion-label floating>Select Supplier <strong class="reject">*</strong></ion-label>\n\n        <ionic-selectable item-content [(ngModel)]="selectedSupplier" [items]="assignDistributorList"\n\n          itemValueField="id" itemTextField="display_name" [canSearch]="true">\n\n        </ionic-selectable>\n\n      </ion-item>\n\n      <ion-item class="cs-normal-select retailerSelectionBox" *ngIf="selectedCustomer">\n\n        <ion-label floating>Number of Sheets <strong class="red-text">*</strong></ion-label>\n\n        <ion-input type="number" name="target_ton" [(ngModel)]="target_data.target_ton" #size="ngModel"\n\n          (ngModelChange)="(target_data.target_ton == \'\' || target_data.target_ton == null || target_data.target_ton<1 )?(addToListButton = true):(addToListButton = false);"\n\n          onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>\n\n      </ion-item>\n\n    </ion-list>\n\n\n\n    <div class="pl6 pr6">\n\n      <button ion-button round full color="primary" [disabled]="addToListButton" (click)="addTargetPlan()">\n\n        Add To List\n\n      </button>\n\n    </div>\n\n\n\n  </div>\n\n  <div class="list-box mt10 m16" *ngFor="let row of targetItem;let i=index">\n\n    <div class="mid mt0" style="display: flex;justify-content: space-between;">\n\n      <div class="content-info">\n\n        <div class="right-info">\n\n          <p style="color:rgb(4, 81, 169)">{{row.dr_name}}</p>\n\n        </div>\n\n      </div>\n\n      <div class="tag-info">\n\n        <button><i class="material-icons red-clr" (click)="DeleteItem(i)">delete_sweep</i></button>\n\n      </div>\n\n    </div>\n\n\n\n    <div class="three_boxes">\n\n      <div class="lower">\n\n        <p class="font10">Month - Year</p>\n\n        <p class="font10">{{row.month}} - {{row.year}}</p>\n\n      </div>\n\n      <div class="lower ml5">\n\n        <p class="font10">Number of Sheets</p>\n\n        <p class="font10">{{row.target_ton}}</p>\n\n      </div>\n\n    </div>\n\n    <div class="three_boxes">\n\n      <div class="lower">\n\n        <p class="font10">Supplied By</p>\n\n        <p class="font10">{{row.supplier_name}}</p>\n\n      </div>\n\n    </div>\n\n  </div>\n\n  <div class="pl16 pr16 mb20" *ngIf="targetItem.length">\n\n    <button ion-button round full color="success" [disabled]="!targetItem?.length || buttonDisable"\n\n      (click)="checkAlert()">\n\n      Save\n\n    </button>\n\n  </div>\n\n\n\n</ion-content>'/*ion-inline-end:"D:\Project\Lehar\Lehar_Footwear_App\src\pages\add-target\add-target.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["NavController"],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["NavParams"],
+            __WEBPACK_IMPORTED_MODULE_2__providers_myservice_myservice__["a" /* MyserviceProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["LoadingController"],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["AlertController"],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["ToastController"],
+            __WEBPACK_IMPORTED_MODULE_6__providers_dbservice_dbservice__["a" /* DbserviceProvider */]])
+    ], AddTargetPage);
+    return AddTargetPage;
+}());
+
+//# sourceMappingURL=add-target.js.map
+
+/***/ }),
+
+/***/ 1452:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewtargetpagePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_myservice_myservice__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_constant_constant__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__travel_pop_over_travel_pop_over__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ionic_selectable__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_zingchart__ = __webpack_require__(205);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__expense_status_modal_expense_status_modal__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__add_target_add_target__ = __webpack_require__(1427);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Generated class for the TargetPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var NewtargetpagePage = /** @class */ (function () {
+    function NewtargetpagePage(navCtrl, alertCtrl, constant, navParams, popoverCtrl, serve, loadingCtrl, storage, toastCtrl, modalCtrl) {
+        this.navCtrl = navCtrl;
+        this.alertCtrl = alertCtrl;
+        this.constant = constant;
+        this.navParams = navParams;
+        this.popoverCtrl = popoverCtrl;
+        this.serve = serve;
+        this.loadingCtrl = loadingCtrl;
+        this.storage = storage;
+        this.toastCtrl = toastCtrl;
+        this.modalCtrl = modalCtrl;
+        // @ViewChild('lineCanvas') private lineCanvas: ElementRef;
+        this.activeTab = "active";
+        this.salesActiveTab = "active1";
+        this.index = 0;
+        this.LoginType = this.constant.UserLoggedInData;
+        this.visitHidden = false;
+        this.salesHidden = true;
+        this.visit_date = [];
+        this.visit_completed = [];
+        this.sale_type = 'Primary';
+        this.target_list = [];
+        this.target_category = [];
+        this.allDatesData = [];
+        this.target_achieve = [];
+        this.total_target = [];
+        this.requiredRate = [];
+        this.target_not_achieved = [];
+        this.target_status = 'In Process';
+        this.visit_target = {};
+        this.dataVisible = false;
+        this.date = new Date();
+        this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        this.balance = [];
+        this.current_month = this.date.getMonth();
+        this.current_year = this.date.getFullYear();
+        this.current_month_name = this.monthNames[this.date.getMonth()];
+        this.month_array = [];
+        this.target_Type = 'My';
+        // userId: any;
+        this.user_list = [];
+        this.primaryTragetArray = [];
+        this.data = {};
+        this.Navtype = '';
+        this.From = this.navParams.get('comes_from_which_page');
+        this.targetPieChart = {
+            "type": "pie",
+            "plotarea": {
+                "margin": "40",
+            },
+            "scale": {
+                "sizeFactor": 1
+            },
+            "plot": {
+                "valueBox": {
+                    "visible": true,
+                    "fontSize": 12,
+                    "anchor": "c",
+                    "fontFamily": "Lucida Sans Unicode",
+                    "text": "%plot-text<br><span style='font-size:12px;font-weight:bold;color:%color;'>%node-percent-value%</span><br><span style='font-size:10px;color:%color;'>%v</span>",
+                    "color": "#333",
+                    "placement": "center",
+                    "borderWidth": 0,
+                    "backgroundColor": "none",
+                    'short': true
+                },
+                "refAngle": 270,
+                "angleStart": 270,
+                "detach": false,
+                "slice": "100%",
+                "totals": [200],
+                "animation": {
+                    "speed": 1000,
+                    "effect": 2,
+                    "method": 0
+                },
+                "hoverState": {
+                    "visible": false
+                }
+            },
+            "series": [
+                {
+                    "size": "100%",
+                    "values": [150],
+                    "backgroundColor": "#67a21e",
+                    "borderWidth": 10,
+                    "borderColor": "#67a21e",
+                    "angleStart": 270,
+                    "-angleEnd": 270,
+                    "text": "Achieved"
+                }
+            ],
+            "tooltip": {
+                "x": 80,
+                "y": 80,
+                "width": 100,
+                "fontSize": 12,
+                "padding": 30,
+                "anchor": "c",
+                "fontFamily": "Lucida Sans Unicode",
+                "text": "%plot-text<br><span style='font-size:12px;font-weight:bold;color:%color;'>%node-percent-value%</span><br><span style='font-size:10px;color:%color;'>%v</span>",
+                "color": "#333",
+                "align": "center",
+                "borderWidth": 0,
+                "backgroundColor": "none",
+            },
+            "shapes": [
+                {
+                    "type": "pie",
+                    "flat": true,
+                    "x": 80,
+                    "y": 80,
+                    "backgroundColor": "#67a21e",
+                    "alpha": 0.25,
+                    "size": 45,
+                    "slice": 35,
+                    "placement": "bottom"
+                },
+            ]
+        };
+        if (this.navParams.get('view_type') == 'Team') {
+            this.target_Type = "Team";
+            this.Target(this.sale_type);
+        }
+    }
+    NewtargetpagePage.prototype.ionViewDidEnter = function () {
+        this.Target(this.sale_type);
+        this.getSalesMonthArray();
+        this.getEnquiryReport();
+    };
+    NewtargetpagePage.prototype.ionViewWillEnter = function () {
+        var _this = this;
+        this.storage.get('team_count').then(function (team_count) {
+            _this.teamCount = team_count;
+            console.log(_this.teamCount);
+        });
+        __WEBPACK_IMPORTED_MODULE_7_zingchart__["a" /* default */].render({ id: 'targetPieChart', data: this.targetPieChart, height: 250 });
+    };
+    NewtargetpagePage.prototype.getSalesMonthArray = function () {
+        for (var i = -3; i <= 3; i++) {
+            var month = new Date(this.current_year, this.current_month + i, 1).getMonth();
+            var year = new Date(this.current_year, this.current_month + i, 1).getFullYear();
+            this.month_array.push({
+                'month': month,
+                'year': year,
+                'month_name': this.monthNames[month]
+            });
+        }
+    };
+    NewtargetpagePage.prototype.addTarget = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_9__add_target_add_target__["a" /* AddTargetPage */], { 'salesTargetType': this.sale_type, 'teamId': this.data.id });
+    };
+    NewtargetpagePage.prototype.Target = function (target) {
+        var _this = this;
+        this.serve.presentLoading();
+        var header = {};
+        if (target == 'Secondary') {
+            header = { 'Mode': this.target_Type, 'target_type': 'order', 'Type': target, 'User_id': this.data.id, 'Month': this.current_month + 1, 'Year': this.current_year };
+            this.type_target = 'order';
+        }
+        else if (target == 'Stock Transfer') {
+            header = { 'Mode': this.target_Type, 'target_type': 'stock', 'Type': 'Secondary', 'User_id': this.data.id, 'Month': this.current_month + 1, 'Year': this.current_year };
+            this.type_target = 'stock';
+        }
+        else {
+            header = { 'Mode': this.target_Type, 'target_type': 'order', 'Type': target, 'User_id': this.data.id, 'Month': this.current_month + 1, 'Year': this.current_year };
+        }
+        this.serve.addData(header, 'AppTarget/targetList')
+            .then(function (result) {
+            if (result['statusCode'] == 200) {
+                _this.target_list = result['result'];
+                // this.primaryTragetArray = result['result']['data_array']
+                _this.serve.dismissLoading();
+            }
+            else {
+                _this.serve.dismissLoading();
+                _this.serve.errorToast(result['statusMsg']);
+            }
+        }, function (error) {
+            _this.serve.dismissLoading();
+            _this.serve.Error_msg(error);
+        });
+    };
+    NewtargetpagePage.prototype.statusModal = function (id, type) {
+        var _this = this;
+        if (type == 'edit') {
+            var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_8__expense_status_modal_expense_status_modal__["a" /* ExpenseStatusModalPage */], { 'ProjectionId': id, 'from': 'Target', 'sale_type': this.sale_type, 'target_type': this.type_target, 'type': 'edit' });
+            modal.onDidDismiss(function (data) {
+                // this.navCtrl.pop();
+                _this.Target(_this.sale_type);
+            });
+            modal.present();
+        }
+        else {
+            var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_8__expense_status_modal_expense_status_modal__["a" /* ExpenseStatusModalPage */], { 'ProjectionId': id, 'from': 'Target', 'sale_type': this.sale_type, 'target_type': this.type_target });
+            modal.onDidDismiss(function (data) {
+                // this.navCtrl.pop();
+                _this.Target(_this.sale_type);
+            });
+            modal.present();
+        }
+    };
+    NewtargetpagePage.prototype.deleteTravelPlan = function (e, i, id) {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: 'Are You Sure?',
+            subTitle: 'You want to delete this Target / Projection',
+            cssClass: 'alert-modal',
+            buttons: [{
+                    text: 'No',
+                    role: 'cancel',
+                    handler: function () {
+                    }
+                },
+                {
+                    text: 'Yes',
+                    handler: function () {
+                        e.stopPropagation();
+                        _this.primaryTragetArray.splice(i, 1);
+                        _this.data = { 'id': id, 'type': _this.sale_type };
+                        _this.serve.addData(_this.data, 'AppTarget/deleteTarget').then(function (result) {
+                            if (result['statusCode'] == 200) {
+                                _this.serve.dismissLoading();
+                                _this.serve.successToast(result['statusMsg']);
+                                _this.Target(_this.sale_type);
+                            }
+                            else {
+                                _this.serve.dismissLoading();
+                                _this.serve.errorToast(result['statusMsg']);
+                                _this.Target(_this.sale_type);
+                            }
+                        }, function (error) {
+                            _this.serve.Error_msg(error);
+                            _this.serve.dismissLoading();
+                        });
+                    }
+                }]
+        });
+        alert.present();
+    };
+    NewtargetpagePage.prototype.getEnquiryReport = function () {
+        // let apiName = ''
+        // if (this.primaryDashboard) {
+        //   apiName = 'AppDashboard/userEnquiryReport'
+        // } else if (this.secondaryDashboard) {
+        //   apiName = 'AppDashboard/userEnquirySecondaryReport'
+        // }
+        // this.service.addData({}, apiName).then((response) => {
+        //   if (response['statusCode'] == 200) {
+        //     this.enquiryReport = response['data']
+        var enquiryPieChart = {
+            type: 'ring',
+            backgroundColor: '#fff',
+            plot: {
+                tooltip: {
+                    backgroundColor: 'black',
+                    borderWidth: '0px',
+                    fontSize: '10px',
+                    sticky: true,
+                    text: '%t<br/>%v',
+                    thousandsSeparator: ',',
+                },
+                valueBox: {
+                    type: 'all',
+                    text: '%npv%',
+                    placement: 'out',
+                    fontSize: '10px'
+                },
+                animation: {
+                    effect: 2,
+                    sequence: 3,
+                    speed: 6000,
+                    delay: "1500"
+                },
+                backgroundColor: '#FBFCFE',
+                borderWidth: '0px',
+                slice: 30,
+            },
+            plotarea: {
+                margin: '0px',
+                backgroundColor: 'transparent',
+                borderRadius: '10px',
+                borderWidth: '0px',
+            },
+            series: [
+                {
+                    text: 'Target',
+                    values: [this.target_list.target],
+                    backgroundColor: '#ff4441',
+                    lineColor: '#ff4441',
+                    lineWidth: '1px',
+                    marker: {
+                        backgroundColor: '#ff4441',
+                    },
+                },
+                {
+                    text: 'Achievement',
+                    values: [this.target_list.achieved],
+                    backgroundColor: '#67a21e',
+                    lineColor: '#67a21e',
+                    lineWidth: '1px',
+                    marker: {
+                        backgroundColor: '#67a21e',
+                    },
+                }
+            ],
+            noData: {
+                text: 'No Selection',
+                alpha: 0.6,
+                backgroundColor: '#20b2db',
+                bold: true,
+                fontSize: '10px',
+                textAlpha: 0.9,
+            },
+        };
+        enquiryPieChart.gui = { contextMenu: { visible: false } };
+        __WEBPACK_IMPORTED_MODULE_7_zingchart__["a" /* default */].render({ id: 'enquiryPieChart', data: enquiryPieChart, height: 250 });
+        // }, error => {
+        //   this.service.Error_msg(error);
+        //   this.service.dismissLoading()
+        // })
+    };
+    NewtargetpagePage.prototype.getuserlist = function (api_name) {
+        var _this = this;
+        this.serve.presentLoading();
+        this.storage.get('userId').then(function (id) {
+            _this.serve.addData({ 'user_id': id, 'type': _this.sale_type }, api_name).then(function (result) {
+                if (result['statusCode'] == 200) {
+                    _this.serve.dismissLoading();
+                    _this.user_list = result['asm_id'];
+                }
+                else {
+                    _this.serve.dismissLoading();
+                    _this.serve.errorToast(result['statusMsg']);
+                }
+            }, function (err) {
+                _this.serve.dismissLoading();
+                _this.serve.errorToast('Something went wrong');
+            });
+        });
+    };
+    NewtargetpagePage.prototype.presentPopover = function (myEvent) {
+        var _this = this;
+        var popover = this.popoverCtrl.create(__WEBPACK_IMPORTED_MODULE_5__travel_pop_over_travel_pop_over__["a" /* TravelPopOverPage */], this.From == 'Travel-pop' ? { 'from': 'leads-details' } : { 'from': 'Target' });
+        popover.present({ ev: myEvent });
+        popover.onDidDismiss(function (resultData) {
+            if (resultData) {
+                _this.target_Type = resultData.TabStatus;
+                if (_this.target_Type == 'My') {
+                    _this.dataVisible = false;
+                }
+                else {
+                    _this.dataVisible = true;
+                }
+                (_this.target_Type != 'My') ? _this.getuserlist('AppTarget/getAsm') : (console.log('asdf'), _this.data = {}, _this.Target(_this.sale_type));
+            }
+        });
+    };
+    NewtargetpagePage.prototype.doRefresh = function (refresher) {
+        (this.target_Type != 'My') ? this.getuserlist('AppTarget/getAsm') : (console.log('asdf'), this.data = {}, this.Target(this.sale_type));
+        setTimeout(function () {
+            refresher.complete();
+        }, 1000);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('selectComponent'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_6_ionic_selectable__["a" /* IonicSelectableComponent */])
+    ], NewtargetpagePage.prototype, "selectComponent", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('barCanvas'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], NewtargetpagePage.prototype, "barCanvas", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('doughnutCanvas'),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+    ], NewtargetpagePage.prototype, "doughnutCanvas", void 0);
+    NewtargetpagePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-newtargetpage',template:/*ion-inline-start:"D:\Project\Lehar\Lehar_Footwear_App\src\pages\newtargetpage\newtargetpage.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <ion-title *ngIf="target_Type==\'My\' || target_Type==\'Dr\' ">Target </ion-title>\n\n    <ion-title *ngIf="target_Type==\'Team\'">\n\n      Team Target\n\n    </ion-title>\n\n    <ion-buttons end *ngIf="teamCount > 0">\n\n      <button ion-button icon-only (click)="presentPopover($event)">\n\n        <ion-icon name="more"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n  <ion-toolbar color="white" *ngIf="target_Type !=\'Dr\'">\n\n    <div class="">\n\n      <ion-segment [(ngModel)]="sale_type">\n\n        <ion-segment-button value="Primary"\n\n          (click)="sale_type = \'Primary\'; Target(\'Primary\')">Primary</ion-segment-button>\n\n        <ion-segment-button value="Secondary"\n\n          (click)="sale_type = \'Secondary\'; Target(\'Secondary\')">Secondary</ion-segment-button>\n\n        <!-- <ion-segment-button value="Stock Transfer"\n\n          (click)="sale_type = \'Stock Transfer\'; Target(\'Stock Transfer\')">Stock Transfer</ion-segment-button> -->\n\n        <ion-segment-button value="Collection" (click)="sale_type = \'Collection\'; Target(\'Collection\')">Collection</ion-segment-button>\n\n      </ion-segment>\n\n    </div>\n\n  </ion-toolbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-refresher (ionRefresh)="doRefresh($event)">\n\n    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"\n\n      refreshingText="Refreshing...">\n\n    </ion-refresher-content>\n\n  </ion-refresher>\n\n  <div class="edit m4" *ngIf="target_Type==\'Team\'">\n\n    <ion-list>\n\n      <ion-item class="cs-normal-select retailerSelectionBox mt0 mb0">\n\n        <ion-label>Select User</ion-label>\n\n        <ionic-selectable item-content name="data" [(ngModel)]="data" [items]="user_list" itemValueField="id"\n\n          itemTextField="name" [canSearch]="true" #selectComponent\n\n          (ngModelChange)="Target(sale_type)"></ionic-selectable>\n\n      </ion-item>\n\n    </ion-list>\n\n  </div>\n\n\n\n\n\n\n\n  \n\n  <ng-container>\n\n\n\n    <div class="capsule-tabsnew">\n\n      <ul>\n\n        <li *ngFor="let row of month_array" [ngClass]="{\'active\' : row.month==current_month}"\n\n          (click)="current_month=row.month;current_year=row.year;current_month_name=row.month_name; Target(sale_type)">\n\n          {{row.month_name}}\n\n          {{row.year}}</li>\n\n      </ul>\n\n    </div>\n\n    <div class="pl16 pr16 ">\n\n      <div class="workimg_summary mt16" >\n\n        <ion-list>\n\n          <ion-item>\n\n            <h6 >Total Target <span class="left-count">₹ {{target_list.target}}</span></h6>\n\n           \n\n          </ion-item>\n\n          <ion-item>\n\n            <h6 >Total Achievement <span class="left-count">₹ {{target_list.achieved}}</span></h6>\n\n          </ion-item>\n\n          <ion-item>\n\n            <h6>Remaining Days <span class="left-count">{{target_list.remainingDays}}</span></h6>\n\n          </ion-item>\n\n          <ion-item>\n\n            <h6>Target achievement <span class="left-count">{{target_list.achievedPercentage}}%</span> </h6>\n\n          </ion-item>\n\n       \n\n\n\n        </ion-list>\n\n      </div>\n\n   \n\n    </div>\n\n    <div class="nothing-here" *ngIf="target_list==\'\'">\n\n      <div class="outer">\n\n        <div class="innear">\n\n          <img src="assets/imgs/no_found.svg" alt="">\n\n          <p>Data Not Available</p>\n\n        </div>\n\n      </div>\n\n    </div>\n\n  </ng-container>\n\n\n\n\n\n\n\n\n\n\n\n</ion-content>\n\n<!-- <ion-footer class="af-none">\n\n  <div class="ml16 mb16 mr16">\n\n    <button ion-button block icon-start round color="primary" (click)="addTarget()">Add {{sale_type}}\n\n      Projection</button>\n\n  </div>\n\n</ion-footer> -->'/*ion-inline-end:"D:\Project\Lehar\Lehar_Footwear_App\src\pages\newtargetpage\newtargetpage.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["NavController"], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["AlertController"], __WEBPACK_IMPORTED_MODULE_3__providers_constant_constant__["a" /* ConstantProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["NavParams"], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["PopoverController"], __WEBPACK_IMPORTED_MODULE_2__providers_myservice_myservice__["a" /* MyserviceProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["LoadingController"], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["ToastController"], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["ModalController"]])
+    ], NewtargetpagePage);
+    return NewtargetpagePage;
+}());
+
+//# sourceMappingURL=newtargetpage.js.map
+
+/***/ })
+
+});
+//# sourceMappingURL=20.js.map

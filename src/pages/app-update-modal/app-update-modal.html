@@ -1,0 +1,35 @@
+<ion-content class="update-modal">
+
+  <div style=" margin-top: 50px;">
+
+  
+  <div class="image-container">
+    <img src="/assets/imgs/appUpdate.png" alt="Update Available" />
+  </div>
+  
+  <div class="content">
+    <h2>Update Available</h2>
+    <p>A newer version with exciting features and improvements is ready. Update now to get the best experience!</p>
+    
+    <div class="button-container">
+      <button 
+        ion-button 
+        class="update-btn"
+        expand="block" 
+        (click)="updateNow()">
+        Update Now
+      </button>
+      
+      <button 
+        ion-button 
+        class="later-btn"
+        expand="block" 
+        fill="outline" 
+        (click)="dismiss()">
+        Maybe Later
+      </button>
+    </div>
+  </div>
+  </div>
+ 
+</ion-content>

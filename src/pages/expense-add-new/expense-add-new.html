@@ -1,0 +1,459 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{expense.id ? 'Update': 'Add'}} Expense</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+
+    <form name="outstation_form" #outstation_form="ngForm"
+        (ngSubmit)="item?.length && outstation_form.submitted && submitNewExpense(outstation_form)">
+        <div class="form">
+            <ion-list no-lines class="padding10 pt0">
+                <ion-item [ngClass]="{'error':outstation_form.submitted && claimDate?.invalid}">
+                    <ion-label floating><span>Claim Date<strong>*</strong></span></ion-label>
+                    <ion-datetime display-format="MMM DD, YYYY" min={{getYesterday()}} max={{yesterday_date}}
+                        type="text" name="claimDate" #claimDate="ngModel" [(ngModel)]="expense.claimDate"
+                        (ngModelChange)="getallowanceData()" class="calander date" required>
+                    </ion-datetime>
+                </ion-item>
+                <div *ngIf="outstation_form.submitted && claimDate.invalid" class="eror">
+                    <p *ngIf="claimDate.errors.required">Field is Required</p>
+                </div>
+
+                <ng-container *ngIf="this.allowanceData.attendanceFlag==1 && expenseAddError==false">
+                    <ion-item [ngClass]="{'error':outstation_form.submitted && expense_type?.invalid}">
+                        <ion-label floating><span>Expense Type<strong>*</strong></span></ion-label>
+                        <ion-select interface="action-sheet" name="expense_type" [(ngModel)]="travelForm.expense_type"
+                            #expense_type="ngModel" [disabled]="isDisabled">
+                            <ion-option value="Local">Local</ion-option>
+                            <ion-option value="Outstation">Outstation</ion-option>
+                            <!-- <ion-option value="Carpenter Meet">Carpenter Meet</ion-option> -->
+
+                            <!-- <ion-option value="Architect Meet">Architect Meet</ion-option> -->
+                            <!-- <ion-option value="Retailer Meet">Retailer Meet</ion-option> -->
+                            <!-- <ion-option value="Seasonal Expense">Seasonal Expense</ion-option> -->
+                            <!-- <ion-option value="Entertainment Expenses">Entertainment Expenses</ion-option> -->
+                            <!-- <ion-option value="Others">Others</ion-option> -->
+
+                        </ion-select>
+                    </ion-item>
+
+                    <ng-container *ngIf="travelForm.expense_type=='Local'">
+                        <ion-item [ngClass]="{'error':outstation_form.submitted && travel_sub_type?.invalid}">
+                            <ion-label floating><span>Travel Sub Type<strong>*</strong></span></ion-label>
+                            <ion-select interface="action-sheet" name="travel_sub_type"
+                                [(ngModel)]="travelForm.travel_sub_type" #travel_sub_type="ngModel">
+                                <ion-option value="DA">DA</ion-option>
+                                <ion-option value="Auto">Auto</ion-option>
+                                <ion-option value="Toll Tax/Parking">Toll Tax/Parking</ion-option>
+                                <ion-option value="Two Wheeler">Two Wheeler</ion-option>
+                                <ion-option value="Four Wheeler">Four Wheeler</ion-option>
+                                <ion-option value="Train/Metro ticket">Train/Metro ticket</ion-option>
+                                <ion-option value="CyberCafe /PhotoCopy /Stationery">Cyber Cafe/Photo
+                                    Copy/Stationery</ion-option>
+                                <ion-option value="Postage & Courier">Postage & Courier</ion-option>
+                                <ion-option value="Carpenter Meet">Carpenter Meet</ion-option>
+                                <ion-option value="Architect Meet">Architect Meet</ion-option>
+                                <ion-option value="Retailer Meet">Retailer Meet</ion-option>
+                                <ion-option value="Others">Others</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+                        <!-- <ng-container
+                            *ngIf="travelForm.travel_sub_type=='DA' && this.allowanceData.kmPerDate>=60 && isShowErrorBoxinKm == false">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total D/A Amt</span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container> -->
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Auto'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Auto Amount<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container
+                        *ngIf="travelForm.travel_sub_type=='DA' && this.allowanceData.checkinCount>=7 && isShowErrorBox == false">
+                        <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                            <ion-label floating><span>Total D/A Amt<strong>*</strong></span></ion-label>
+                            <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                [(ngModel)]="travelForm.total_amt"
+                                onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                        </ion-item>
+                       </ng-container> 
+
+                        <div class="errorBox"
+                            *ngIf="travelForm.travel_sub_type=='DA' && isShowErrorBox && this.allowanceData.checkinCount<7">
+                            <i class="material-icons">error</i>
+                            <p>
+                                You Are Not Eligible For DA Allowance Because this Date
+                                <span style="color: #e71c1c; font-weight: bold;">{{ expense.claimDate}}</span>
+                                your Checkin is
+                                <span style="color: #0000ff; font-weight: bold;">{{ allowanceData.checkinCount }}
+                                    Checkin</span>,
+                                This Checkin is Less than <span style="color: #212185; font-weight: bold;">Seven,</span> You
+                                Are Not Eligible For DA Allowance.
+                            </p>
+                        </div>
+
+                        <ng-container
+                            *ngIf="travelForm.travel_sub_type=='Two Wheeler'||travelForm.travel_sub_type=='Four Wheeler'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && distance?.invalid}">
+                                <ion-label floating><span>Total No of Km</span></ion-label>
+                                <ion-input type="number" name="distance" #distance="ngModel"
+                                    [(ngModel)]="travelForm.distance" (keyup)="Calculateamount(travelForm.distance)"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57" readonly></ion-input>
+                            </ion-item>
+                        </ng-container>
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Carpenter Meet' || travelForm.travel_sub_type=='Architect Meet' || travelForm.travel_sub_type=='Retailer Meet' || travelForm.travel_sub_type=='Others' ">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+                        
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Toll Tax/Parking'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Toll Tax/Parking Amount<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Postage & Courier'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Postage & Courier<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='CyberCafe /PhotoCopy /Stationery'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt Cyber Cafe/Photo Copy/Stationery<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Private Vehicle'">
+                            <!-- <ion-item [ngClass]="{'error':outstation_form.submitted && bill_privatevehile?.invalid}">
+                                <ion-label floating><span>Bill of Private Vehicle</span></ion-label>
+                                <ion-input type="number" name="bill_privatevehile" #bill_privatevehile="ngModel"
+                                    [(ngModel)]="travelForm.bill_privatevehile"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item> -->
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type=='Train/Metro ticket'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Train/Metro ticket Amt<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+
+
+                    </ng-container>
+
+                    <ng-container *ngIf="travelForm.expense_type=='Outstation'">
+
+                        <ion-item [ngClass]="{'error':outstation_form.submitted && travel_sub_type_outs?.invalid}">
+                            <ion-label floating><span>Travel Sub Type<strong>*</strong></span></ion-label>
+                            <ion-select interface="action-sheet" name="travel_sub_type_outs"
+                                [(ngModel)]="travelForm.travel_sub_type_outs" #travel_sub_type_outs="ngModel">
+                                <!-- <ion-option value="DA">DA</ion-option> -->
+                                <ion-option value="Hotel">Hotel</ion-option>
+                                <ion-option value="Toll Tax/Parking">Toll Tax/Parking</ion-option>
+                                <ion-option value="CAB/Auto">CAB/Auto</ion-option>
+                                <ion-option value="Food">Food</ion-option>
+                                <ion-option value="Two Wheeler">Two Wheeler</ion-option>
+                                <ion-option value="Four Wheeler">Four Wheeler</ion-option>
+                                <ion-option value="Train/Metro Ticket">Train/Metro Ticket</ion-option>
+                                <!-- <ion-option value="Laundry">Laundry</ion-option> -->
+                                <ion-option value="CyberCafe /PhotoCopy /Stationery">Cyber Cafe/Photo
+                                    Copy/Stationery</ion-option>
+                                <ion-option value="Postage & Courier">Postage & Courier</ion-option>
+                                <ion-option value="Carpenter Meet">Carpenter Meet</ion-option>
+                                <ion-option value="Architect Meet">Architect Meet</ion-option>
+                                <ion-option value="Retailer Meet">Retailer Meet</ion-option>
+                                <ion-option value="Others">Others</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Toll Tax/Parking'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Toll Tax/Parking Amount<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Hotel'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt Of Hotel Bill<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Postage & Courier'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt Postage & Courier<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+                        <ng-container
+                            *ngIf="travelForm.travel_sub_type_outs=='Two Wheeler'||travelForm.travel_sub_type_outs=='Four Wheeler'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && distance?.invalid}">
+                                <ion-label floating><span>Total No of Km</span></ion-label>
+                                <ion-input type="number" name="distance" #distance="ngModel"
+                                    [(ngModel)]="travelForm.distance" (keyup)="Calculateamount(travelForm.distance)"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57" readonly></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='CyberCafe /PhotoCopy /Stationery'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt Cyber Cafe/Photo Copy/Stationery<strong>*</strong></span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='CAB/Auto' || travelForm.travel_sub_type_outs=='Carpenter Meet'  || travelForm.travel_sub_type_outs=='Architect Meet' || travelForm.travel_sub_type_outs=='Retailer Meet' || travelForm.travel_sub_type_outs=='Others' ">
+                            <!-- <ion-item
+                                [ngClass]="{'error':outstation_form.submitted && bill_of_private_vehicle_out?.invalid}">
+                                <ion-label floating><span> Bill of CAB/Auto</span></ion-label>
+                                <ion-input type="number" name="bill_of_private_vehicle_out"
+                                    #bill_of_private_vehicle_out="ngModel"
+                                    [(ngModel)]="travelForm.bill_of_private_vehicle_out"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item> -->
+
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Amt<strong>*</strong> </span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+
+
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Food'">
+
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Food Amt<strong>*</strong> </span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Train/Metro Ticket'">
+
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Train/Metro Ticket Amt<strong>*</strong> </span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="travelForm.travel_sub_type_outs=='Laundry'">
+                            <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                                <ion-label floating><span>Total Laundry Bill<strong>*</strong> </span></ion-label>
+                                <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                    [(ngModel)]="travelForm.total_amt"
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                            </ion-item>
+                        </ng-container>
+
+
+
+                    </ng-container>
+
+                    <ng-container
+                        *ngIf="travelForm.expense_type && (travelForm.expense_type != 'Local' && travelForm.expense_type != 'Outstation')">
+                        <ion-item [ngClass]="{'error':outstation_form.submitted && total_amt?.invalid}">
+                            <ion-label floating><span>Total Amount<strong>*</strong> </span></ion-label>
+                            <ion-input type="number" name="total_amt" #total_amt="ngModel"
+                                [(ngModel)]="travelForm.total_amt"
+                                onkeypress="return event.charCode>=48 && event.charCode<=57"></ion-input>
+                        </ion-item>
+                    </ng-container>
+                    <ion-item>
+                        <ion-label floating><span>Remark<strong>*</strong></span></ion-label>
+                        <ion-textarea name="remark" #remark="ngModel" [(ngModel)]="travelForm.remark" required></ion-textarea>
+                    </ion-item>
+
+                    <div class="upload-doc mt0 pl10 pr10" *ngIf="travelForm.expense_type">
+                        <ul class="no-padding">
+                            <li class="add_image mt0" *ngIf="image_data.length<=12"
+                                (click)="image_data.length <= 12?  captureMedia() : showLimit()">
+                                <img src="assets/imgs/upload_imae_icon.png" alt="">
+                                Upload {{travelForm.expense_type}} Bill <span>here</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <ng-container *ngIf="travelForm.expense_type == 'Local' || travelForm.expense_type == 'Outstation'">
+                        <button type="button" ion-button block color="primary" class="mt16" (click)="addToList()"
+                            [disabled]="isDisabled || travelForm.travel_sub_type!='Food'?image_data.length<=0:'' || (isShowErrorBox == false && travelForm.travel_sub_type_outs=='DA')">Add
+                            To List</button>
+                    </ng-container>
+                    <ng-container *ngIf="travelForm.expense_type != 'Local' && travelForm.expense_type != 'Outstation'">
+                        <button type="button" ion-button block color="primary" class="mt16" (click)="addToList()"
+                            [disabled]="isDisabled || travelForm.travel_sub_type!='Food'?image_data.length<=0:''">Add To
+                            List</button>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="allowanceData.attendanceFlag == 0 && expenseAddError">
+                    <div class="errorBox1">
+                        <i class="material-icons error-icon">error</i>
+                        <p>
+                            <strong>You Are Not Eligible For Expense Add.</strong>  
+                            Because Your attendance is <span class="highlight-red">not present</span> on  
+                            <span class="highlight-red">{{ expense.claimDate }}</span>.  
+                            <strong>You cannot add expense for this date.</strong>
+                        </p>
+                    </div>
+                </ng-container>
+                
+
+
+
+            </ion-list>
+
+
+            <div class="pl10 pr10" *ngIf="item.length > 0">
+                <div class="cs-heading1 pl0">
+                    <p>Expense List</p>
+                </div>
+                <div class="list-box mt10" *ngFor="let row of item;let i=index">
+                    <div class="three_boxes">
+                        <div class="lower">
+                            <p class="font10">Type</p>
+                            <p class="font10">{{row.expense_type}}</p>
+                        </div>
+                        <div class="lower ml5" *ngIf="row.travel_sub_type">
+                            <p class="font10">Travel Sub Type</p>
+                            <p class="font10">{{row.travel_sub_type ? row.travel_sub_type : '---'}}</p>
+
+                        </div>
+                        <div class="lower ml5" *ngIf="row.travel_sub_type_out">
+                            <p class="font10">Travel Sub Type</p>
+                            <p class="font10">{{row.travel_sub_type_out ? row.travel_sub_type_out : '---'}}</p>
+
+                        </div>
+                        <div class="lower ml5" *ngIf="row.total_amt">
+                            <p class="font10">Total Amount</p>
+                            <p class="font10">{{row.total_amt ? ('Rs. ' + row.total_amt) : '--'}}</p>
+                        </div>
+                        <div class="lower ml5" *ngIf="row.total_kmpetrol">
+                            <p class="font10">Total km petrol amt </p>
+                            <p class="font10">{{row.total_kmpetrol ? 'Rs. ' + row.total_kmpetrol: '--'}}</p>
+                        </div>
+                        <div class="lower ml5" *ngIf="row.total_amt_hotelbill">
+                            <p class="font10">Total Hotel Bill Amt </p>
+                            <p class="font10">{{row.total_amt_hotelbill ? 'Rs. ' + row.total_amt_hotelbill: '--'}}</p>
+                        </div>
+
+                        <div class="lower ml5" *ngIf="row.toll_parking_amt">
+                            <p class="font10"> Toll tax or Parking</p>
+                            <p class="font10">{{row.toll_parking_amt ? 'Rs. ' + row.toll_parking_amt: '--'}}</p>
+                        </div>
+
+                        <div class="lower ml5">
+                            <div class="tag-info text-center">
+                                <a><i class="material-icons red-clr" (click)="listdelete(i)">delete_sweep</i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three_boxes">
+                        <div class="lower">
+                            <p class="font10">Remark</p>
+                            <p class="font10">{{row.remark ? row.remark: '--'}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-table" *ngIf="item.length > 0">
+                <table>
+                    <tr>
+                        <td class="text-left">Total Summary</td>
+                        <td class="text-right w120"><span>&#8377; {{expense.totalAmt||'00.00'}}</span></td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="upload-doc mt0 pl10 pr10">
+                <ul class="no-padding">
+
+                    <li class="image-upload" *ngFor="let pic of image_data; let i = index;">
+                        <img src="{{pic.id ? constant.upload_url1+'expense/'+pic.image: pic.image }}">
+                        <button class="del" (click)="remove_image(i, pic.expense_type,pic.id)"><i
+                                class="material-icons">delete_sweep</i></button>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- <div class="upload-doc mt0 pl10 pr10"> -->
+
+            <div class="text-right" *ngIf="item.length > 0  ">
+                <button [disabled]="Submit_button" ion-button block color="success" type="submit"
+                    class="mt16"><ion-spinner *ngIf="spinnerLoader"></ion-spinner>Submit</button>
+            </div>
+            <!-- </div> -->
+
+        </div>
+    </form>
+
+</ion-content>

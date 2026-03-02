@@ -1,0 +1,99 @@
+
+
+<ion-content class="otp-content-wrapper">
+    <div class="background-overlay">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <!-- <div class="security-badge">
+            <i class="material-icons security-icon">security</i>
+        </div> -->
+    </div>
+
+    <form class="enhanced-otp-form" [formGroup]="validations_form" autocomplete="off">
+          <div class="brand-logo-container1">
+            <img src="assets/imgs/logo.png" alt="Logo" class="brand-logo-img">
+        </div>
+        <div class="otp-card-container">
+            <div class="otp-card-content">
+                <div class="verification-section">
+                    <div class="verification-icon-container">
+                        <i class="material-icons verification-icon">verified_user</i>
+                    </div>
+                    <h1 class="verification-title">{{'Verify OTP' | translate}}</h1>
+                    <p class="verification-subtitle">
+                        {{'We have sent OTP on' | translate}}
+                        <span class="phone-highlight">{{data_value.phone}}</span>
+                    </p>
+                </div>
+
+                <div class="otp-input-section">
+                    <div class="modern-otp-group">
+                        <div class="otp-input-wrapper-enhanced">
+                            <div class="otp-icon-container">
+                                <i class="material-icons otp-input-icon-modern">sms</i>
+                            </div>
+                            <ion-input 
+                                class="modern-otp-input" 
+                                type="tel" 
+                                formControlName="otp" 
+                                placeholder="{{'Enter 6 digit OTP' | translate}}"  
+                                [(ngModel)]="data.otp" 
+                                maxlength="6" 
+                                minlength="6" 
+                                required>
+                            </ion-input>
+                            <div class="otp-input-focus-line"></div>
+                            <div class="input-length-indicator">
+                                <span class="current-length">{{data.otp?.length || 0}}</span>/6
+                            </div>
+                        </div>
+                        
+                        <div class="otp-error-messages-container">
+                            <div class="modern-otp-error-msg animate-error" *ngIf="!otp_value && otp?.touched">
+                                <i class="material-icons error-icon">error_outline</i>
+                                <p>{{'Entered OTP is incorrect' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resend-section">
+                    <div class="resend-timer-container" *ngIf="resendActiveClass==true">
+                        <div class="timer-circle">
+                            <svg class="timer-svg" viewBox="0 0 36 36">
+                                <path class="timer-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                                <path class="timer-progress" [style.stroke-dasharray]="(maxTime/30) * 100 + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+                            </svg>
+                            <span class="timer-text">{{maxTime}}</span>
+                        </div>
+                        <p class="resend-message">
+                            <i class="material-icons timer-icon">schedule</i>
+                            {{'Resend in' | translate}} {{maxTime}} {{'sec' | translate}}
+                        </p>
+                    </div>
+
+                    <div class="resend-action-container" *ngIf="resendActiveClass==false">
+                        <p class="resend-question">{{"Didn't received it" | translate}}?</p>
+                        <button type="button" class="resend-btn" (click)="resendOtp()">
+                            <i class="material-icons resend-icon">refresh</i>
+                            {{'Resend' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="otp-action-button-container">
+            <button 
+                ion-button 
+                class="modern-verify-btn"
+                [ngClass]="data.otp ? 'active' : ''" 
+                (click)="verify_otp()" 
+                [disabled]="validations_form.get('otp').hasError('required') || validations_form.get('otp').hasError('minlength')">
+                <span class="btn-text">{{'Continue' | translate}}</span>
+                <ion-icon name="arrow-forward" class="btn-icon"></ion-icon>
+            </button>
+        </div>
+    </form>
+</ion-content>

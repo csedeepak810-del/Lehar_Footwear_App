@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Wish List</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only class="cart-btn" (click)="goToCart()">
+        <ion-icon name="cart" class="cart-icon"></ion-icon>
+        <span class="cart-badge" *ngIf="totalCartQuantity > 0">{{totalCartQuantity}}</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="stock-list-content">
+  <!-- Search Bar -->
+  <div class="search-section">
+    <div class="search-bar">
+      <ion-icon name="search" class="search-icon"></ion-icon>
+      <input type="text" placeholder="Search products" [(ngModel)]="searchQuery" (input)="onSearch($event)"
+        class="search-input" />
+    </div>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card" *ngFor="let product of finalDisplayList" (click)="goToPlaceOrder(product)">
+      <!-- Badge -->
+      <div class="product-badge" [class.superhit]="product.badge === 'Superhit'"
+        [class.running]="product.badge === 'Running'" *ngIf="product.badge">
+        {{ product.badge }}
+      </div>
+
+      <!-- TOP: Image Section -->
+      <div class="card-image-section">
+        <img *ngIf="product.image" class="product-img" [src]="url + product.image" [alt]="product.product_name"
+          (error)="handleImageError($event)">
+        <div *ngIf="!product.image" class="no-image-placeholder">
+          <span>NO IMAGE</span>
+        </div>
+      </div>
+
+      <!-- BOTTOM: Details Section -->
+      <div class="card-details-section">
+        <h3 class="product-name">{{ product.product_name }}</h3>
+        <p class="product-color">{{ product.color }}</p>
+        <p class="product-price">₹{{ product.mrp || product.price || 0 }}/-</p>
+
+        <p class="product-desc" *ngIf="product.description">{{ product.description }}</p>
+
+        <button class="add-to-cart-btn" (click)="goToPlaceOrder(product); $event.stopPropagation()">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div class="no-results" *ngIf="finalDisplayList.length === 0">
+    <ion-icon name="sad" class="sad-icon"></ion-icon>
+    <p>No products found</p>
+  </div>
+</ion-content>
+
+<!-- Modal -->
+<div class="modal-overlay" [class.active]="isModalOpen" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">All Colors & Sizes</div>
+      <button class="close-btn" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </div>
+    <div class="modal-items">
+      <div class="modal-item" *ngFor="let clr of selectedProduct?.color">
+        <span class="modal-item-label">{{ clr.color }} - {{ clr.size }}</span>
+        <span class="modal-item-value">{{ clr.size_code }}</span>
+      </div>
+    </div>
+  </div>
+</div>

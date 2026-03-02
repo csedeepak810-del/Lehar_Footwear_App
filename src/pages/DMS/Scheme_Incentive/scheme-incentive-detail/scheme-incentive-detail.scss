@@ -1,0 +1,312 @@
+page-scheme-incentive-detail {
+    
+    .scheme_detail_container
+    {
+        padding: 16px;
+    }
+    
+    .scheme_detail_container
+    {
+        .sc_content_box
+        {
+            background: #F0F5FD;
+            padding: 10px;
+            border-radius: 10px;
+            
+            .contnt-tags
+            {
+                margin-bottom: 10px;
+                
+                p
+                {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #2B3348;
+                }
+                
+                span
+                {
+                    margin-bottom: 5px;
+                    font-size: 12px;
+                }
+                
+                &.points-earned
+                {
+                    display: flex;
+                    align-items: center;
+                    border: 1px solid #dba400;
+                    border-radius: 4px;
+                    padding: 2px;
+                    margin-top: 5px;
+                    background: #dba40033;
+                    
+                    i
+                    {
+                        margin-right: 5px;
+                        color: #dba400;
+                    }
+                    
+                    span
+                    {
+                        padding-right: 7px;
+                    }
+                    
+                    p
+                    {
+                        font-size: 16px;
+                        color: #dba400;
+                    }
+                }
+            }
+        }
+    }
+    .scheme_slabs
+    {
+        border-radius: 5px;
+        background: #F0F5FD;
+        border: 1px solid #e9f0fc;
+        margin-bottom: 16px;
+        
+        .slab-upr
+        {
+            background: #004bac;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-radius: 5px 5px 0px 0px;
+            
+            .sl-tags
+            {
+                color: #fff;
+                span
+                {
+                    font-size: 12px;
+                    
+                }
+                
+                p
+                {
+                    font-size: 14px;
+                    font-weight: 700;
+                }
+                
+                &:nth-child(2)
+                {
+                    text-align: right;
+                }
+            }
+        }
+        
+        .slab-mid
+        {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            
+            .sl-icon
+            {
+                padding-right: 10px;
+                
+                i
+                {
+                    font-size: 30px;
+                    color: #FF9F00;
+                }
+            }
+            
+            .sl-text
+            {
+                p
+                {
+                    font-size: 15px;
+                    // font-weight: 600;
+                }
+            }
+        }
+        
+        .slab-lwr
+        {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            
+            .sl-words
+            {
+                p
+                {
+                    font-size: 14px;
+                    
+                }
+            }
+        }
+    }
+    
+    .sc_progress_bar
+    {
+        height: 13px;
+        border-radius: 13px;
+        background: #EEEEEE;
+        margin: 0px 16px;
+        position: relative;
+        
+        div
+        {
+            height: 13px;
+            border-radius: 13px;
+            background: #43BF57;
+        }
+        
+        p
+        {
+            position: absolute;
+            top: 0px;
+            color: #000;
+            font-weight: 500;
+            padding-left: 6px;
+            font-size: 10px;
+        }
+    }
+    
+    .scheme_tabs
+    {
+        position: sticky;
+        width: 100%;
+        top: 4px;
+        background: #fff;
+        margin: 10px 0px;
+        
+        ul
+        {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #747474;
+            
+            li
+            {
+                padding: 10px;
+                font-size: 15px;
+                font-weight: 600;
+                width: 100%;
+                text-align: center;
+                
+                P
+                {
+                    color: #bfbfbf;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                }
+                
+                &.active
+                {
+                    border-bottom: 3px solid #004bac;
+                    p
+                    {
+                        color: #004bac;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+    
+    .scheme_products
+    {
+        padding: 5px 10px;
+        border-radius: 5px;
+        padding: 10px;
+        
+        p
+        {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 19px;
+        }
+        &:nth-child(odd) 
+        { 
+            background:#F0F5FD; 
+        }
+        &:nth-child(even) 
+        { 
+            background:#ffffff; 
+        }
+    }
+    
+    .scheme_terms
+    {
+        padding: 10px;
+        
+        h1
+        {
+            font-size: 20px;
+        }
+        
+        p
+        {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 22px;
+            letter-spacing: 0.61px;
+        }
+    }
+    
+    .silder-container
+    {
+        margin-bottom: 16px;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0px 3px 3px 0px #ccc;
+    }
+    
+    .cs-slide .slider-slide {
+        height: 200px;
+    }
+    
+    .cs-slide.slider {
+        height: 200px;
+    }
+    
+    .cs-slide.slider .box img {
+        height: 200px;
+    }
+    
+    .cs-slide.slider.offer-slide
+    {
+        height: auto;
+    }
+    
+    .cs-slide.slider.offer-slide .slider-slides
+    {
+        height: 100%;
+    }
+    
+    .cs-slide.slider.offer-slide .slider-slides ion-slide
+    {
+        height: 100%;
+    }
+    
+    .cs-slide.slider.offer-slide .slider-slides ion-slide .box
+    {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cs-slide.slider.offer-slide .slider-slides ion-slide .box img
+    {
+        height: auto;
+    }
+    
+    .box img {
+        width: 100%;
+    }
+    
+    .hyper-link
+    {
+        text-decoration: underline;
+        color: blue;
+    }
+}

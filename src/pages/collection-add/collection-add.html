@@ -1,0 +1,97 @@
+<!--
+  Generated template for the CollectionAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-header>
+    <ion-navbar>
+      <ion-title class="f14">
+        Add Collection
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+</ion-header>
+
+<ion-content padding>
+
+
+
+
+  <form class="form" #f="ngForm" (ngSubmit)="f.form.valid && submit()">
+     <div class="form" >
+      <ion-list>
+
+        <ion-item [ngClass]="{'error': f.submitted && collectionDate?.invalid}" style="background: transparent !important;">
+          <ion-label floating><span>Collection Date<strong>*</strong></span></ion-label>
+          <ion-datetime display-format="MMM DD, YYYY" max="{{today_date}}" type="text"  #collectionDate="ngModel"
+            [(ngModel)]="form.collectionDate" [ngModelOptions]="{standalone: true}"
+            class="calander date" required>
+          </ion-datetime>
+        </ion-item>
+
+        <ion-item class="mt4" [ngClass]="{'error': f.submitted && networkType?.invalid}" style="background: transparent !important;">
+          <ion-label floating>Select Type<strong class="red-text">*</strong></ion-label>
+          <ionic-selectable item-content name="networkType" #networkType="ngModel" [(ngModel)]="form.networkType"
+            [items]="allNetworkType" itemValueField="type" itemTextField="module_name" [canSearch]="true" (ngModelChange)="distributors(form.networkType)"
+            modalCssClass="f1" required>
+          </ionic-selectable>
+        </ion-item>
+        
+        <ion-item class="mt4" [ngClass]="{'error': f.submitted && type_name?.invalid}" style="background: transparent !important;">
+          <ion-label floating><span>{{form.networkType?.module_name?form.networkType?.module_name:'Select party Name'}}<strong class="red-text">*</strong></span></ion-label>
+          <ionic-selectable item-content name="type_name" [(ngModel)]="form.type_name" #type_name="ngModel" [items]="drList"
+            itemValueField="id" itemTextField="display_name" [canSearch]="true"
+            (onClose)="closeDealer()" required>
+          </ionic-selectable>
+        </ion-item>
+        
+        <ion-item class="mt4" [ngClass]="{'error': f.submitted && collectionType?.invalid}">
+          <ion-label floating>Collect Type<strong class="red-text">*</strong></ion-label>
+          <ion-select interface="action-sheet" name="collectionType" [(ngModel)]="form.collectionType" #collectionType="ngModel" required>
+            <ion-option value="Cash">Cash</ion-option>
+            <ion-option value="Cheque ">Cheque</ion-option>
+            <ion-option value="UPI ">UPI</ion-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item class="mt4" [ngClass]="{'error': f.submitted && collectionAmt?.invalid}">
+          <ion-label floating><span>Collect Amount</span></ion-label>
+          <ion-input type="number" name="collectionAmt" #collectionAmt="ngModel"
+            [(ngModel)]="form.collectionAmt"
+            onkeypress="return event.charCode>=48 && event.charCode<=57" required>
+          </ion-input>
+        </ion-item>
+        
+        <ion-item class="mt4" class="cs-textarea1">
+          <ion-label floating><span>Any Remarks</span></ion-label>
+          <ion-textarea  name="remark" [(ngModel)]="form.remark" onpaste="return false;"></ion-textarea>
+        </ion-item>
+        
+      </ion-list>
+
+      <div class="upload-doc">
+        <ul class="no-padding">
+          <li class="image-upload" *ngFor="let pic of image_data;let i = index;">
+            <img src="{{pic}}">
+            <button class="del"><i class="material-icons" (click)="remove_image(i)">delete_sweep</i></button>
+          </li>
+          <li class="add_image mt4" (click)="image_data.length <= 10 ?  captureMedia('Cheque') : showLimit()">
+            <img src="assets/imgs/upload_imae_icon.png" alt="">
+            Collection Image Upload <span>here</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="enquiry-btn add-btns mt20">
+        <button ion-button block class="h40 green-color" style="letter-spacing: 1px;">
+          <p> Submit</p>
+        </button>
+      </div>
+    </div> 
+
+   
+
+  </form>
+</ion-content>

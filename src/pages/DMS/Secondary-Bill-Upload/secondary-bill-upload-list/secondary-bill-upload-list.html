@@ -1,0 +1,120 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Secondary Bill Upload List</ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+        <div class="search add-search">
+            <div class="filter">
+                <ion-searchbar type='text' name="master_search" [(ngModel)]="filter.master_search" (keyup.enter)="getsecBillList(ActiveTab)"></ion-searchbar>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content  pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    
+    <div class="capsule-tabs">
+        <ul>
+            <li [ngClass]="{'active' : ActiveTab=='Pending'}" (click)="ActiveTab='Pending' ;getsecBillList(ActiveTab)">
+                <p>Pending
+                    <span>{{secBillCounts.Pending}}</span>
+                </p>
+            </li>
+            
+            <li [ngClass]="{'active' : ActiveTab=='Verified'}" (click)="ActiveTab='Verified';getsecBillList(ActiveTab)">
+                <p>Verified
+                    <span>{{secBillCounts.Verified}}</span>
+                </p>
+            </li>
+            
+            <li [ngClass]="{'active' : ActiveTab=='Reject'}" (click)="ActiveTab='Reject';getsecBillList(ActiveTab)">
+                <p>Rejected
+                    <span>{{secBillCounts.Reject}}</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="padding16">
+        <div class="list-box" *ngFor="let row of secBillList" (click)="goOnSecondaryBillUploadDetail(row.id)">
+            <div class="upper mt0">
+                <div class="left-date">
+                    <div class="date-section">
+                        <p>{{row.bill_date | date:'d MMM y'}}</p>
+                        <p>Bill Date</p>
+                    </div>
+                    
+                    <div class="date-section">
+                        <p>{{row.bill_no}}</p>
+                        <p>Bill No.</p>
+                    </div>
+                    
+                    <div class="date-section">
+                        <p>₹ {{row.bill_amount}}</p>
+                        <p>Bill Amount</p>
+                    </div>
+
+                    <div class="date-section" *ngIf="ActiveTab=='Verified'">
+                        <p>₹ {{row.approved_amount}}</p>
+                        <p>Approved Amount</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mid mt0">
+                <div class="content-info">
+                    <div class="left-info" >
+                        <div class="circle">{{row.distributor_company_name.substring(0,1).toUpperCase()}}</div>
+                    </div>
+
+                    <div class="right-info" >
+                        <p>{{row.distributor_company_name.toUpperCase()}}</p>
+                        <p>{{row.distributor_name | titlecase}} ({{row.distributor_mobile}})</p>
+                    </div>
+                </div>
+                
+                <div class="tag-info">
+                    <a><i class="material-icons">chevron_right</i></a>
+                </div>
+            </div>
+            
+            <div class="upper">
+                <div class="left-date">
+                    <div class="date-section">
+                        <p>{{row.date_created | date:'d MMM y'}}</p>
+                        <p>Date Created</p>
+                    </div>
+
+                    <div class="date-section">
+                        <p>{{row.total_items}}</p>
+                        <p>Total Item</p>
+                    </div>
+                    
+                    <div class="date-section">
+                        <p>{{row.total_items_qty}}</p>
+                        <p>Total Item Qty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nothing-here" *ngIf="!secBillList?.length">
+        <div class="outer">
+            <div class="innear">
+                <img src="assets/imgs/no_found.svg" alt="">
+                <p>Data Not Available</p>
+            </div>
+        </div>
+    </div>
+    
+    <ion-fab right bottom>
+        <button ion-fab color="primary" (click)="goToSecBillUploadAdd()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

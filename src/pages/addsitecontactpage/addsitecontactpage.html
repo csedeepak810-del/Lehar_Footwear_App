@@ -1,0 +1,184 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add new Site Contact</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form #f="ngForm" (ngSubmit)="f.valid && addNewContact()">
+    <div class="form pt10 padding0">
+      <ion-list no-lines class="padding10 pt0">
+        <ion-item [ngClass]="{'error':f.submitted && ownerName.invalid}">
+          <ion-label floating>{{'Name'}} <strong class="red-text">*</strong></ion-label>
+          <ion-input type="text" name="ownerName" #ownerName="ngModel" [(ngModel)]="data.ownerName"
+            required></ion-input>
+        </ion-item>
+        <div *ngIf="f.submitted && ownerName.invalid" class="eror">
+          <p *ngIf="ownerName.errors.required">{{'Field is Required'}}</p>
+        </div>
+
+        <ion-item [ngClass]="{'error':f.submitted && ownerMobile.invalid}">
+          <ion-label floating>{{'Mobile Number'}}<strong class="red-text">*</strong></ion-label>
+          <ion-input type="tel" minlength="10" maxlength="10" name="ownerMobile" #ownerMobile="ngModel"
+            [(ngModel)]="data.ownerMobile" pattern="^[6-9][0-9]{0,9}$" required></ion-input>
+        </ion-item>
+        <div *ngIf="f.submitted && ownerMobile.invalid" class="eror">
+          <p *ngIf="ownerMobile.errors.required">{{'Field is Required'}}</p>
+          <p *ngIf="ownerMobile.errors?.pattern">Invalid Mobile Number</p>
+          <p
+            *ngIf="!ownerMobile.errors?.pattern  && (ownerMobile.errors?.maxlength || ownerMobile.errors?.minlength)">
+            Mobile
+            No should be of 10 digits..
+          </p>
+        </div>
+        <ion-item [ngClass]="{'error':f.submitted && owner_designation.invalid}">
+          <ion-label floating>Lead Type <strong class="red-text">*</strong></ion-label>
+          <ion-select name="owner_designation" [(ngModel)]="data.owner_designation" #owner_designation="ngModel"
+            interface="action-sheet" required>
+            <ion-option value="PROJECT">PROJECT</ion-option>
+            <ion-option value="END USER">END USER</ion-option>
+            <ion-option value="ARCHITECT">ARCHITECT</ion-option>
+            <ion-option value="INTERIOR DESIGNER">INTERIOR DESIGNER</ion-option>
+            <ion-option value="CONTRACTOR">CONTRACTOR</ion-option>
+            <ion-option value="BUILDER">BUILDER</ion-option>
+          </ion-select>
+
+        </ion-item>
+        <div *ngIf="f.submitted && owner_designation.invalid" class="eror">
+          <p *ngIf="owner_designation.errors.required">{{'Field is Required'}}</p>
+        </div>
+
+
+        <ion-item [ngClass]="{'error':f.submitted && ICBP.invalid}">
+          <ion-label floating>ICBP <strong class="red-text">*</strong></ion-label>
+          <ion-select name="ICBP" [(ngModel)]="data.ICBP" #ICBP="ngModel" interface="action-sheet" required>
+  
+            <ion-option value="Yes">Yes</ion-option>
+            <ion-option value="No">No</ion-option>
+          
+          </ion-select>
+        </ion-item>
+        <div *ngIf="f.submitted && ICBP.invalid" class="eror">
+          <p *ngIf="ICBP.errors.required">{{'Field is Required'}}</p>
+        </div>
+
+  <ion-item [ngClass]="{'error':f.submitted && email.invalid}">
+    <ion-label floating><span>Email ID <strong class="red-text">*</strong></span></ion-label>
+    <ion-input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="email" #email="ngModel"
+      [(ngModel)]="data.email" [ngClass]="{'is-invalid':f.submitted && email?.invalid}" required></ion-input>
+  </ion-item>
+  <div *ngIf="f.submitted && email.invalid" class="eror">
+    <p *ngIf="email.errors.required" class="eror">{{'Field is Required'}}</p>
+    <p *ngIf="f.submitted && email?.invalid && data.email" class="eror">Email Is Invalid</p>
+  </div>
+
+<ng-container>
+
+  <div class="heading mb0">
+    <h1>Product Details</h1>
+  </div>
+
+<ion-item class="cs-normal-select retailerSelectionBox">
+<ion-label floating>Brand </ion-label>
+<ion-select name="brand" [(ngModel)]="data.brand"  #brand="ngModel" (ngModelChange)="getCateogry()"interface="action-sheet"  >
+  <ion-option  *ngFor="let val of brandlist" value="{{val.brand_code}}">{{val.brand_code}}</ion-option>
+</ion-select>
+</ion-item>
+
+<ion-item class="cs-normal-select retailerSelectionBox">
+<ion-label floating>Product Cateogry </ion-label>
+<ion-select name="Cateogry" [(ngModel)]="data.Cateogry" #Cateogry="ngModel" interface="action-sheet" (ngModelChange)="getProductDescription()" >
+  
+  <ion-option  *ngFor="let val of categorylist"  value="{{val.product_name}}">{{val.product_name}}</ion-option>
+</ion-select>
+</ion-item>
+
+
+<ion-item class="cs-normal-select retailerSelectionBox">
+<ion-label floating>Product Description </ion-label>
+<ion-select name="product_id" [(ngModel)]="data.product_id" #product_id="ngModel"    interface="action-sheet" >
+  <ion-option  *ngFor="let val of  Productdescription" value="{{val.id}}">{{val.display_name}}</ion-option>
+</ion-select>
+</ion-item>
+
+
+<ion-item class="cs-normal-select retailerSelectionBox ">
+<ion-label floating>SPEC</ion-label>
+<ion-select name="spec" [(ngModel)]="data.spec" #spec="ngModel" interface="action-sheet" >
+  <ion-option  value="Single">Single</ion-option>
+  <ion-option  value="Multiple">Multiple</ion-option>
+  
+</ion-select>
+</ion-item>
+
+<ion-item [ngClass]="{'error':f.submitted && qty.invalid}">
+<ion-label floating>Qty</ion-label>
+<ion-input type="number" name="qty" #qty="ngModel" [(ngModel)]="data.qty"
+(ngModelChange)="(data.qty == '' || data.qty == null || data.qty<1 )?(addToListButton = true):(addToListButton = false);"
+    onkeypress="return event.charCode>=48 && event.charCode<=57"
+  ></ion-input>
+</ion-item>
+
+<div class="mt16" *ngIf="data.qty">
+<button ion-button class="cs-btn" [disabled]="addToListButton" (click)="addToListProduct()">Add To List</button>
+</div>
+
+
+
+
+<div class="list-box mt20" *ngFor="let row of product_list;let i=index">
+  <div class="mid mt0" style="display: flex;justify-content: space-between;">
+      <div class="content-info">
+          <div class="right-info">
+              <p style="color:rgb(0, 119, 255)">{{row.product_description}}</p>
+            
+          </div>
+      </div>
+      <div class="tag-info">
+          <button><i class="material-icons red-clr" (click)="DeleteItem(i)">delete_sweep</i></button>
+      </div>
+  </div>
+
+  <div class="three_boxes">
+      <div class="lower">
+          <p class="font10">Brand</p>
+          <p class="font10">{{row.brand}}</p>
+      </div>
+      <div class="lower ml5">
+          <p class="font10">Product Category</p>
+          <p class="font10">{{row.product_category}}</p>
+      </div>
+      <div class="lower ml5">
+          <p class="font10">Spec</p>
+          <p class="font10">{{row.spec}}</p>
+      </div>
+  </div>
+
+  <div class="three_boxes">
+      <div class="lower">
+          <p class="font10">Qty</p>
+          <p class="font10">{{row.qty}}</p>
+      </div>
+ 
+  
+
+
+  </div>
+</div>
+
+</ng-container>
+
+
+      </ion-list>
+      <div class="pl10 pr10">
+        <button ion-button block color="primary" [disabled]="savingFlag">
+          <ion-spinner *ngIf="savingFlag"></ion-spinner>&nbsp;Save
+        </button>
+      </div>
+    </div>
+  </form>
+
+
+</ion-content>
